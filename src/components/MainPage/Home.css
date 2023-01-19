@@ -1,13 +1,13 @@
 .homeSlide h1 {
-  font-size: 45px;
+  font-size: 40px;
   line-height: 55px;
-  margin: 50px 0 20px 0;
+  margin: 50px 0 10px 0;
 }
-.homeSlide p {
+/* .homeSlide p {
   margin: 20px 0;
-}
+} */
 .homeSlide ul {
-  position: absolute;
+  /* position: absolute; */
   bottom: 20px;
 }
 .homeSlide ul li {
@@ -20,10 +20,23 @@
   color: transparent !important;
 }
 .homeSlide ul li button::before {
-  font-size: 15px !important;
-  color: #0f3460;
+  font-size: 13px !important;
+  color: #198754;
   position: absolute;
   top: 2px;
   left: 0;
   margin: auto;
 }
+
+.sli{
+  margin-top: 30px !important;
+  height: 48vh !important;
+}
+
+@media only screen and (max-width: 992px) {
+
+  .homeSlide h1 {
+    font-size: 15px !important;
+  }
+
+ }

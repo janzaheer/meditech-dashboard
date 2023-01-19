@@ -26,6 +26,10 @@ const Catg = () => {
       cateImg: "./images/category/cat-2.png",
       cateName: "Sony",
     },
+    {
+      cateImg: "./images/category/cat-1.png",
+      cateName: "One Plus",
+    },
   ]
   return (
     <>
@@ -43,7 +47,7 @@ const Catg = () => {
           )
         })}
         <div className='box box2'>
-          <button>View All Brands</button>
+          <button type="button" className="btn btn-success w-100 text-success">View All Brands</button>
         </div>
       </div>
     </>

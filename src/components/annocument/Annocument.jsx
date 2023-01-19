@@ -14,10 +14,10 @@ const Annocument = () => {
       <section className='annocument background'>
         <div className='container d_flex'>
           <div className='img' style={mystyle}>
-            <img src='./images/banner-1.png' width='100%' height='100%' />
+            <img src='./images/banner-1.png' alt="img" width='100%' height='100%' />
           </div>
           <div className='img' style={mystyle1}>
-            <img src='./images/banner-2.png' width='100%' height='100%' />
+            <img src='./images/banner-2.png' alt="img" width='100%' height='100%' />
           </div>
         </div>
       </section>

@@ -63,6 +63,27 @@ const Sdata = {
       price: "5",
       discount: "2",
     },
+    {
+      id: 14,
+      cover: "./images/shops/shops-9.png",
+      name: "Airpod A1",
+      price: "120",
+      discount: "10",
+    },
+    {
+      id: 15,
+      cover: "./images/shops/shops-10.png",
+      name: "Silver Cap D2",
+      price: "5",
+      discount: "2",
+    },
+    {
+      id: 14,
+      cover: "./images/shops/shops-9.png",
+      name: "Airpod S2",
+      price: "120",
+      discount: "30",
+    },
   ],
 }
 export default Sdata

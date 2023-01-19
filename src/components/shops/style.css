@@ -44,7 +44,7 @@
 
 .grid1 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
 }
 .shop .product img {
@@ -56,4 +56,10 @@
 }
 .shop .product:hover {
   box-shadow: rgb(43 52 69 / 10%) 0px 4px 16px;
+}
+.stext{
+  font-size: 1rem !important;
+}
+.sPriceText{
+  font-size: 20px !important;
 }

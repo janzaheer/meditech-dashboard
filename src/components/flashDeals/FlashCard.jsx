@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -25,6 +25,15 @@ const SamplePrevArrow = (props) => {
 }
 const FlashCard = ({ productItems, addToCart }) => {
   const [count, setCount] = useState(0)
+  const[data, setData]=useState(productItems)
+  function name() {
+    setData(data)
+  }
+  useEffect(()=>{
+    name()
+  }, [])
+
+
   const increment = () => {
     setCount(count + 1)
   }
@@ -32,18 +41,20 @@ const FlashCard = ({ productItems, addToCart }) => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
+    autoplay: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   }
 
   return (
     <>
+    {/* <div className="container"> */}
       <Slider {...settings}>
-        {productItems.map((productItems) => {
+        {data.map((productItems,index) => {
           return (
-            <div className='box'>
+            <div className='box' key={index}>
               <div className='product mtop'>
                 <div className='img'>
                   <span className='discount'>{productItems.discount}% Off</span>
@@ -77,6 +88,7 @@ const FlashCard = ({ productItems, addToCart }) => {
           )
         })}
       </Slider>
+      {/* </div> */}
     </>
   )
 }

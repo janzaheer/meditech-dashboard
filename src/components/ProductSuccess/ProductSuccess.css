@@ -1,0 +1,28 @@
+
+.product-success{
+    margin-top: 130px !important;
+    margin-bottom: 40px !important;
+}
+.success-product-box{
+    max-width: 80% !important;
+    margin: 0 auto !important;
+}
+.text-box{
+    margin-top: 10px !important;
+}
+
+.fs-12 {
+    font-size: 12px;
+  }
+  
+  .fs-15 {
+    font-size: 15px;
+  }
+  
+  .name {
+    margin-bottom: -2px;
+  }
+  
+  .product-details {
+    margin-top: 13px;
+  }

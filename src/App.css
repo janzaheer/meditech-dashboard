@@ -9,17 +9,17 @@ html {
 }
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #ffffff;
+  background-color: #eee !important;
 }
 .background {
-  background: #f6f9fc;
+  /* background: #f6f9fc !important; */
   padding: 50px 0;
 }
 .container {
-  max-width: 90%;
-  margin: auto;
+  /* max-width: 90%;
+  margin: auto; */
 }
-.d_flex {
+/* .d_flex {
   display: flex;
   justify-content: space-between;
 }
@@ -30,33 +30,33 @@ body {
 }
 .f_flex {
   display: flex;
-}
+} */
 a {
   text-decoration: none;
-  color: black;
+  /* color: black; */
 }
-li {
+/* li {
   list-style: none;
-}
-.uppercase {
+} */
+/* .uppercase {
   text-transform: uppercase;
-}
+} */
 .capitalize {
   text-transform: capitalize;
 }
 .RText {
   text-align-last: right;
 }
-input,
+/* input,
 button {
   border: none;
   outline: none;
   background-color: none;
-}
-.row {
+} */
+/* .row {
   width: 50%;
-}
-.icon-circle {
+} */
+/* .icon-circle {
   width: 50px;
   height: 50px;
   line-height: 50px;
@@ -64,14 +64,14 @@ button {
   margin-left: 20px;
   text-align: center;
   border-radius: 50%;
-}
+} */
 .boxShadow {
   box-shadow: rgb(43 52 69 / 10%) 0px 4px 16px;
 }
 
 /*---------category----------*/
 .contentWidth {
-  width: 77%;
+  /* width: 77%; */
 }
 .category {
   box-shadow: rgb(43 52 69 / 10%) 0px 4px 16px;
@@ -102,24 +102,24 @@ button {
 }
 
 /*---------category----------*/
-.btn-primary {
+/* .btn-primary {
   background: #e94560;
   padding: 13px 40px;
   font-weight: bold;
   color: #fff;
   border-radius: 5px;
-}
+} */
 .top {
-  margin-top: 80px;
+  margin-top: 140px !important;
 }
 .mtop {
   margin-top: 40px;
 }
-.heading i {
+/* .heading i {
   color: #e94560;
   margin: 10px;
-}
-.discount {
+} */
+/* .discount {
   position: absolute;
   top: 0;
   left: 0;
@@ -129,9 +129,9 @@ button {
   border-radius: 50px;
   color: #fff;
   margin: 10px;
-}
+} */
 /*---------product-----------*/
-.product {
+/* .product {
   background: #fff;
   padding: 20px;
   position: relative;
@@ -189,7 +189,7 @@ button {
 }
 .product:hover .product-like {
   opacity: 1;
-}
+} */
 /*---------product-----------*/
 /*----- control btn -------*/
 .control-btn .next,
@@ -237,7 +237,7 @@ button {
   color: grey;
 }
 /*----- heading -------*/
-.grid {
+/* .grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 30px;
@@ -246,4 +246,4 @@ button {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
-}
+} */
