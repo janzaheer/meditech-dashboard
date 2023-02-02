@@ -8,8 +8,6 @@ const Header = () => {
   return (
     <>
       <Head />
-      {/* <Search CartItem={CartItem} /> */}
-      {/* <Navbar CartItem={CartItem} /> */}
       <Navbar/>
     </>
   )

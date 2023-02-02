@@ -1,110 +1,118 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL,LOGIN_ENDPOINT } from "../utlis/apiUrls";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { BASE_URL, LOGIN_ENDPOINT } from "../utlis/apiUrls";
 
 // const user = JSON.parse(localStorage.getItem('user'))
+
 const initialState = {
-    user:'',
+    user: '',
     token: '',
     loading: false,
-    msg: '',
-    error: '',
+    message: '',
+    error: false,
     isAuthenticated: false,
 }
 
-export const signUpUser = createAsyncThunk('signupuser',async(body)=>{
+export const signUpUser = createAsyncThunk('signupuser', async (body) => {
     let SIGNUP_ENDPOINT = 'api/v1/auth/register/';
     let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT
-    const res = await fetch(SignUpUrl,{
+    const res = await fetch(SignUpUrl, {
         method: "post",
-        headers:{
+        headers: {
             'Content-Type': "application/json",
-            Authorization: localStorage.getItem('token')
+            // Authorization: localStorage.getItem('token')
         },
         body: JSON.stringify(body)
     })
     return await res.json();
 })
 
-export const signInUser = createAsyncThunk('signinuser',async(body)=>{
-     let LoginURL = BASE_URL + LOGIN_ENDPOINT
-    const res = await fetch(LoginURL,{
+export const signInUser = createAsyncThunk('signinuser', async ({ username, password },thunkAPI) => {
+    let LoginURL = BASE_URL + LOGIN_ENDPOINT
+    const res = await fetch(LoginURL, {
         method: "post",
-        headers:{
-            'Content-Type': "application/json",
-            Authorization: localStorage.getItem('token')
+        headers: {
+            Accept: "application/json",
+            'Content-Type': "application/json"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify({
+            username,
+            password,
+        }),
     })
-    return await res.json();
+    const data = await res.json()
+    return data
+
 })
 
 const authSlice = createSlice({
     name: 'user',
     initialState,
-    reducers:{
-        addToken: (state, action)=>{
-            state.token = localStorage.getItem('token')
+    reducers: {
+        addToken: (state, action) => {
+            // state.token = localStorage.getItem('token')
         },
-        addUser: (state, action)=>{
+        addUser: (state, action) => {
             // state.isAuthenticated = true;
             // const user = window.localStorage.getItem('user')
             // const user_data = JSON.parse(user)
             // state.user = user_data
         },
-        logout: (state, action)=>{  
+        logout: (state, action) => {
             state.user = null;
             state.token = null;
             state.isAuthenticated = false;
             // localStorage.clear()
         },
     },
-    extraReducers:{
-         /* signin  */
+    extraReducers: {
+        /* signin  */
         [signInUser.pending]: (state, action) => {
             state.loading = true;
-            // state.isAuthenticated = true;
-        },[signInUser.fulfilled]: (state,{payload:{msg,error,token,user}}) => {
+            state.error = null;
+        }, [signInUser.fulfilled]: (state, { payload: { message, token, user } }) => {
             state.loading = false;
-            // state.isAuthenticated = true;
-            if (error) {
-                state.error = error;
-            } else {
+            
+            console.log(user)
+            console.log('---------------------00-----------------')
+
+            if (user) {
                 state.isAuthenticated = true;
-                state.token = msg;
+                state.message = message;
                 state.token = token;
                 state.user = user;
-
-                // localStorage.setItem('msg',JSON.stringify(msg))
-                // localStorage.setItem('token',JSON.stringify(token))
-                // localStorage.setItem('user',JSON.stringify(user))
             }
-            
-        },[signInUser.rejected]: (state, action) =>{
+
+        }, [signInUser.rejected]: (state, action) => {
             state.loading = true;
-            // state.isAuthenticated = false;
+            state.error = true
+            state.message = action.payload
+            state.user = null;
+            
+
         },
-            /* signup  */
+        /* signup  */
         [signUpUser.pending]: (state, action) => {
             state.loading = true;
-        },[signUpUser.fulfilled]: (state,{payload:{msg,error,token,user}}) => {
+        }, [signUpUser.fulfilled]: (state, { payload: { message, token, user } }) => {
             state.loading = false;
-            if (error) {
-                state.error = error
-            } else{
-                state.msg = msg;
+            if (user) {
+                state.isAuthenticated = true;
+                state.message = message;
                 state.token = token;
                 state.user = user;
-
-                // localStorage.setItem('msg',JSON.stringify(msg))
-                // localStorage.setItem('token',JSON.stringify(token))
-                // localStorage.setItem('user',JSON.stringify(user))
             }
-        },[signUpUser.rejected]: (state, action) =>{
+        }, [signUpUser.rejected]: (state, action) => {
             state.loading = true;
         },
     }
 })
 
-export const { addToken,addUser,logout } = authSlice.actions;
+export const { addToken, addUser, logout } = authSlice.actions;
 export const selectUser = (state) => state.user.isAuthenticated;
 export default authSlice.reducer
+
+
+
+export const getToken = () => {
+    return localStorage.getItem('token') || '';
+}

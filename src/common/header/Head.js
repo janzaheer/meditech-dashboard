@@ -24,7 +24,7 @@ const Head = () => {
         <div className="container-fluid">
           <ul className="navbar-nav d-none d-md-flex mr-auto">
             <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-phone'></i> +88012 3456 7894</a> </li>
-            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-envelope'></i> support@ui-lib.com</a></li>
+            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-envelope'></i>  medi.help@gmail.com</a></li>
           </ul>
 
           <ul className="navbar-nav d-flex align-items-center">
@@ -32,11 +32,11 @@ const Head = () => {
               <li className="nav-item me-5">
                 <div className="dropdown me-5">
                   <button className="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Welcome {user.user.username}
+                    Welcome {user?.user?.username}
                   </button>
                   <ul className="dropdown-menu dropdown-menu-light">
                     <li><Link to='/manageProfile' className="dropdown-item"><BsEmojiSmile /> Manage My Account</Link></li>
-                    <li><a className="dropdown-item" href="#"><BsBox /> My Order</a></li>
+                    <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li>
                     <li><a className="dropdown-item" href="#"><MdOutlineStars /> My Reviews</a></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="#" onClick={handleLogout}><SlLogout /> Logout</a></li>

@@ -8,11 +8,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { remove, toggleCartQty, getCartTotal, clearCart } from "../../store/cartSlice";
 import { formatPrice } from "../../utlis/helpers";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast} from 'react-toastify'
+import { ToastContainer, toast} from 'react-toastify';
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { data: cartProducts, totalItems, totalAmount, deliveryCharge } = useSelector(state => state.cart);
+  const userToken = useSelector(state => state.user.token);
+  console.log('userToken', userToken)
   const user = useSelector(state => state.user);
 
 
@@ -61,10 +65,10 @@ const Cart = () => {
 
   return (
     <>
-
+  <Header />
       <div className="px-4 px-lg-0">
         {/* For demo purpose */}
-        <div className="container top text-dark py-5 text-center mt-5">
+        <div className="container text-dark py-5 text-center mt-1">
           <h1 className="display-4">Shopping Cart</h1>
           <p className="lead mb-0">Build a fully structred shopping cart page using MediTech. </p>
           <p className="lead">Snippet by <a href="https://bootstrapious.com/snippets" className="text-success font-italic">
@@ -114,7 +118,7 @@ const Cart = () => {
 
                                   <div className="ms-3 ml-3 d-inline-block align-middle">
                                     <h6 className="mb-0"> <Link to="#" className="text-dark d-inline-block align-middle">{cartProduct.title.substring(0, 15)}...</Link>
-                                    </h6><span className="text-muted font-weight-normal font-italic d-block"> Rs {cartProduct?.price}</span>
+                                    </h6><span className="text-muted font-weight-normal font-italic d-block"> $ {cartProduct?.price}</span>
                                   </div>
                                 </div>
                               </th>
@@ -176,12 +180,12 @@ const Cart = () => {
                 <div className="p-4">
                   <p className="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
                   <ul className="list-unstyled mb-4">
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Price</strong><strong>Rs {totalAmount}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Price</strong><strong>$ {totalAmount}</strong></li>
                     {/* <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Order Subtotal </strong><strong>Rs 390.00</strong></li> */}
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>Rs {deliveryCharge}</strong></li>
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>{formatPrice(0)}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>$ {deliveryCharge}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>$ {(0)}</strong></li>
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Total</strong>
-                      <h5 className="font-weight-bold">Rs {totalAmount + deliveryCharge} </h5>
+                      <h5 className="font-weight-bold">$ {totalAmount + deliveryCharge} </h5>
                     </li>
                   </ul>
                   <Link to='/checkout' className="btn btn-success">Proceed to Checkout</Link>
@@ -192,12 +196,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-
-
-
-
-
-
+                      <Footer/>
     </>
   )
 }

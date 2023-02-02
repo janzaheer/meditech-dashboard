@@ -1,6 +1,6 @@
 
 .product-success{
-    margin-top: 130px !important;
+    margin-top: 50px !important;
     margin-bottom: 40px !important;
 }
 .success-product-box{
@@ -26,3 +26,19 @@
   .product-details {
     margin-top: 13px;
   }
+  @media (max-width: 992px) {
+    .image_list li img {
+      max-width: 20%;
+  }
+  .image_selected img {
+    max-width: 40%;
+}
+}
+  @media (max-width: 768px) {
+    .image_list li img {
+      max-width: 11%;
+  }
+  .image_selected img {
+    max-width: 48%;
+}
+}
