@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, CSSProperties } from "react"
 import "./style.css"
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
@@ -10,9 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Products from "../../adminPanel/prdoucts/Products";
-// import { RiContactsBookLine } from "react-icons/ri";
+// import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ShopListData = () => {
 
@@ -25,12 +23,13 @@ const ShopListData = () => {
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
     // const [nextPageUrl, setNextPageUrl] = useState('');
+    const [categoriesData, setCategoriesData] = useState('')
 
 
-    // const override = CSSProperties = {
-    //     display: "block",
-    //     margin: "0 auto",
-    // };
+    const override = CSSProperties = {
+        display: "block",
+        margin: "0 auto",
+    };
 
     useEffect(() => {
         productList()
@@ -46,7 +45,7 @@ const ShopListData = () => {
         }
     }
 
-    
+
     const productList = async () => {
         // let Page_Limit = res.data.next
         // console.log(Page_Limit)
@@ -62,7 +61,7 @@ const ShopListData = () => {
             // .then((res) => setProducts(res.data.results), setLoading(true))
             .then((res) => {
                 const apiRes = res.data.results
-                const mergeData = [...products, ...apiRes] 
+                const mergeData = [...products, ...apiRes]
                 setProducts(mergeData)
                 setLoading(true)
                 console.log('----11--------------------')
@@ -119,7 +118,7 @@ const ShopListData = () => {
         // let val = e.target.value;
         // console.log('catval',val)
         setCat(e.target.value)
-        console.log('target',e.target.value)
+        console.log('target', e.target.value)
         let Api = `/api/v1/items/?category__name=${e.target.value}`
         let finalURL = BASE_URL + Api
 
@@ -131,11 +130,10 @@ const ShopListData = () => {
         }).then((res) => {
             console.log('CategoryList-here', res.data.results)
             setProducts(res.data.results)
-            
+
         }).catch(error => {
             console.log(error)
         })
-        
 
     }
 
@@ -150,10 +148,6 @@ const ShopListData = () => {
     //     return <h2>Something went wrong!</h2>;
     // }
 
-    // const handleSet = (e) => {
-    //     setSortTerm(e.target.value)
-    //      handleSort()
-    // }
 
     const handleSort = async (e) => {
         let val = e.target.value;
@@ -167,9 +161,25 @@ const ShopListData = () => {
 
     }
 
-    // const lazyLoading = () => {
-    //      productList()
-    // }
+    const categoryData = async () => {
+        let api = '/api/v1/category/'
+        let FInal = BASE_URL + api
+        try {
+            let res = await axios.get(FInal, {
+                headers: {
+                    'Content-Type': "application/json",
+                    Authorization: `Token ${userToken}`
+                }
+            })
+            console.log('cateeeeee', res.data.results)
+            setCategoriesData(res.data.results)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        categoryData()
+    }, [])
 
 
 
@@ -202,80 +212,24 @@ const ShopListData = () => {
                                                             All
                                                         </label>
                                                     </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value='machines' />
-                                                        <label className="form-check-label" htmlFor="exampleRadios3">
-                                                            Machines
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value='medicines' />
-                                                        <label className="form-check-label" htmlFor="exampleRadios1">
-                                                            Medicines
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                    {categoriesData && categoriesData.map((cate) => {
+                                                        return (
+                                                            <div className="form-check" key={cate.id}>
+                                                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value={cate?.name} />
+                                                                <label className="form-check-label" htmlFor="exampleRadios2">
+                                                                    {cate?.name}
+                                                                </label>
+                                                            </div>
 
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
                                             <hr></hr>
                                             <div className="">
-                                                <h5 className="ms-4 my-3">Shop</h5>
-                                                <div className="ms-3">
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div><div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckChecked" defaultChecked />
-                                                        <label className="form-check-label" htmlFor="flexCheckChecked">
-                                                            Checked checkbox
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                <div className="mb-5 cat">
 
-                                            </div>
-                                            <hr></hr>
-                                            <div className="">
-                                                <h5 className="ms-4 my-3">Shop</h5>
-                                                <div className="ms-3">
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div><div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                                                            Default checkbox
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" defaultValue id="flexCheckChecked" defaultChecked />
-                                                        <label className="form-check-label" htmlFor="flexCheckChecked">
-                                                            Checked checkbox
-                                                        </label>
-                                                    </div>
                                                 </div>
-
                                             </div>
                                         </section>
                                     </div>
@@ -314,32 +268,32 @@ const ShopListData = () => {
                                         <b>Yay! NO More Data</b>
                                     </p>}
                                 > */}
-                                    {loading ? products && products.length > 0 && products.map((product) => {
-                                        return (
-                                            <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                                <div className='box rounded border shadow-sm' >
-                                                    <div className="product my-1">
-                                                        {/* <span className="off bg-success">{product?.category}</span> */}
-                                                        <div className="text-center my-3">
-                                                            <img src={product.images[0].image_url} alt='' width={100} height={100} />
+                                {loading ? products && products.length > 0 && products.map((product) => {
+                                    return (
+                                        <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                            <div className='box rounded border shadow-sm' >
+                                                <div className="product my-1">
+                                                    {/* <span className="off bg-success">{product?.category}</span> */}
+                                                    <div className="text-center my-3">
+                                                        <img src={product.images[0].image_url} alt='' width={100} height={100} />
+                                                    </div>
+                                                    <div className="about">
+                                                        <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
+                                                        <span className="">$ {product.price}</span>
+                                                    </div>
+                                                    <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                        <div className="">
+                                                            <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-md" ><FaRegEye /></NavLink>
                                                         </div>
-                                                        <div className="about">
-                                                            <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
-                                                            <span className="">$ {product.price}</span>
-                                                        </div>
-                                                        <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                            <div className="">
-                                                                <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-md" ><FaRegEye /></NavLink>
-                                                            </div>
-                                                            <div style={{ width: "25px" }}>
-                                                                <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
-                                                            </div>
+                                                        <div style={{ width: "25px" }}>
+                                                            <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        )
-                                    }) : <HashLoader />}
+                                        </div>
+                                    )
+                                }) : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>}
                                 {/* </InfiniteScroll> */}
                             </div>
                         </div>

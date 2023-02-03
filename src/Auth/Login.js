@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState } from 'react'
 import './Login.css'
 import logo from '../logo/logo.png'
 // import axios from 'axios'
@@ -19,7 +19,8 @@ const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
-   
+    const navigation = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
         
@@ -38,7 +39,6 @@ const Login = () => {
             // For Register
             // Something is wrong, please try again!
         }
-
     }
 
     const handleUserNAme = (e) => {
@@ -48,7 +48,7 @@ const Login = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value)
     }
-    const navigation = useNavigate()
+   
 
     return (
         <div>

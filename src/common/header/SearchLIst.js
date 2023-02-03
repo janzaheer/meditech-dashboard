@@ -24,7 +24,7 @@ const SearchLIst = () => {
   console.log('searchlist', searchProducts)
   const userToken = useSelector(state => state.user.token);
   const [itemFavourite, setItemFavourite] = useState({})
-  const [addFav, setAddFav] = useState('')
+
   useEffect(() => {
     dispatch(clearSearch());
     dispatch(fetchAsyncSearchProduct(searchTerm))
@@ -44,7 +44,7 @@ const SearchLIst = () => {
   }
   const handleFav = async (id) => {
     console.log('click-id', id)
-    console.log('addd', addFav)
+
 
     let Api = `api/v1/favourite/items/`
     let AddFavURL = BASE_URL + Api
@@ -56,7 +56,7 @@ const SearchLIst = () => {
       }
     }).then((result) => {
       console.log(result)
-      setAddFav(result)
+      
       if (result.data.message.includes('remove')) {
         let idata = itemFavourite
         idata[id] = false

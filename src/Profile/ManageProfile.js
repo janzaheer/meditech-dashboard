@@ -208,7 +208,7 @@ const ManageProfile = () => {
                         <div className='col-md-4'>
                             <div className='card shadow'>
                                 <div className="card-body mb-5">
-                                    <h5 className="card-title"><CgProfile /> Personal Profile | <Link to='/profileEdit' className='text-success' >Edit</Link> </h5>
+                                    <h5 className="card-title"><CgProfile /> Personal Profile | <Link to='#' className='text-success' >Edit</Link> </h5>
                                     <hr className='mt-0' />
                                     <h6 className="card-subtitle mb-2 text-muted"><FaUserCircle /> Name: {user.user.username}</h6>
                                     <p className="card-subtitle mb-2"><MdMarkEmailUnread /> Email: {userData?.email}</p>
@@ -264,7 +264,7 @@ const ManageProfile = () => {
                                 {/* Shopping cart table */}
                                 <div className="table-responsive">
                                     <Scrollbars>
-                                        <table className="table mt-1 text-center">
+                                        <table className="table table-bordered table-hover mt-1 text-center">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" className="border-0 bg-light">
@@ -294,7 +294,8 @@ const ManageProfile = () => {
                                                             <td className="border-0 text-muted align-middle">{ite?.order_number}</td>
                                                             <td className="border-0 text-muted align-middle">{moment(ite?.created_at).format("MM-DD-YYYY")}</td>
                                                             <td className="border-0 text-muted align-middle">{ite?.total_quantity}</td>
-                                                            <td className="border-0 text-success align-middle">{ite?.status}</td>
+                                                            {ite && ite.status == "placed" ? <td className="border-0 text-success align-middle">{ite?.status}</td> : 
+                                                            <td className="border-0 text-danger align-middle">{ite?.status}</td>}
                                                             <td className="border-0 text-muted align-middle">$ {ite?.total_amount}</td>
                                                             <td className="border-0 align-middle"><NavLink to={`/productSuccess/${ite.id}`} className='text-success'><BsEyeFill /></NavLink> </td>
                                                         </tr>

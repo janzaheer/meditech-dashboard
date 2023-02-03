@@ -15,7 +15,8 @@ import { Link } from 'react-router-dom';
 // import S3FileUpload from 'react-s3';
 //Optional Import
 import { uploadFile } from 'react-s3';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
@@ -31,6 +32,14 @@ const config = {
 const Products = () => {
   const [products, setProducts] = useState([])
   const userToken = useSelector(state => state.user.token);
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [brand, setBrand] = useState('');
+  const [store, setStore] = useState('');
+  const [categoriesData, setCategoriesData] = useState('')
+  const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
+
   useEffect(() => {
     productList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,33 +67,141 @@ const Products = () => {
       .catch((err) => console.log(err))
   }
 
-  const deleteComments = (id) => {
+  const deleteComments = async (id) => {
     console.log('delete-id', id)
+    let end = `api/v1/items/${id}/`
+    let final = BASE_URL + end
+    try {
+      let res = await axios.delete(final, {
+        headers: {
+          'Content-Type': "application/json",
+          Authorization: `Token ${userToken}`
+        }
+      })
+      console.log(res.data)
+      productList()
+      toast.error('Product Delete Successfully', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log('delete error', error)
+    }
   }
 
-
+  const [selectImage, setSelectImage] = useState('')
   const uploadImage = async (e) => {
-    let image_urls = []
-    const myFiles = e.target.files
-    Array.from(myFiles).forEach(async (file) => {
-      await uploadFile(file, config)
-        .then((data) => {
-          //  console.log(data)
-          console.log('----------------22----------------')
-           image_urls.push(data.location)
-
-        })
-        .catch(err => console.error(err))
-    });
-    console.log(image_urls)
-    console.log('-----------------------11-----------------------')
-
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage(data.location)
+      })
+      .catch(err => console.error(err))
   }
+  console.log('here', selectImage)
+
+
+  //   {
+  //     "title": "Atif Product",
+  //     "description": "Here is my product, My name is atif matrix gilchrist and clark and maxwell",
+  //     "images": ["google.com", "atif.com"],
+  //     "category_id": 1,
+  //     "price": 19.99,
+  //     "brand": "Badini",
+  //     "store": "Udadzai"
+  // }
+
+
+  const addProducts = async (e) => {
+    console.log('------------------add-----------------')
+    e.preventDefault();
+    let api = 'api/v1/items/create_item/'
+    let FInal = BASE_URL + api
+    await axios.post(FInal, {
+      title: title,
+      description: description,
+      images: [selectImage],
+      category_id: categoriesDataSelect,
+      price: price,
+      brand: brand,
+      store: store,
+      specification: null  // str
+    }, {
+      headers: {
+        'Content-Type': "application/json",
+        Authorization: `Token ${userToken}`
+      }
+    }).then((resp) => {
+      console.log(resp.ok)
+      setTitle('')
+      setDescription('')
+      setSelectImage('')
+      setBrand('')
+      setPrice('')
+      setStore('')
+      setCategoriesData('')
+     
+      
+      toast.success('Product Add Successfully', {
+            position: toast.POSITION.TOP_RIGHT,
+            theme: "colored",
+          });
+      console.log('-----------------11-------------------')
+    }).catch(resp => {
+      console.log('------------------------catch-------------------')
+      console.log(resp.response)
+    })
+    productList()
+    // if (res.ok) {
+    //   setTitle('')
+    //   setDescription('')
+    //   setSelectImage('')
+    //   setBrand('')
+    //   setPrice('')
+    //   setStore('')
+    //   // setCategoriesData('')
+    //   // productList()
+    // } else {
+    //   toast.error(res.title, {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //     theme: "colored",
+    //   });
+    // }
+  }
+
+  const categoriesDataSelectFun = (e) => {
+    setCategoriesDataSelect(e.target.value)
+    console.log(e.target.value)
+  }
+
+  const categoryData = async () => {
+    let api = '/api/v1/category/'
+    let FInal = BASE_URL + api
+    try {
+      let res = await axios.get(FInal, {
+        headers: {
+          'Content-Type': "application/json",
+          Authorization: `Token ${userToken}`
+        }
+      })
+      console.log('cateeeeee', res.data.results)
+      setCategoriesData(res.data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    categoryData()
+  }, [])
+
 
   return (
     <div>
       <Head />
       <div className='container-fluid'>
+        <ToastContainer />
         {/* Add Product Model */}
         <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog">
@@ -94,56 +211,53 @@ const Products = () => {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
               </div>
               <div className="modal-body">
-                <form className="row g-3">
+                <form className="row g-3" onSubmit={addProducts}  autocomplete="off">
                   <div className="col-md-6">
-                    <label htmlFor="inputEmail4" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail4" />
+                    <label htmlFor="inputTitle4" className="form-label">Title</label>
+                    <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="inputPassword4" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="inputPassword4" />
+                    <label htmlFor="inputPrice4" className="form-label">Price</label>
+                    <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
                   </div>
                   <div className="col-12">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image</label>
-                    <input type="file" onChange={uploadImage} multiple
+                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
+                    <input type="file" onChange={uploadImage}
                       className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
                   </div>
                   <div className="col-12">
-                    <label htmlFor="inputAddress2" className="form-label">Address 2</label>
-                    <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputCity" className="form-label">City</label>
-                    <input type="text" className="form-control" id="inputCity" />
+                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
+                    <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
+                      placeholder=' description...' value={description} onChange={(e) => setDescription(e.target.value)} />
                   </div>
                   <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">State</label>
-                    <select id="inputState" className="form-select">
+                    <label htmlFor="inputBrand" className="form-label">Brand</label>
+                    <input type="text" className="form-control" id="inputBrand" placeholder='Enter Brand Name' value={brand} onChange={(e) => setBrand(e.target.value)} />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="inputState" className="form-label">Category</label>
+                    <select id="inputState" className="form-select" onChange={categoriesDataSelectFun} value={categoriesDataSelect}>
                       <option selected>Choose...</option>
-                      <option>...</option>
+                      {categoriesData && categoriesData.map((catee) => {
+                        return (
+                          <option key={catee.id} value={catee?.id}>{catee?.name}</option>
+                        )
+                      })}
                     </select>
                   </div>
-                  <div className="col-md-2">
-                    <label htmlFor="inputZip" className="form-label">Zip</label>
-                    <input type="text" className="form-control" id="inputZip" />
+                  <div className="col-md-4">
+                    <label htmlFor="inputStore" className="form-label">Store</label>
+                    <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
                   </div>
                   <div className="col-12">
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="gridCheck" />
-                      <label className="form-check-label" htmlFor="gridCheck">
-                        Check me out
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Sign in</button>
+                    <button type="submit" className="btn btn-primary">Save Product</button>
                   </div>
                 </form>
-
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
+              <div className="modal-footer d-flex justify-content-center align-items-center">
+                <div>
+                  <p>Thanks For Add New Product</p>
+                </div>
               </div>
             </div>
           </div>
@@ -215,20 +329,22 @@ const Products = () => {
 
         <div className='row mt-5'>
           <div className='col-12'>
-            <div className='rounded bg-white shadow my-3'>
+
+            <div className='rounded bg-white shadow my-3 mx-5'>
+
               <div className='d-flex align-items-center justify-content-between mx-3'>
                 <div>
                   <h5 className='text-success mt-4'>Products List <RiShoppingBag3Fill /></h5>
                 </div>
                 <div className='mt-3'>
-                  <button className="dropdown-item text-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button>
+                  <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button>
                 </div>
               </div>
               <hr />
               {/* Shopping cart table */}
               <div className="table-responsive order-t">
                 <Scrollbars>
-                  <table className="table mt-1 text-center">
+                  <table className="table table-bordered table-hover mt-1 text-center">
                     <thead>
                       <tr>
                         <th scope="col" className="border-0 bg-light">
@@ -251,7 +367,7 @@ const Products = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='mt-3'>
                       {products && products?.map((ite) => {
                         return (
                           <tr key={ite?.id}>

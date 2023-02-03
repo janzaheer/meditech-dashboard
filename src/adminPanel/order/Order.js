@@ -49,7 +49,7 @@ const Order = () => {
                             {/* Shopping cart table */}
                             <div className="table-responsive order-t">
                                 <Scrollbars>
-                                    <table className="table mt-1 text-center">
+                                    <table className="table table-bordered table-hover mt-1 text-center">
                                         <thead>
                                             <tr>
                                                 <th scope="col" className="border-0 bg-light">
@@ -79,7 +79,8 @@ const Order = () => {
                                                         <td className="border-0 text-muted align-middle">{item?.order_number}</td>
                                                         <td className="border-0 text-muted align-middle">{moment(item?.created_at).format("MM-DD-YYYY")}</td>
                                                         <td className="border-0 text-muted align-middle">{item?.total_quantity}</td>
-                                                        <td className="border-0 text-success align-middle">{item?.status}</td>
+                                                        {item && item.status == "placed" ? <td className="border-0 text-success align-middle">{item?.status}</td> : 
+                                                            <td className="border-0 text-danger align-middle">{item?.status}</td>}
                                                         <td className="border-0 text-muted align-middle">$ {item?.total_amount}</td>
                                                         <td className="border-0 text-danger align-middle"><BsEyeFill /> </td>
                                                     </tr>
