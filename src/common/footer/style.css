@@ -36,3 +36,12 @@ footer li {
   margin-bottom: 10px;
   opacity: 0.5;
 }
+@media (min-width: 768px) {
+  .px-md-5 {
+    padding-right: 0rem!important;
+    padding-left: 0rem!important;
+}
+.btn-outline-secondary{
+  font-size: 9px !important;
+}
+}

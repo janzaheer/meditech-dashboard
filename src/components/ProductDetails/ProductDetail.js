@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { add } from '../../store/cartSlice'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast} from 'react-toastify'
-
+import { ToastContainer, toast} from 'react-toastify';
+import Header from '../../common/header/Header'
+import Footer from '../../common/footer/Footer'
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -90,9 +91,9 @@ const ProductDetail = () => {
 
     return (
         <div>
+            <Header />
 
-
-            <div className="super_container mt-5">
+            <div className="container my-5">
 
                 <div className="single_product">
                     <div className="container-fluid" style={{ backgroundColor: '#fff', padding: 11 }}>
@@ -133,13 +134,14 @@ const ProductDetail = () => {
                                 <div className="product_description">
                                     <div className="product_name">{product?.title}</div>
                                     <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div>
-                                    <div> <span className="product_price">Rs {product?.price}</span> <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike> </div>
+                                    <div> <span className="product_price">$ {product?.price}</span> 
+                                    {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
+                                    </div>
                                     <hr className="singleline" />
                                     <div>
                                         <div className="row">
                                             <div className="col-md-5">
                                                 <div className="p-1">
-
                                                     <p >Description: {product.description}</p>
                                                 </div>
                                             </div>
@@ -163,8 +165,6 @@ const ProductDetail = () => {
                                     <div className="row">
                                         <div className="col-xs-6">
                                             <button type="button" className="btn btn-success me-1" onClick={() => addToCartHandler(product)}>Add to Cart</button>
-                                            {/* <button type="button" className="btn btn-success me-1" onClick={()=>navigate('/cart')}>Go to Cart</button> */}
-                                            <div className="product_fav ms-2"><i className="fas fa-heart" /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +237,9 @@ const ProductDetail = () => {
                 </div>
 
             </div>
+            <Footer/>
         </div>
+        
     )
 }
 

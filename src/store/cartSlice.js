@@ -1,27 +1,28 @@
 const { createSlice } = require('@reduxjs/toolkit');
 
-const fetchFromLocalStorage = () => {
-    let cart = localStorage.getItem('cart');
-    if (cart) {
-        return JSON.parse(localStorage.getItem('cart'))
-    } else {
-        return [];
-    }
-}
+// const fetchFromLocalStorage = () => {
+//     let cart = localStorage.getItem('cart');
+//     if (cart) {
+//         return JSON.parse(localStorage.getItem('cart'))
+//     } else {
+//         return [];
+//     }
+// }
 
-const storeInLocalStorage = (data) => {
-    localStorage.setItem('cart', JSON.stringify(data))
-}
+// const storeInLocalStorage = (data) => {
+//     localStorage.setItem('cart', JSON.stringify(data))
+// }
 
 
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
-        data: fetchFromLocalStorage(),
+        // data: fetchFromLocalStorage(),
+        data: [],
         totalItems: 0,
         totalAmount: 0,
-        deliveryCharge: 1000
+        deliveryCharge: 0
     },
     reducers: {
         add(state, action) {
@@ -37,20 +38,20 @@ const cartSlice = createSlice({
                     }
                 });
                 state.data = tempCart;
-                storeInLocalStorage(state.data);
+                // storeInLocalStorage(state.data);
             } else {
                 state.data.push(action.payload);
-                storeInLocalStorage(state.data);
+                // storeInLocalStorage(state.data);
             }
         },
         remove(state, action) {
             const tempCart = state.data.filter(item => item.id !== action.payload);
             state.data = tempCart;
-            storeInLocalStorage(state.data);
+            // storeInLocalStorage(state.data);
         },
         clearCart(state) {
             state.data = [];
-            storeInLocalStorage(state.data);
+            // storeInLocalStorage(state.data);
         },
        
         toggleCartQty(state, action) {
@@ -73,7 +74,7 @@ const cartSlice = createSlice({
                 }
             });
             state.data = tempCart;
-            storeInLocalStorage(state.data);
+            // storeInLocalStorage(state.data);
         },
         getCartTotal(state) {
             state.totalAmount = state.data.reduce((cartTotal, cartItem) => {

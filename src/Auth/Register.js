@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import './Register.css'
 import './Login.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../store/authSlice';
 import logo from '../logo/logo.png';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
+import Header from '../common/header/Header';
+import Footer from '../common/footer/Footer';
 
 const Register = () => {
     const [first_name, setFirst_Name] = useState('')
@@ -18,33 +20,42 @@ const Register = () => {
     const [password, setPassword] = useState('')
 
 
+    const { isAuthenticated } = useSelector((state) => state.user)
+
     const navigation = useNavigate()
     const dispatch = useDispatch();
-    const handleRegister = (e) => {
+
+
+    const handleRegister = async (e) => {
         e.preventDefault();
-        toast.success(`${username} you are Register successfully`, {
-            position: toast.POSITION.TOP_CENTER,
-            theme: "colored",
-        });
-        setFirst_Name('')
-        setLast_Name('')
-        setUserName('')
-        setPhone_Number('')
-        setEmail('')
-        setPassword('')
-        setConfirm_Password('')
         console.log(first_name, last_name, phone_number, username, email, password, confirm_password)
-        dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
-        // navigation('/login')
+        await dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
+        if (isAuthenticated) {
+            setFirst_Name('')
+            setLast_Name('')
+            setUserName('')
+            setPhone_Number('')
+            setEmail('')
+            setPassword('')
+            setConfirm_Password('')
+             navigation('/login')
+        } else {
+            toast.error(`Something is wrong, please try again!`, {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
+        }
+        
     }
 
 
 
     return (
         <div>
+            <Header />
             <div className='container mt-5'>
                 <section className=" login"  >
-                    <ToastContainer/>
+                    <ToastContainer />
                     <div className="card shadow-2-strong shadow" style={{ borderRadius: '1rem' }}>
                         <div className="card-body p-5 text-center" >
                             <div className="mb-5">
@@ -95,6 +106,7 @@ const Register = () => {
                     </div>
                 </section>
             </div>
+            <Footer/>
         </div>
     )
 }

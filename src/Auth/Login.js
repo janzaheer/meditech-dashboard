@@ -4,40 +4,41 @@ import logo from '../logo/logo.png'
 // import axios from 'axios'
 // import { BASE_URL,LOGIN_ENDPOINT } from '../utlis/apiUrls'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-import { signInUser, logout } from '../store/authSlice';
+import { useDispatch,useSelector } from 'react-redux';
+import { signInUser } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
+import Header from '../common/header/Header';
+import Footer from '../common/footer/Footer';
 
 // setUserSession(result.data.token, result.data.username, result.data.id, result.data.secret_identity_id)
 
 const Login = () => {
+   const {isAuthenticated } = useSelector ((state)=> state.user)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // let LoginURL = BASE_URL + LOGIN_ENDPOINT
-        // axios.post(LoginURL, {
-        //     username: username,
-        //     password: password
-        // }).then((result) => {
-        //     console.log(result.data, result.data.token, result.data.username)
+    const navigation = useNavigate();
 
-        // }).catch(error => {
-        //     console.log(error)
-        // })
-        toast.success(`${username}  you are Login successfully`, {
-            position: toast.POSITION.TOP_CENTER,
-            theme: "colored",
-        });
-        setUsername('')
-        setPassword('')
-        console.log(dispatch(signInUser({ username, password })))
-        dispatch(signInUser({ username, password }))
-        console.warn({ username, password })
-        navigation('/')
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        
+        await dispatch(signInUser({ username, password }))
+        console.log(isAuthenticated)
+        console.log('------------------11----------------')
+        if (isAuthenticated) {
+            setUsername('')
+            setPassword('')
+            navigation('/')
+        } else {
+            toast.error(`Invalid username or password`, {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
+            // For Register
+            // Something is wrong, please try again!
+        }
     }
 
     const handleUserNAme = (e) => {
@@ -47,25 +48,11 @@ const Login = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value)
     }
-    const navigation = useNavigate()
-    // const handleLogout = () => {
-    //     toast.error(`you are Logout successfully`, {
-    //         position: toast.POSITION.TOP_CENTER,
-    //         theme: "colored",
-    //     });
-    //     dispatch(logout())
-    //     navigation('/login')
-
-    // }
-
-
-    // const role = window.localStorage.getItem('user')
-    // const output = JSON.parse(role)
-    // console.log(output.username)
+   
 
     return (
         <div>
-
+            <Header/>
             <div className='container'>
 
                 <section className=" login"  >
@@ -112,7 +99,7 @@ const Login = () => {
 
             </div>
 
-
+            <Footer/>
         </div>
     )
 }
