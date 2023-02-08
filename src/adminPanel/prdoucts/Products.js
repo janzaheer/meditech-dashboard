@@ -39,6 +39,7 @@ const Products = () => {
   const [store, setStore] = useState('');
   const [categoriesData, setCategoriesData] = useState('')
   const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     productList()
@@ -56,7 +57,6 @@ const Products = () => {
         Authorization: `Token ${userToken}`
       }
     })
-      // .then((res) => setProducts(res.data.results), setLoading(true))
       .then((res) => {
         setProducts(res.data.results)
         // setLoading(true)
@@ -90,6 +90,11 @@ const Products = () => {
   }
 
   const [selectImage, setSelectImage] = useState('')
+  const [selectImage2, setSelectImage2] = useState('')
+  const [selectImage3, setSelectImage3] = useState('')
+  const [selectImage4, setSelectImage4] = useState('')
+
+  // 1st image function
   const uploadImage = async (e) => {
     e.preventDefault();
     // let image_urls = []
@@ -102,27 +107,66 @@ const Products = () => {
   }
   console.log('here', selectImage)
 
+// 2nd image function
+  const uploadImage2 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage2(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-2', selectImage2)
 
-  //   {
-  //     "title": "Atif Product",
-  //     "description": "Here is my product, My name is atif matrix gilchrist and clark and maxwell",
-  //     "images": ["google.com", "atif.com"],
-  //     "category_id": 1,
-  //     "price": 19.99,
-  //     "brand": "Badini",
-  //     "store": "Udadzai"
-  // }
+  // 3rd image function
+  const uploadImage3 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage3(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-3', selectImage3)
 
+  // 4th image function
+  const uploadImage4 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage4(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-4', selectImage4)
 
   const addProducts = async (e) => {
     console.log('------------------add-----------------')
     e.preventDefault();
     let api = 'api/v1/items/create_item/'
     let FInal = BASE_URL + api
+
+    let imageData = [selectImage]
+    if (selectImage2) {
+      imageData.push(selectImage2)
+    }
+    if (selectImage3) {
+      imageData.push(selectImage3)
+    }
+    if (selectImage4) {
+      imageData.push(selectImage4)
+    }
+
     await axios.post(FInal, {
       title: title,
       description: description,
-      images: [selectImage],
+      images: imageData,
       category_id: categoriesDataSelect,
       price: price,
       brand: brand,
@@ -204,7 +248,7 @@ const Products = () => {
         <ToastContainer />
         {/* Add Product Model */}
         <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
+          <div className="modal-lg modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
@@ -220,9 +264,24 @@ const Products = () => {
                     <label htmlFor="inputPrice4" className="form-label">Price</label>
                     <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
                   </div>
-                  <div className="col-12">
+                  <div className="col-6">
                     <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
                     <input type="file" onChange={uploadImage}
+                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" required />
+                  </div>
+                  <div className="col-6">
+                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 2nd</label>
+                    <input type="file" onChange={uploadImage2}
+                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
+                  </div>
+                  <div className="col-6">
+                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 3rd</label>
+                    <input type="file" onChange={uploadImage3}
+                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
+                  </div>
+                  <div className="col-6">
+                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 4th</label>
+                    <input type="file" onChange={uploadImage4}
                       className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
                   </div>
                   <div className="col-12">
@@ -250,7 +309,7 @@ const Products = () => {
                     <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
                   </div>
                   <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Save Product</button>
+                    <button type="submit" className="btn btn-success">Save Product</button>
                   </div>
                 </form>
               </div>

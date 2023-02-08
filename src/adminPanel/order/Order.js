@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
-import {BsEyeFill} from 'react-icons/bs';
+import { BsEyeFill, BsThreeDotsVertical } from 'react-icons/bs';
 import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { BASE_URL, ORDER_ENDPOINT } from '../../utlis/apiUrls';
 import Head from '../head/Head';
 import './order.css'
+import { Link } from 'react-router-dom';
 
 const Order = () => {
     const [orderDataList, setOrderDataList] = useState([])
@@ -37,7 +38,7 @@ const Order = () => {
     }
     return (
         <div>
-            <Head/>
+            <Head />
             <div className='container-fluid mt-5'>
                 <div className='row'>
                     <div className='col-12'>
@@ -79,10 +80,19 @@ const Order = () => {
                                                         <td className="border-0 text-muted align-middle">{item?.order_number}</td>
                                                         <td className="border-0 text-muted align-middle">{moment(item?.created_at).format("MM-DD-YYYY")}</td>
                                                         <td className="border-0 text-muted align-middle">{item?.total_quantity}</td>
-                                                        {item && item.status == "placed" ? <td className="border-0 text-success align-middle">{item?.status}</td> : 
+                                                        {item && item.status == "placed" ? <td className="border-0 text-success align-middle">{item?.status}</td> :
                                                             <td className="border-0 text-danger align-middle">{item?.status}</td>}
                                                         <td className="border-0 text-muted align-middle">$ {item?.total_amount}</td>
-                                                        <td className="border-0 text-danger align-middle"><BsEyeFill /> </td>
+                                                        <td className="border-0 text-danger align-middle"><div className="dropdown">
+                                                            <a className="btn dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <BsThreeDotsVertical />
+                                                            </a>
+                                                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                <li><a className="dropdown-item text-success" href="#">Edit</a></li>
+                                                                <li><a className="dropdown-item text-danger" href="#">Delete </a></li>
+                                                                <li><Link className="dropdown-item text-success" to='#'>View <BsEyeFill /></Link></li>
+                                                            </ul>
+                                                        </div></td>
                                                     </tr>
                                                 )
                                             })}

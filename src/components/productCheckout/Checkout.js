@@ -7,7 +7,8 @@ import { getCartTotal, clearCart } from '../../store/cartSlice';
 import axios from 'axios';
 import { BASE_URL, ORDER_PLACED_ENDPOINT } from '../../utlis/apiUrls';
 import { MdAddCall, MdMarkEmailUnread } from 'react-icons/md';
-// import AddressEdit from './AddressEdit'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 import { FaAddressCard, FaUserCircle } from 'react-icons/fa'
 import { ImLocation2 } from 'react-icons/im';
 import Header from '../../common/header/Header';
@@ -16,7 +17,7 @@ import Footer from '../../common/footer/Footer';
 const Checkout = () => {
     // const totalPrice = CartItem.reduce((price, item) => price + item.qty * item.price, 0)
     const dispatch = useDispatch();
-    const { data: products, totalItems, totalAmount, deliveryCharge } = useSelector(state => state.cart);
+    const { data: products, totalItems, totalAmount } = useSelector(state => state.cart);
     const user = useSelector((state) => state.user)
     const userToken = useSelector(state => state.user.token);
     const [userData, setUserData] = useState({})
@@ -132,8 +133,10 @@ const Checkout = () => {
             setSelectedAddressEmail(email_address)
             setSelectedAddress(address)
             setSelectedAddressId(id)
-            // setUserData(phone_number,email_address,address)
-            // userList()
+            toast.success('Selected New Address Successfully', {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+              });
         } catch (error) {
             console.log(error)
         }
@@ -170,6 +173,7 @@ const Checkout = () => {
     return (
         <div>
             <Header />
+            <ToastContainer/>
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
@@ -179,13 +183,9 @@ const Checkout = () => {
                         </div>
                         <div className="modal-body">
                             <div className='row'>
-
-
                                 {userData.addresses?.map((item, index) => {
                                     return (
                                         <div className='col-6' key={item.id}>
-
-
                                             <div className='card shadow-sm my-2'  >
                                                 <div className="card-body product" onClick={() => handleSelectNewAddress(item.id, item?.phone_number, item?.email_address, item?.address)}>
                                                     <div className='d-flex justify-content-between'>
@@ -203,7 +203,6 @@ const Checkout = () => {
                                                     <p className="card-text"><FaAddressCard /> Address: {item?.address}</p>
                                                 </div>
                                             </div>
-
                                         </div>
                                     )
                                 })}
@@ -246,13 +245,9 @@ const Checkout = () => {
                                                 name='address' value={address} onChange={(e) => setAddress(e.target.value)} />
                                         </div>
                                         <div className="col-12">
-                                            <button type="submit" className="btn btn-primary">Add Address</button>
+                                            <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Add Address</button>
                                         </div>
                                     </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>

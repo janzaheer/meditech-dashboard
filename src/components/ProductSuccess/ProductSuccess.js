@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { BsEnvelopeFill } from 'react-icons/bs'
 import './ProductSuccess.css';
 import logo from '../../logo/logo.png';
-import { getCartTotal } from '../../store/cartSlice';
-import { useSelector, useDispatch } from 'react-redux';
+// import { getCartTotal } from '../../store/cartSlice';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL, ORDER_ENDPOINT } from '../../utlis/apiUrls';
@@ -20,17 +20,17 @@ import moment from 'moment';
 
 const ProductSuccess = () => {
     // const totalPrice = CartItem.reduce((price, item) => price + item.qty * item.price, 0)
-    const dispatch = useDispatch();
-    const { data: products, totalAmount, deliveryCharge } = useSelector(state => state.cart);
+    // const dispatch = useDispatch();
+    // const { data: products, totalAmount, deliveryCharge } = useSelector(state => state.cart);
     const user = useSelector(state => state.user);
     const userToken = useSelector(state => state.user.token);
     const [orderDataList, setOrderDataList] = useState({})
 
     let { id } = useParams();
     console.log('orderProductSuccessId', id)
-    useEffect(() => {
-        dispatch(getCartTotal())
-    }, [useSelector(state => state.cart)])
+    // useEffect(() => {
+    //     dispatch(getCartTotal())
+    // }, [useSelector(state => state.cart)])
 
 
     useEffect(() => {
@@ -72,7 +72,7 @@ const ProductSuccess = () => {
           })
           console.log(res.data)      
           setOrderDataList(res.data)
-          toast.error('Order Delete Successfully', {
+          toast.error('Order Canceled Successfully', {
             position: toast.POSITION.TOP_RIGHT,
             theme: "colored",
           });

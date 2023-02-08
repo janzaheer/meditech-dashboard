@@ -188,7 +188,7 @@ const ManageProfile = () => {
                                         name='address' value={address} onChange={(e) => setAddress(e.target.value)} />
                                 </div>
                                 <div className="col-12">
-                                    <button type="submit" className="btn btn-primary">Add Address</button>
+                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Add Address</button>
                                 </div>
                             </form>
                         </div>

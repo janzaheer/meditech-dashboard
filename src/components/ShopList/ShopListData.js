@@ -2,6 +2,7 @@ import React, { useEffect, useState, CSSProperties } from "react"
 import "./style.css"
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
+import { HiBars3 } from 'react-icons/hi2';
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
@@ -194,7 +195,8 @@ const ShopListData = () => {
                         <div>
                             <p>
                                 <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-                                    <span className="fas fa-bars"><span className="ps-3">category & FIlter</span></span>
+                                    {/* <span className="fas fa-bars"><span className="ps-3">Categories</span></span> */}
+                                    <h5 className="mt-1"><HiBars3 className="me-2"/>Categories</h5>
                                     <span className="fas fa-chevron-down" />
                                 </a>
                             </p>
@@ -220,7 +222,6 @@ const ShopListData = () => {
                                                                     {cate?.name}
                                                                 </label>
                                                             </div>
-
                                                         )
                                                     })}
                                                 </div>
@@ -270,23 +271,25 @@ const ShopListData = () => {
                                 > */}
                                 {loading ? products && products.length > 0 && products.map((product) => {
                                     return (
-                                        <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                            <div className='box rounded border shadow-sm' >
-                                                <div className="product my-1">
+                                        <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                            <div className='border shadow-sm' >
+                                                <div className="product">
                                                     {/* <span className="off bg-success">{product?.category}</span> */}
-                                                    <div className="text-center my-3">
-                                                        <img src={product.images[0].image_url} alt='' width={100} height={100} />
+                                                    <div className="text-center mb-1">
+                                                        <img src={product.images[0].image_url} alt='' className="images-class" width={180} height={180} />
                                                     </div>
-                                                    <div className="about">
-                                                        <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
-                                                        <span className="">$ {product.price}</span>
-                                                    </div>
-                                                    <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                        <div className="">
-                                                            <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-md" ><FaRegEye /></NavLink>
+                                                    <div className="p-1">
+                                                        <div className="about">
+                                                            <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                            <span className="">$ {product.price}</span>
                                                         </div>
-                                                        <div style={{ width: "25px" }}>
-                                                            <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                        <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                            <div className="">
+                                                                <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                                            </div>
+                                                            <div style={{ width: "25px" }}>
+                                                                <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

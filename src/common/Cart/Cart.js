@@ -1,12 +1,12 @@
 import React, { useEffect } from "react"
 import "./style.css"
 import { TbShoppingCartOff } from 'react-icons/tb'
-import { BsTrash, BsMinecart, BsCartPlus } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
+import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai';
 import { Link } from "react-router-dom";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useSelector, useDispatch } from "react-redux";
 import { remove, toggleCartQty, getCartTotal, clearCart } from "../../store/cartSlice";
-import { formatPrice } from "../../utlis/helpers";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast} from 'react-toastify';
 import Header from "../header/Header";
@@ -128,11 +128,11 @@ const Cart = () => {
                                 <div className=''>
                                   {/* <button className='btn btn-outline-success me-4' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "INC" }))}> */}
                                   <button className='btn btn-outline-success me-4' onClick={() => increase(cartProduct.id)}>
-                                    <BsCartPlus />
+                                    <AiOutlinePlus />
                                   </button>
                                   {/* <button className='btn btn-outline-warning' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "DEC" }))}> */}
                                   <button className='btn btn-outline-warning' onClick={() => decrease(cartProduct.id)}>
-                                    <BsMinecart />
+                                    <AiOutlineMinus />
                                   </button>
                                 </div>
                               </strong></td>

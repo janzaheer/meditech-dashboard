@@ -44,7 +44,7 @@ const Navbar = () => {
             <div className="row p-2 pt-3 pb-3 d-flex align-items-center">
               <div className="col-md-2">
                 <NavLink to='/'>
-                  <img className="d-none d-md-flex" src={logo} alt='' width={110} />
+                  <img className="d-md-flex" src={logo} alt='' width={110} />
                 </NavLink>
               </div>
               <div className="col-md-8">
