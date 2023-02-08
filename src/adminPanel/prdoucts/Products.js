@@ -12,7 +12,7 @@ import axios from "axios";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import './product.css'
 import { Link } from 'react-router-dom';
-// import S3FileUpload from 'react-s3';
+import { Button, Modal } from 'react-bootstrap';
 //Optional Import
 import { uploadFile } from 'react-s3';
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,7 +38,15 @@ const Products = () => {
   const [brand, setBrand] = useState('');
   const [store, setStore] = useState('');
   const [categoriesData, setCategoriesData] = useState('')
-  const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
+  const [categoriesDataSelect, setCategoriesDataSelect] = useState('');
+
+
+  const [show, setShow] = useState(false);
+
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   useEffect(() => {
     productList()
@@ -90,6 +98,8 @@ const Products = () => {
   }
 
   const [selectImage, setSelectImage] = useState('')
+
+  
   const uploadImage = async (e) => {
     e.preventDefault();
     // let image_urls = []
@@ -142,12 +152,10 @@ const Products = () => {
       setPrice('')
       setStore('')
       setCategoriesData('')
-     
-      
       toast.success('Product Add Successfully', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored",
-          });
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
       console.log('-----------------11-------------------')
     }).catch(resp => {
       console.log('------------------------catch-------------------')
@@ -202,66 +210,62 @@ const Products = () => {
       <Head />
       <div className='container-fluid'>
         <ToastContainer />
+
         {/* Add Product Model */}
-        <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Product</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form className="row g-3" onSubmit={addProducts} autocomplete="off">
+              <div className="col-md-6">
+                <label htmlFor="inputTitle4" className="form-label">Title</label>
+                <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
               </div>
-              <div className="modal-body">
-                <form className="row g-3" onSubmit={addProducts}  autocomplete="off">
-                  <div className="col-md-6">
-                    <label htmlFor="inputTitle4" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputPrice4" className="form-label">Price</label>
-                    <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
-                    <input type="file" onChange={uploadImage}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
-                      placeholder=' description...' value={description} onChange={(e) => setDescription(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputBrand" className="form-label">Brand</label>
-                    <input type="text" className="form-control" id="inputBrand" placeholder='Enter Brand Name' value={brand} onChange={(e) => setBrand(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">Category</label>
-                    <select id="inputState" className="form-select" onChange={categoriesDataSelectFun} value={categoriesDataSelect}>
-                      <option selected>Choose...</option>
-                      {categoriesData && categoriesData.map((catee) => {
-                        return (
-                          <option key={catee.id} value={catee?.id}>{catee?.name}</option>
-                        )
-                      })}
-                    </select>
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputStore" className="form-label">Store</label>
-                    <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Save Product</button>
-                  </div>
-                </form>
+              <div className="col-md-6">
+                <label htmlFor="inputPrice4" className="form-label">Price</label>
+                <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
               </div>
-              <div className="modal-footer d-flex justify-content-center align-items-center">
-                <div>
-                  <p>Thanks For Add New Product</p>
-                </div>
+              <div className="col-12">
+                <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
+                <input type="file" onChange={uploadImage}
+                  className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
               </div>
+              <div className="col-12">
+                <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
+                <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
+                  placeholder=' description...' value={description} onChange={(e) => setDescription(e.target.value)} />
+              </div>
+              <div className="col-md-4">
+                <label htmlFor="inputBrand" className="form-label">Brand</label>
+                <input type="text" className="form-control" id="inputBrand" placeholder='Enter Brand Name' value={brand} onChange={(e) => setBrand(e.target.value)} />
+              </div>
+              <div className="col-md-4">
+                <label htmlFor="inputState" className="form-label">Category</label>
+                <select id="inputState" className="form-select" onChange={categoriesDataSelectFun} value={categoriesDataSelect}>
+                  <option selected>Choose...</option>
+                  {categoriesData && categoriesData.map((catee) => {
+                    return (
+                      <option key={catee.id} value={catee?.id}>{catee?.name}</option>
+                    )
+                  })}
+                </select>
+              </div>
+              <div className="col-md-4">
+                <label htmlFor="inputStore" className="form-label">Store</label>
+                <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
+              </div>
+              <div className="col-12">
+                <button type="submit" onClick={handleClose} className="btn btn-primary">Save Product</button>
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer d-flex justify-content-center align-items-center">
+            <div>
+              <p>Thanks For Add New Product</p>
             </div>
-          </div>
-        </div>
+          </Modal.Footer>
+        </Modal>
         {/* Add Product Model End */}
 
         {/* Product Edit Model */}
@@ -337,7 +341,9 @@ const Products = () => {
                   <h5 className='text-success mt-4'>Products List <RiShoppingBag3Fill /></h5>
                 </div>
                 <div className='mt-3'>
-                  <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button>
+                  <Button variant="outline-success" className='mt-1' onClick={handleShow}>
+                    Add Product <IoAddCircle />
+                  </Button>
                 </div>
               </div>
               <hr />

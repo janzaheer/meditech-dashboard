@@ -78,7 +78,12 @@ const ManageProfile = () => {
                 }
             })
             console.log(res.data)
+
             userList()
+            toast.success('New Address Added Successfully',{
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
 
         } catch (error) {
             console.log('add error', error)
@@ -188,13 +193,9 @@ const ManageProfile = () => {
                                         name='address' value={address} onChange={(e) => setAddress(e.target.value)} />
                                 </div>
                                 <div className="col-12">
-                                    <button type="submit" className="btn btn-primary">Add Address</button>
+                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Add Address</button>
                                 </div>
                             </form>
-                        </div>
-                        <div className="modal-footer">
-                            {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button> */}
                         </div>
                     </div>
                 </div>

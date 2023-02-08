@@ -58,33 +58,33 @@ const ProductSuccess = () => {
         })
     }
     // console.log('----2---1---',orderDataList.total_amount)
-   
-    const cancelOrder = async (id) =>{
-        console.log('order-cancel',id)
+
+    const cancelOrder = async (id) => {
+        console.log('order-cancel', id)
         let end = `api/v1/orders/${id}/canceled_order/`
         let final = BASE_URL + end
         try {
-          let res = await axios.post(final, {}, {
-            headers: {
-              'Content-Type': "application/json",
-              Authorization: `Token ${userToken}`
-            }
-          })
-          console.log(res.data)      
-          setOrderDataList(res.data)
-          toast.error('Order Delete Successfully', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored",
-          });
+            let res = await axios.post(final, {}, {
+                headers: {
+                    'Content-Type': "application/json",
+                    Authorization: `Token ${userToken}`
+                }
+            })
+            console.log(res.data)
+            setOrderDataList(res.data)
+            toast.error('Order Delete Successfully', {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
         } catch (error) {
-          console.log('delete error', error)
+            console.log('delete error', error)
         }
     }
     return (
         <div>
             <Header />
             <div className='container product-success mt-5'>
-                <ToastContainer/>
+                <ToastContainer />
                 <div className="container my-5">
                     <div className="d-flex justify-content-center row">
                         <div className="col-md-10">
@@ -100,8 +100,8 @@ const ProductSuccess = () => {
                                     <div><span className="d-block fs-12">Order number</span><span className="font-weight-bold">{orderDataList?.order_number}</span></div>
                                     <div><span className="d-block fs-12">Email Address</span><span className="font-weight-bold">{orderDataList?.address?.email_address} </span> </div>
                                     <div><span className="d-block fs-12">Shipping Address</span>
-                                    <a type="button" className="text-success" data-bs-toggle="popover" title={orderDataList?.address?.address} data-bs-content=""><span className="font-weight-bold text-success">
-                                        {orderDataList?.address?.address.substring(0, 17)}</span> ...</a></div>
+                                        <a type="button" className="text-success" data-bs-toggle="popover" title={orderDataList?.address?.address} data-bs-content=""><span className="font-weight-bold text-success">
+                                            {orderDataList?.address?.address.substring(0, 17)}</span> ...</a></div>
                                 </div>
                                 <hr />
                                 {orderDataList && orderDataList.order_items?.map((ite) => {
@@ -132,7 +132,7 @@ const ProductSuccess = () => {
                                         {/* <img src="https://i.imgur.com/AXdWCWr.gif" width={250} height={100} alt='' /> */}
                                         {/* <img src={bar} width={250} height={100} alt='' /> */}
                                         <Barcode value={orderDataList?.order_number} />
-                                        </div>
+                                    </div>
                                     <div className="col-md-6">
                                         <div className="billing">
                                             <div className="d-flex justify-content-between"><span>Subtotal</span><span className="font-weight-bold">
@@ -150,7 +150,7 @@ const ProductSuccess = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {orderDataList && orderDataList.status == "canceled" ? '' :  <Link to='#' onClick={()=>cancelOrder(orderDataList?.id)} className='btn btn-outline-danger my-1 ms-3'>cancel order</Link>}
+                                {orderDataList && orderDataList.status == "canceled" ? '' : <Link to='#' onClick={() => cancelOrder(orderDataList?.id)} className='btn btn-outline-danger my-1 ms-3'>cancel order</Link>}
                                 <span className="d-block mt-3 text-black-50 fs-15"><BsEnvelopeFill />  We will be sending a shipping confirmation email when the item is shipped!</span>
                                 <hr />
                                 <div className="d-flex justify-content-between align-items-center footer">
@@ -159,7 +159,7 @@ const ProductSuccess = () => {
                                 </div>
 
                                 <div className='my-3'>
-                                    
+
                                     <Link to='/' className='btn btn-outline-success w-100' >Continue Shopping</Link>
                                 </div>
 
@@ -172,7 +172,7 @@ const ProductSuccess = () => {
 
 
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

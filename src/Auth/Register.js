@@ -29,8 +29,8 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         console.log(first_name, last_name, phone_number, username, email, password, confirm_password)
-        await dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
         if (isAuthenticated) {
+            await dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
             setFirst_Name('')
             setLast_Name('')
             setUserName('')
@@ -38,7 +38,7 @@ const Register = () => {
             setEmail('')
             setPassword('')
             setConfirm_Password('')
-             navigation('/login')
+            navigation('/login')
         } else {
             toast.error(`Something is wrong, please try again!`, {
                 position: toast.POSITION.TOP_RIGHT,
