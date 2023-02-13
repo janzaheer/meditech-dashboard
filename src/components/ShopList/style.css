@@ -8,7 +8,6 @@
 }
 
 .box {
-    /* background-color: #198754 !important; */
     width: 100% !important;
 }
 
@@ -22,12 +21,8 @@
 
 .product {
     width: 100% !important;
-    /* padding: 5px; */
     background-color: #fff;
-    /* border-radius:7px !important; */
     border: 1px solid #fff;
-    /* position: relative; */
-
 }
 
 .product:hover {
@@ -41,22 +36,6 @@
 .about span {
     color: #198754;
     font-size: 16px
-}
-
-.off {
-    position: absolute;
-    left: 65%;
-    top: 6%;
-    width: 80px;
-    text-align: center;
-    height: 30px;
-    line-height: 8px;
-    border-radius: 0 10px 0 10px;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff
 }
 
 .col-lg-3 .btn.btn-primary {
@@ -126,10 +105,6 @@
         flex: 0 0 auto;
         width: 75%;
     }
-
-    /* .images-class{
-        width: 220px !important;
-    } */
 }
 
 @media screen and (max-width: 321px) {
@@ -140,7 +115,4 @@
         color: #4a1af8;
         font-size: 12px
     }
-    /* .images-class{
-        height: 10% !important;
-    } */
 }

@@ -18,12 +18,10 @@ const ProductDetail = () => {
     console.log(`id is ${id}`)
     const [product, setProduct] = useState([]);
     const [mainImage, setMainImage] = useState(product?.images && product?.images[0].image_url)
-
     const [qty, setQty] = useState(1);
-
-
      const navigate = useNavigate();
     const dispatch = useDispatch();
+
     useEffect(() => {
         const getProduct = async () => {
             // eslint-disable-next-line         
@@ -43,6 +41,7 @@ const ProductDetail = () => {
         getProduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     const addToCartHandler = (product) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         let totalPrice = qty * product.price;
@@ -84,7 +83,6 @@ const ProductDetail = () => {
           });
     }
 
-
     const { images } = product;
     // console.log('img', images)
 
@@ -92,9 +90,7 @@ const ProductDetail = () => {
     return (
         <div>
             <Header />
-
             <div className="container my-5">
-
                 <div className="single_product">
                     <div className="container-fluid" style={{ backgroundColor: '#fff', padding: 11 }}>
                         <ToastContainer/>
@@ -102,7 +98,7 @@ const ProductDetail = () => {
                             {/* <ReactImageZoom {...props} /> */}
 
 
-                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1">
+                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1 imagesul">
                                 <Scrollbars>
                                     {product.images && images.map((im, index) => {
                                         return (
@@ -133,7 +129,7 @@ const ProductDetail = () => {
                             <div className="col-lg-6 order-3">
                                 <div className="product_description">
                                     <div className="product_name">{product?.title}</div>
-                                    <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div>
+                                    {/* <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div> */}
                                     <div> <span className="product_price">$ {product?.price}</span> 
                                     {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
                                     </div>
@@ -142,7 +138,7 @@ const ProductDetail = () => {
                                         <div className="row">
                                             <div className="col-md-5">
                                                 <div className="p-1">
-                                                    <p >Description: {product.description}</p>
+                                                    <p> {product.description}</p>
                                                 </div>
                                             </div>
 
@@ -182,7 +178,7 @@ const ProductDetail = () => {
                                 <table className="col-md-12">
                                     <tbody>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Sales Package :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Product Title :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>{product.title}</li>
@@ -190,42 +186,42 @@ const ProductDetail = () => {
                                             </td>
                                         </tr>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Model Number :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Store :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li> 14-dh0107TU </li>
+                                                    <li> {product?.store} </li>
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr className="row mt-10">
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Part Number :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>7AL87PA</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Color :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Black</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Suitable for :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Processing &amp; Multitasking</li>
                                                 </ul>
                                             </td>
-                                        </tr>
+                                        </tr> */}
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Processor Brand :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li>Intel</li>
+                                                    <li>{product?.brand}</li>
                                                 </ul>
                                             </td>
                                         </tr>

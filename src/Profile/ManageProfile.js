@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import './ManageProfile.css'
 import { GiCrossMark } from 'react-icons/gi';
+import { GrFacebookOption, GrInstagram, GrYoutube } from 'react-icons/gr'
 import { MdAddLocationAlt, MdAddCall, MdMarkEmailUnread } from 'react-icons/md';
 import { BsEyeFill } from 'react-icons/bs'
 import { FaAddressCard, FaUserCircle, FaAddressBook } from 'react-icons/fa'
 import { ImUser, ImLocation2 } from 'react-icons/im';
 import { CgProfile } from 'react-icons/cg';
 import { RiShoppingBag3Fill } from 'react-icons/ri'
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, ORDER_ENDPOINT } from '../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ADDRESS_REMOVE_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT } from '../utlis/apiUrls';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { getCartTotal } from '../store/cartSlice';
 import moment from 'moment';
 import Header from '../common/header/Header';
 import Footer from '../common/footer/Footer';
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 
 const ManageProfile = () => {
     const user = useSelector(state => state.user);
@@ -27,36 +29,25 @@ const ManageProfile = () => {
     const [email_address, setEmail_address] = useState('')
     const [address, setAddress] = useState('')
     const [orderDataList, setOrderDataList] = useState([])
-    const navigation = useNavigate()
+
     const id = user.user.id
     console.log('user-id', id)
 
-
-    const dispatch = useDispatch();
-    const { data: product, totalAmount } = useSelector(state => state.cart);
-
-    useEffect(() => {
-        dispatch(getCartTotal())
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [useSelector(state => state.cart)])
     useEffect(() => {
         userList()
         myOrderList()
     }, [])
-    const userList = async () => {
-        console.log('---------------------11------------')
-        let Api = `/api/v1/user/${id}/`
-        let AddFavURL = BASE_URL + Api
 
+    const userList = async () => {
+        let Api = `${USER_LIST_ENDPOINT}${id}/`
+        let AddFavURL = BASE_URL + Api
         axios.get(AddFavURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            //  console.log(res.data)
             setUserData(res.data)
-
         }).catch(error => {
             console.log(error)
         })
@@ -64,8 +55,7 @@ const ManageProfile = () => {
 
     const addAddress = async (e) => {
         e.preventDefault();
-        let Api = `api/v1/user/add_address/`
-        let addAddressUrl = BASE_URL + Api
+        let addAddressUrl = BASE_URL + ADDRESS_ADD_ENDPOINT
         try {
             let res = await axios.post(addAddressUrl, {
                 phone_number: phone_number,
@@ -78,8 +68,11 @@ const ManageProfile = () => {
                 }
             })
             console.log(res.data)
+            toast.success('new Address Added Successfully!', {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
             userList()
-
         } catch (error) {
             console.log('add error', error)
         }
@@ -90,8 +83,7 @@ const ManageProfile = () => {
 
     const handleDelete = async (AddressId) => {
         console.log('delete', AddressId)
-        let Api = `api/v1/user/remove_address/`
-        let removeAddressUrl = BASE_URL + Api
+        let removeAddressUrl = BASE_URL + ADDRESS_REMOVE_ENDPOINT
         try {
             let res = await axios.post(removeAddressUrl, {
                 address_id: AddressId,
@@ -114,23 +106,43 @@ const ManageProfile = () => {
     }
 
     const myOrderList = async () => {
-        console.log('---------------------11------ ------')
-        let Api = `${ORDER_ENDPOINT}`
-        let finalURL = BASE_URL + Api
-
+        let finalURL = BASE_URL + ORDER_ENDPOINT
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('orderListData-here', res.data)
             setOrderDataList(res.data.results)
-            console.log('----------------------123-----------------123--------------')
-
         }).catch(error => {
             console.log(error)
         })
+    }
+
+    const handleBadge = (state) => {
+        if (state == 'completed') {
+            /* eslint eqeqeq: 0 */
+            return <Badge bg="success">
+                completed
+            </Badge>
+        } else if (state == 'placed') {
+            return <Badge bg="primary">
+                placed
+            </Badge>
+        } else if (state == 'processed') {
+            return <Badge bg="warning">
+                processed
+            </Badge>
+        } else if (state == 'received') {
+            return <Badge bg="info">
+                received
+            </Badge>
+        } else if (state == 'canceled') {
+            return <Badge bg="danger">
+                canceled
+            </Badge>
+        }
+        return ':'
     }
 
     return (
@@ -161,7 +173,6 @@ const ManageProfile = () => {
                 </div>
             </div>
 
-
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content">
@@ -170,7 +181,6 @@ const ManageProfile = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <div className="modal-body">
-
                             <form className="row g-3" onSubmit={addAddress}>
                                 <div className="col-md-6">
                                     <label htmlFor="inputEmail4" className="form-label">Email</label>
@@ -193,8 +203,6 @@ const ManageProfile = () => {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button> */}
                         </div>
                     </div>
                 </div>
@@ -215,7 +223,15 @@ const ManageProfile = () => {
                                     <p className="card-subtitle"><ImUser /> FullName: {userData?.first_name} {userData?.last_name}</p>
                                 </div>
                                 <div className='d-flex justify-content-center mb-5'>
-                                    <p className='card-text mb-3 text-success'>Subscribe to our Newsletter</p>
+                                    <Button variant="outline-primary" className='me-1' size="sm">
+                                        <GrFacebookOption />
+                                    </Button>
+                                    <Button variant="outline-warning" className='mx-1' size="sm">
+                                        <GrInstagram />
+                                    </Button>
+                                    <Button variant="outline-danger" className='ms-1' size="sm">
+                                        <GrYoutube />
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -294,8 +310,7 @@ const ManageProfile = () => {
                                                             <td className="border-0 text-muted align-middle">{ite?.order_number}</td>
                                                             <td className="border-0 text-muted align-middle">{moment(ite?.created_at).format("MM-DD-YYYY")}</td>
                                                             <td className="border-0 text-muted align-middle">{ite?.total_quantity}</td>
-                                                            {ite && ite.status == "placed" ? <td className="border-0 text-success align-middle">{ite?.status}</td> : 
-                                                            <td className="border-0 text-danger align-middle">{ite?.status}</td>}
+                                                            <td className="border-0 text-muted align-middle">{handleBadge(ite?.status)}</td>
                                                             <td className="border-0 text-muted align-middle">$ {ite?.total_amount}</td>
                                                             <td className="border-0 align-middle"><NavLink to={`/productSuccess/${ite.id}`} className='text-success'><BsEyeFill /></NavLink> </td>
                                                         </tr>
@@ -312,7 +327,7 @@ const ManageProfile = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

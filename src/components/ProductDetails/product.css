@@ -535,3 +535,16 @@ ul {
     justify-content: flex-start;
     border-bottom-right-radius: 5px
 }
+
+@media screen and (max-width: 768px) {
+    .image_list li {
+        width: 60%;
+    }
+    .image_list li img {
+        width: 100%;
+    }
+    .imagesul ul {
+        width: 200px;
+    }
+}
+

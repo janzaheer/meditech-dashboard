@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Head = () => {
   const user = useSelector(state => state.user);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-
+// console.log('userData',user)
   const navigation = useNavigate()
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -24,7 +24,7 @@ const Head = () => {
         <div className="container-fluid">
           <ul className="navbar-nav d-none d-md-flex mr-auto">
             <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-phone'></i> +88012 3456 7894</a> </li>
-            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-envelope'></i>  medi.help@gmail.com</a></li>
+            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-envelope'></i>  cosmedicos.help@gmail.com</a></li>
           </ul>
 
           <ul className="navbar-nav d-flex align-items-center">
@@ -36,7 +36,7 @@ const Head = () => {
                   </button>
                   <ul className="dropdown-menu dropdown-menu-light">
                     <li><Link to='/manageProfile' className="dropdown-item"><BsEmojiSmile /> Manage My Account</Link></li>
-                    <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li>
+                    {user.user.is_staff == true?  <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
                     <li><a className="dropdown-item" href="#"><MdOutlineStars /> My Reviews</a></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="#" onClick={handleLogout}><SlLogout /> Logout</a></li>

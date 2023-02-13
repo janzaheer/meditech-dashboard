@@ -28,7 +28,7 @@ const Navbar = () => {
 
   }
 
-  console.log('search', searchTerm)
+  // console.log('search', searchTerm)
 
   useEffect(() => {
     dispatch(getCartTotal());

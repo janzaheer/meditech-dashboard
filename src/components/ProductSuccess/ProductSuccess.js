@@ -80,6 +80,23 @@ const ProductSuccess = () => {
           console.log('delete error', error)
         }
     }
+
+    const orderStatusHeadings = (status) => {
+        if (status == "canceled") {
+            /* eslint eqeqeq: 0 */
+            return "canceled"
+          } else if (status == 'completed') {
+            return 'completed'
+          } else if (status == 'placed') {
+            return 'confirmed'
+          } else if (status == 'received') {
+            return 'received'
+          } else if (status == 'processed') {
+            return 'processed'
+          }
+          return ''
+    }
+
     return (
         <div>
             <Header />
@@ -90,8 +107,10 @@ const ProductSuccess = () => {
                         <div className="col-md-10">
                             <div className="receipt bg-white p-3 rounded shadow">
                                 <img src={logo} alt='logo' width={120} />
-                                <h4 className="mt-2 mb-3">Your order is {orderDataList && orderDataList.status == "canceled" ? 'canceled!' : 'confirmed!'}</h4>
-                                <h6 className="name">Hello {user.user.username},</h6><span className="fs-12 text-black-50">your order has been confirmed and our support team will contact you shortly. Thank You!</span>
+                                <h4 className="mt-2 mb-3">Your order is {orderStatusHeadings(orderDataList.status)} 
+                                {/* {orderDataList && orderDataList.status == "canceled" ? 'canceled!' : 'confirmed!'} */}
+                                </h4>
+                                <h6 className="name">Hello {user.user.username},</h6><span className="fs-12 text-black-50">your order has been {orderStatusHeadings(orderDataList.status)} and our support team will contact you shortly. Thank You!</span>
                                 <hr />
                                 <div className="d-flex flex-row justify-content-between align-items-center order-details">
                                     <div><span className="d-block fs-12">Order date</span><span className="font-weight-bold">
@@ -129,8 +148,6 @@ const ProductSuccess = () => {
 
                                 <div className="mt-5 amount row">
                                     <div className="d-flex justify-content-center col-md-6">
-                                        {/* <img src="https://i.imgur.com/AXdWCWr.gif" width={250} height={100} alt='' /> */}
-                                        {/* <img src={bar} width={250} height={100} alt='' /> */}
                                         <Barcode value={orderDataList?.order_number} />
                                         </div>
                                     <div className="col-md-6">
@@ -154,7 +171,7 @@ const ProductSuccess = () => {
                                 <span className="d-block mt-3 text-black-50 fs-15"><BsEnvelopeFill />  We will be sending a shipping confirmation email when the item is shipped!</span>
                                 <hr />
                                 <div className="d-flex justify-content-between align-items-center footer">
-                                    <div className="thanks"><span className="d-block font-weight-bold">Thanks for shopping</span><span>MediTech team</span></div>
+                                    <div className="thanks"><span className="d-block font-weight-bold">Thanks for shopping</span><span>Cosmedicos team</span></div>
                                     <div className="d-flex flex-column justify-content-end align-items-end"><span className="d-block font-weight-bold">Need Help?</span><span>Call - 93333333333</span></div>
                                 </div>
 

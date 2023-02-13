@@ -41,7 +41,7 @@ const ProductDetailDashboard = () => {
         <div className="single_product">
                     <div className="container-fluid" style={{ backgroundColor: '#fff', padding: 11 }}>
                         <div className="row">
-                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1">
+                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1 imagesul">
                                 <Scrollbars>
                                     {productDetail.images && images.map((im, index) => {
                                         return (
@@ -60,8 +60,7 @@ const ProductDetailDashboard = () => {
                             </div>
                             <div className="col-lg-6 order-3">
                                 <div className="product_description">
-                                    <div className="product_name">Name: {productDetail?.title}</div>
-                                    <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div>
+                                    <div className="product_name">{productDetail?.title}</div>
                                     <div> <span className="product_price">$ {productDetail?.price}</span> 
                                     </div>
                                     <hr className="singleline" />
@@ -69,7 +68,7 @@ const ProductDetailDashboard = () => {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="p-1">
-                                                    <p >Description: {productDetail.description}</p>
+                                                    <p > {productDetail.description}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,53 +103,53 @@ const ProductDetailDashboard = () => {
                         </div>
                         <div className="row">
                             <div className="col-md-12">
-                                <table className="col-md-12">
+                            <table className="col-md-12">
                                     <tbody>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Sales Package :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Product Title :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li>{productDetail.title}</li>
+                                                    <li>{productDetail?.title}</li>
                                                 </ul>
                                             </td>
                                         </tr>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Model Number :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Store :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li> 14-dh0107TU </li>
+                                                    <li> {productDetail?.store} </li>
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr className="row mt-10">
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Part Number :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>7AL87PA</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Color :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Black</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Suitable for :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Processing &amp; Multitasking</li>
                                                 </ul>
                                             </td>
-                                        </tr>
+                                        </tr> */}
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Processor Brand :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li>Intel</li>
+                                                    <li>{productDetail?.brand}</li>
                                                 </ul>
                                             </td>
                                         </tr>

@@ -12,12 +12,12 @@ import axios from "axios";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import './product.css'
 import { Link } from 'react-router-dom';
+import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 // import S3FileUpload from 'react-s3';
 //Optional Import
 import { uploadFile } from 'react-s3';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const config = {
@@ -30,6 +30,7 @@ const config = {
 }
 
 const Products = () => {
+
   const [products, setProducts] = useState([])
   const userToken = useSelector(state => state.user.token);
   const [title, setTitle] = useState('');
@@ -40,10 +41,18 @@ const Products = () => {
   const [categoriesData, setCategoriesData] = useState('')
   const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
   const [isError, setIsError] = useState(false)
+  const [selectImage, setSelectImage] = useState('')
+  const [selectImage2, setSelectImage2] = useState('')
+  const [selectImage3, setSelectImage3] = useState('')
+  const [selectImage4, setSelectImage4] = useState('')
 
   useEffect(() => {
     productList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    categoryData()
   }, [])
 
   const productList = async () => {
@@ -89,10 +98,6 @@ const Products = () => {
     }
   }
 
-  const [selectImage, setSelectImage] = useState('')
-  const [selectImage2, setSelectImage2] = useState('')
-  const [selectImage3, setSelectImage3] = useState('')
-  const [selectImage4, setSelectImage4] = useState('')
 
   // 1st image function
   const uploadImage = async (e) => {
@@ -107,7 +112,7 @@ const Products = () => {
   }
   console.log('here', selectImage)
 
-// 2nd image function
+  // 2nd image function
   const uploadImage2 = async (e) => {
     e.preventDefault();
     // let image_urls = []
@@ -186,12 +191,12 @@ const Products = () => {
       setPrice('')
       setStore('')
       setCategoriesData('')
-     
-      
+
+
       toast.success('Product Add Successfully', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored",
-          });
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
       console.log('-----------------11-------------------')
     }).catch(resp => {
       console.log('------------------------catch-------------------')
@@ -236,9 +241,17 @@ const Products = () => {
       console.log(error)
     }
   }
-  useEffect(() => {
-    categoryData()
-  }, [])
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [showAdd, setShowAdd] = useState(false);
+
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+
 
 
   return (
@@ -246,8 +259,89 @@ const Products = () => {
       <Head />
       <div className='container-fluid'>
         <ToastContainer />
+
+        <Modal show={showAdd} onHide={handleCloseAdd}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={addProducts} autocomplete >
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPrice">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridUploadImage1">
+                  <Form.Label>Upload Image 1st</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridUploadImage2">
+                  <Form.Label>Upload Image 2nd</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage2} placeholder="Please upload your image here" />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridUploadImage3">
+                  <Form.Label>Upload Image 3rd</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage3} placeholder="Please upload your image here" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridUploadImage4">
+                  <Form.Label>Upload Image 4th</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage4} placeholder="Please upload your image here" />
+                </Form.Group>
+              </Row>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlDescription1">
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+              </Form.Group>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridBrand">
+                  <Form.Label>Brand</Form.Label>
+                  <Form.Control type="text" placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridState">
+                  <Form.Label>Categories</Form.Label>
+                  <Form.Select defaultValue="Choose..." onChange={categoriesDataSelectFun} value={categoriesDataSelect} >
+                    <option>Choose...</option>
+                    {categoriesData && categoriesData.map((catee) => {
+                      return (
+                        <option key={catee.id} value={catee?.id}>{catee?.name}</option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridStore">
+                  <Form.Label>Store</Form.Label>
+                  <Form.Control type="text" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
+                </Form.Group>
+              </Row>
+
+              <Button variant="primary" onClick={handleCloseAdd} type="submit">
+                Save Product
+              </Button>
+
+            </Form>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer d-flex justify-content-center align-items-center">
+            <div>
+              <p>Thanks For Add New Product</p>
+            </div>
+          </Modal.Footer>
+        </Modal>
         {/* Add Product Model */}
-        <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+        {/* <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-lg modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -255,7 +349,7 @@ const Products = () => {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
               </div>
               <div className="modal-body">
-                <form className="row g-3" onSubmit={addProducts}  autocomplete="off">
+                <form className="row g-3" onSubmit={addProducts} autocomplete="off">
                   <div className="col-md-6">
                     <label htmlFor="inputTitle4" className="form-label">Title</label>
                     <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -320,70 +414,73 @@ const Products = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* Add Product Model End */}
 
         {/* Product Edit Model */}
-        <div className="modal fade" id="viewModal" tabIndex={-1} aria-labelledby="viewModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="viewModalLabel">Product Details</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                <form className="row g-3">
-                  <div className="col-md-6">
-                    <label htmlFor="inputEmail4" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail4" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputPassword4" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="inputPassword4" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputAddress" className="form-label">Address</label>
-                    <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputAddress2" className="form-label">Address 2</label>
-                    <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputCity" className="form-label">City</label>
-                    <input type="text" className="form-control" id="inputCity" />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">State</label>
-                    <select id="inputState" className="form-select">
-                      <option selected>Choose...</option>
-                      <option>...</option>
-                    </select>
-                  </div>
-                  <div className="col-md-2">
-                    <label htmlFor="inputZip" className="form-label">Zip</label>
-                    <input type="text" className="form-control" id="inputZip" />
-                  </div>
-                  <div className="col-12">
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="gridCheck" />
-                      <label className="form-check-label" htmlFor="gridCheck">
-                        Check me out
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Sign in</button>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Product</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" placeholder="Enter Title" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPrice">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control type="text" placeholder="Price" />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridAddress1">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control placeholder="1234 Main St" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridAddress2">
+                  <Form.Label>Address 2</Form.Label>
+                  <Form.Control placeholder="Apartment, studio, or floor" />
+                </Form.Group>
+              </Row>
+
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label>Example textarea</Form.Label>
+                <Form.Control as="textarea" rows={3} />
+              </Form.Group>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridBrand">
+                  <Form.Label>Brand</Form.Label>
+                  <Form.Control type="text" placeholder="Brand" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridState">
+                  <Form.Label>Categories</Form.Label>
+                  <Form.Select defaultValue="Choose...">
+                    <option>Choose...</option>
+                    <option>...</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridStore">
+                  <Form.Label>Store</Form.Label>
+                  <Form.Control type="text" placeholder="Store" />
+                </Form.Group>
+              </Row>
+
+              <Button variant="primary" onClick={handleClose} type="submit">
+                Update Product
+              </Button>
+
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
         {/* Product Edit Model End */}
 
         <div className='row mt-5'>
@@ -396,7 +493,10 @@ const Products = () => {
                   <h5 className='text-success mt-4'>Products List <RiShoppingBag3Fill /></h5>
                 </div>
                 <div className='mt-3'>
-                  <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button>
+                  {/* <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button> */}
+                  <Button variant="outline-success" onClick={handleShowAdd}>
+                    Add Product <IoAddCircle />
+                  </Button>
                 </div>
               </div>
               <hr />
@@ -444,7 +544,8 @@ const Products = () => {
                                 <BsThreeDotsVertical />
                               </a>
                               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li>
+                                {/* <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li> */}
+                                <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li>
                                 <li><a className="dropdown-item text-danger" onClick={() => deleteComments(ite?.id)} href="#">Delete <FaTrash /></a></li>
                                 <li><Link className="dropdown-item text-success" to={`/dashboard/productDetail/${ite.id}`}>View <FaEye /></Link></li>
                               </ul>

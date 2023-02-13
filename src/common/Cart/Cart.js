@@ -17,18 +17,12 @@ const Cart = () => {
   const { data: cartProducts, totalItems, totalAmount, deliveryCharge } = useSelector(state => state.cart);
   const userToken = useSelector(state => state.user.token);
   console.log('userToken', userToken)
-  const user = useSelector(state => state.user);
-
 
   useEffect(() => {
     dispatch(getCartTotal());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useSelector(state => state.cart)]);
 
-
-  console.log('cart', cartProducts)
-  console.log('user', window.localStorage.getItem('user'))
-  console.log('user from state', user.token)
   // const emptyCartMsg = <h4 className='text-red fw-6'>No items found!</h4>;
 
   const handleRemove = (id) =>{

@@ -6,11 +6,12 @@ import { HiBars3 } from 'react-icons/hi2';
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
-import { BASE_URL, END_POINT, changeUrl } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
+import { Button } from "react-bootstrap";
 // import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ShopListData = () => {
@@ -25,6 +26,7 @@ const ShopListData = () => {
     const [itemFavourite, setItemFavourite] = useState({})
     // const [nextPageUrl, setNextPageUrl] = useState('');
     const [categoriesData, setCategoriesData] = useState('')
+    const [visible, setVisible] = useState(10)
 
 
     const override = CSSProperties = {
@@ -38,6 +40,16 @@ const ShopListData = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        categoryList()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        categoryData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     let headers = {}
     if (userToken) {
         headers = {
@@ -46,6 +58,9 @@ const ShopListData = () => {
         }
     }
 
+    const handleShowMore = () => {
+        setVisible((pre) => pre + 10)
+    }
 
     const productList = async () => {
         // let Page_Limit = res.data.next
@@ -65,20 +80,16 @@ const ShopListData = () => {
                 const mergeData = [...products, ...apiRes]
                 setProducts(mergeData)
                 setLoading(true)
-                console.log('----11--------------------')
                 // setNextPageUrl(res?.data?.next)
-                console.log('----22--------------------')
             })
             .catch((err) => console.log(err))
     }
 
     const handleFav = async (id) => {
-        console.log('click-id', id)
+        // console.log('click-id', id)
         console.log('addd', addFav)
 
-        let Api = `api/v1/favourite/items/`
-        let AddFavURL = BASE_URL + Api
-
+        let AddFavURL = BASE_URL + FAV_ENDPOINT
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -110,17 +121,10 @@ const ShopListData = () => {
         })
     }
 
-
-    useEffect(() => {
-        categoryList()
-    }, [])
-
     const categoryList = async (e) => {
-        // let val = e.target.value;
-        // console.log('catval',val)
         setCat(e.target.value)
         console.log('target', e.target.value)
-        let Api = `/api/v1/items/?category__name=${e.target.value}`
+        let Api = `${CATEGORY_MENU_LIST_ENDPOINT}${e.target.value}`
         let finalURL = BASE_URL + Api
 
         axios.get(finalURL, {
@@ -129,7 +133,7 @@ const ShopListData = () => {
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('CategoryList-here', res.data.results)
+            console.log('catLIst',res.data.results)
             setProducts(res.data.results)
 
         }).catch(error => {
@@ -137,7 +141,6 @@ const ShopListData = () => {
         })
 
     }
-
 
     // if (status === STATUSES.LOADING) {
     //     return <h6 className="my-5"><HashLoader color='#198754'
@@ -149,22 +152,19 @@ const ShopListData = () => {
     //     return <h2>Something went wrong!</h2>;
     // }
 
-
     const handleSort = async (e) => {
         let val = e.target.value;
         setSortTerm(val)
         console.log('click-e')
-        const response = await fetch(`${BASE_URL}api/v1/items/?ordering=${val}`);
+        const response = await fetch(`${BASE_URL}${SORT_ENDPOINT}${val}`);
         const data = await response.json();
-        console.log('sort', data.results)
         setProducts(data.results)
         return data.results;
-
     }
 
+    
     const categoryData = async () => {
-        let api = '/api/v1/category/'
-        let FInal = BASE_URL + api
+        let FInal = BASE_URL + CATEGORY_ENDPOINT
         try {
             let res = await axios.get(FInal, {
                 headers: {
@@ -172,15 +172,12 @@ const ShopListData = () => {
                     Authorization: `Token ${userToken}`
                 }
             })
-            console.log('cateeeeee', res.data.results)
+            console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
         } catch (error) {
             console.log(error)
         }
     }
-    useEffect(() => {
-        categoryData()
-    }, [])
 
 
 
@@ -196,7 +193,7 @@ const ShopListData = () => {
                             <p>
                                 <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
                                     {/* <span className="fas fa-bars"><span className="ps-3">Categories</span></span> */}
-                                    <h5 className="mt-1"><HiBars3 className="me-2"/>Categories</h5>
+                                    <h5 className="mt-1"><HiBars3 className="me-2" />Categories</h5>
                                     <span className="fas fa-chevron-down" />
                                 </a>
                             </p>
@@ -238,7 +235,7 @@ const ShopListData = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-12 col-lg-9">
                         <div className='container'>
                             <div className="d-flex justify-content-between">
                                 <h2 className="text-success">Shopping</h2>
@@ -269,7 +266,7 @@ const ShopListData = () => {
                                         <b>Yay! NO More Data</b>
                                     </p>}
                                 > */}
-                                {loading ? products && products.length > 0 && products.map((product) => {
+                                {loading ? products && products.length > 0 && products.slice(0, visible).map((product) => {
                                     return (
                                         <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                             <div className='border shadow-sm' >
@@ -298,6 +295,7 @@ const ShopListData = () => {
                                     )
                                 }) : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>}
                                 {/* </InfiniteScroll> */}
+                                <Button variant="primary" onClick={handleShowMore} >Load More</Button>
                             </div>
                         </div>
                     </div>
