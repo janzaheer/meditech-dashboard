@@ -6,16 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCartTotal, clearCart } from '../../store/cartSlice';
 import axios from 'axios';
 import { BASE_URL, ORDER_PLACED_ENDPOINT, ADDRESS_ADD_ENDPOINT } from '../../utlis/apiUrls';
-import { MdAddCall, MdMarkEmailUnread } from 'react-icons/md';
+import { MdAddCall, MdMarkEmailUnread, MdAddLocationAlt } from 'react-icons/md';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { FaAddressCard, FaUserCircle } from 'react-icons/fa'
 import { ImLocation2 } from 'react-icons/im';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
+import { Button, Col, Form, Row, Modal, Badge } from 'react-bootstrap';
 
 const Checkout = () => {
-    
+
     const dispatch = useDispatch();
     const { data: products, totalItems, totalAmount } = useSelector(state => state.cart);
     const user = useSelector((state) => state.user)
@@ -28,6 +29,8 @@ const Checkout = () => {
     const [phone_number, setPhone_number] = useState('')
     const [email_address, setEmail_address] = useState('')
     const [address, setAddress] = useState('')
+    const [show, setShow] = useState(false);
+    const [showAddressListModel, setShowAddressListModel] = useState(false);
     const navigate = useNavigate();
 
     const id = user.user.id
@@ -62,7 +65,7 @@ const Checkout = () => {
         console.log('order-clicked')
         let OrderURL = BASE_URL + ORDER_PLACED_ENDPOINT
         console.log('--------------------------atif---------------------')
-        console.log(JSON.stringify(placeOrder))
+        console.log('newArray', placeOrder)
         try {
             const res = await fetch(OrderURL, {
                 method: "post",
@@ -78,7 +81,7 @@ const Checkout = () => {
             })
             const data = await res.json();
             console.log('order-data', data);
-            console.log('oderId', data, data.id)
+            // console.log('oderId', data, data.id)
             navigate(`/productSuccess/${data, data.id}`)
             dispatch(clearCart());
             return data;
@@ -108,6 +111,9 @@ const Checkout = () => {
         })
     }
 
+    const handleCloseShowAddressListModel = () => setShowAddressListModel(false);
+    const handleShowShowAddressListModel = () => setShowAddressListModel(true);
+
     const handleSelectNewAddress = async (id, phone_number, email_address, address) => {
         console.log({ id, phone_number, email_address, address })
         try {
@@ -118,11 +124,14 @@ const Checkout = () => {
             toast.success('Selected New Address Successfully', {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
-              });
+            });
         } catch (error) {
             console.log(error)
         }
     }
+
+    const handleCloseAdd = () => setShow(false);
+    const handleShowAdd = () => setShow(true);
 
     const addAddress = async (e) => {
         e.preventDefault();
@@ -139,29 +148,79 @@ const Checkout = () => {
                 }
             })
             console.log(res.data)
-            toast.success('Add New Address Successfully', {
+            setShow(false)
+            toast.success('new Address Added Successfully!', {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
-              });
+            });
+            setAddress('')
+            setEmail_address('')
+            setPhone_number('')
             userList()
         } catch (error) {
             console.log('add error', error)
+            toast.error('Please Required These Fields', {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
+            setShow(true)
         }
-        setAddress('')
-        setEmail_address('')
-        setPhone_number('')
     }
-
-console.log('list', products.length )
+    console.log('list', products.length)
     return (
         <div>
             <Header />
-            <ToastContainer/>
+            <ToastContainer />
+
+            {/* <Modal
+                show={show}
+                onHide={handleCloseShowAddressListModel}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal title</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='row'>
+                        {userData.addresses?.map((item, index) => {
+                            return (
+                                <div className='col-6' key={item.id}>
+                                    <div className='card shadow-sm my-2'  >
+                                        <div className="card-body product" data-bs-dismiss="modal" onClick={() => handleSelectNewAddress(item.id, item?.phone_number, item?.email_address, item?.address)}>
+                                            <div className='d-flex justify-content-between'>
+                                                <div>
+                                                    <p className='text-muted'><ImLocation2 /> Address # {index + 1}</p>
+                                                </div>
+                                                <div>
+                                                 
+                                                </div>
+                                            </div>
+                                            <hr className='mb-3 mt-0' />
+                                            <h6 className="card-subtitle mb-2 text-muted"><FaUserCircle /> Name: {userData.first_name} {userData.last_name}</h6>
+                                            <p className='card-subtitle mb-1'><MdAddCall /> Phone: {item?.phone_number}</p>
+                                            <p className='card-subtitle mb-1'><MdMarkEmailUnread /> Email: {item?.email_address}</p>
+                                            <p className="card-text"><FaAddressCard /> Address: {item?.address}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="outline-success" onClick={handleShowAdd}>
+                        Add New Delivery Address <MdAddLocationAlt />
+                    </Button>
+                </Modal.Footer>
+            </Modal> */}
+
+            
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="staticBackdropLabel">Select Address</h1>
+                            <h1 className="modal-title fs-5 text-success" id="staticBackdropLabel">Select Address / Add New Address</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <div className="modal-body">
@@ -202,7 +261,40 @@ console.log('list', products.length )
             <div className="container checkout-container mt-5">
                 <div>
                     {/* Modal */}
-                    <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    {/* <Modal show={show} onHide={handleCloseAdd}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Add Product</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form onSubmit={addAddress} >
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} controlId="formGridEmail">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control type="text" value={email_address} name='email_address' onChange={(e) => setEmail_address(e.target.value)}  />
+                                    </Form.Group>
+                                    <Form.Group as={Col} controlId="formGridPhone_number">
+                                        <Form.Label>Phone</Form.Label>
+                                        <Form.Control type="number" value={phone_number} name='phone_number' onChange={(e) => setPhone_number(e.target.value)}  />
+                                    </Form.Group>
+                                </Row>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlDescription1">
+                                    <Form.Label>Address</Form.Label>
+                                    <Form.Control type='text' placeholder="1234 Main St" name='address' value={address} onChange={(e) => setAddress(e.target.value)} />
+                                </Form.Group>
+                                <Button variant="success"
+                                    // onClick={handleCloseAdd} 
+                                    type="submit">
+                                    Save Address
+                                </Button>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer className="modal-footer d-flex justify-content-center align-items-center">
+                            <div>
+                                <p>Thanks For Add New Address</p>
+                            </div>
+                        </Modal.Footer>
+                    </Modal> */}
+                    <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true" >
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -237,7 +329,7 @@ console.log('list', products.length )
                 </div>
                 <main>
                     <div className='row g-1'>
-                        <div className='col-12 bg-white rounded p-5 mb-3 shadow'>   
+                        <div className='col-12 bg-white rounded p-5 mb-3 shadow'>
                             <div className='card shadow'>
                                 <div className="card-body mb-5">
                                     <div className='d-flex justify-content-between align-items-center'>
@@ -246,7 +338,11 @@ console.log('list', products.length )
                                         </div>
                                         <div className='mb-2'>
                                             <button type="button" className="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                Changes Address </button>
+                                                <MdAddLocationAlt /> Changes Address </button>
+                                            {/* <Button variant="outline-success" onClick={handleShowShowAddressListModel}>
+                                                <MdAddLocationAlt /> Changes Address
+                                            </Button> */}
+
                                         </div>
                                     </div>
 
@@ -320,8 +416,8 @@ console.log('list', products.length )
                                         <p>Amount</p>
                                         <p className='text-success fw-bolder'>Total:</p>
                                     </div>
-                                    <div className='mt-4'>
-                                        <p> {products?.quantity}</p>
+                                    <div className='mt-1'>
+                                        <p> {totalItems}</p>
                                         <p className='text-wrap'> Calculate by support after placing order </p>
                                         <p>$ {totalAmount}</p>
                                         <p className='text-success fw-bolder'>$ {totalAmount}</p>
@@ -337,7 +433,7 @@ console.log('list', products.length )
 
 
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

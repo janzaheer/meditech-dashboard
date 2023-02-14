@@ -13,12 +13,12 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import './product.css'
 import { Link } from 'react-router-dom';
 import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
-// import S3FileUpload from 'react-s3';
-//Optional Import
 import { uploadFile } from 'react-s3';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+
 window.Buffer = window.Buffer || require("buffer").Buffer;
+
 
 const config = {
   bucketName: 'meditech-products',
@@ -40,7 +40,6 @@ const Products = () => {
   const [store, setStore] = useState('');
   const [categoriesData, setCategoriesData] = useState('')
   const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
-  const [isError, setIsError] = useState(false)
   const [selectImage, setSelectImage] = useState('')
   const [selectImage2, setSelectImage2] = useState('')
   const [selectImage3, setSelectImage3] = useState('')
@@ -69,9 +68,8 @@ const Products = () => {
       .then((res) => {
         setProducts(res.data.results)
         // setLoading(true)
-        console.log(res.data)
+        // console.log(res.data)
         // setNextPageUrl(res?.data?.next)
-        console.log('----22--------------------')
       })
       .catch((err) => console.log(err))
   }
@@ -151,6 +149,7 @@ const Products = () => {
   }
   console.log('here-4', selectImage4)
 
+
   const addProducts = async (e) => {
     console.log('------------------add-----------------')
     e.preventDefault();
@@ -184,40 +183,41 @@ const Products = () => {
       }
     }).then((resp) => {
       console.log(resp.ok)
+
+      setShowAdd(false)
+      toast.success('Product Add Successfully', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
       setTitle('')
       setDescription('')
       setSelectImage('')
       setBrand('')
       setPrice('')
       setStore('')
-      setCategoriesData('')
-
-
-      toast.success('Product Add Successfully', {
-        position: toast.POSITION.TOP_RIGHT,
-        theme: "colored",
-      });
+      setCategoriesDataSelect('')
       console.log('-----------------11-------------------')
     }).catch(resp => {
       console.log('------------------------catch-------------------')
-      console.log(resp.response)
+      setShowAdd(true)
+      if (resp.response) {
+        console.log(resp.response);
+        toast.error('please required these fields', {
+          position: toast.POSITION.TOP_RIGHT,
+          theme: "colored",
+        });
+
+      } else if (resp.request) {
+        toast.warning('network error', {
+          position: toast.POSITION.TOP_RIGHT,
+          theme: "colored",
+        });
+      } else {
+        console.log(resp);
+      }
     })
+    console.log('error-comes-here')
     productList()
-    // if (res.ok) {
-    //   setTitle('')
-    //   setDescription('')
-    //   setSelectImage('')
-    //   setBrand('')
-    //   setPrice('')
-    //   setStore('')
-    //   // setCategoriesData('')
-    //   // productList()
-    // } else {
-    //   toast.error(res.title, {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //     theme: "colored",
-    //   });
-    // }
   }
 
   const categoriesDataSelectFun = (e) => {
@@ -235,12 +235,13 @@ const Products = () => {
           Authorization: `Token ${userToken}`
         }
       })
-      console.log('cateeeeee', res.data.results)
+      // console.log('cateeeeee', res.data.results)
       setCategoriesData(res.data.results)
     } catch (error) {
       console.log(error)
     }
   }
+
 
   const [show, setShow] = useState(false);
 
@@ -262,25 +263,25 @@ const Products = () => {
 
         <Modal show={showAdd} onHide={handleCloseAdd}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Add Product</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={addProducts} autocomplete >
+            <Form onSubmit={addProducts} >
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridTitle">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control type="text" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
+                  <Form.Control type="text" name='title' placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridPrice">
                   <Form.Label>Price</Form.Label>
-                  <Form.Control type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                  <Form.Control type="text" name='price' placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
                 </Form.Group>
               </Row>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridUploadImage1">
                   <Form.Label>Upload Image 1st</Form.Label>
-                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" />
+                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" required />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridUploadImage2">
@@ -301,18 +302,18 @@ const Products = () => {
               </Row>
               <Form.Group className="mb-3" controlId="exampleForm.ControlDescription1">
                 <Form.Label>Description</Form.Label>
-                <Form.Control as="textarea" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Form.Control as="textarea" name='description' rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
               </Form.Group>
 
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridBrand">
                   <Form.Label>Brand</Form.Label>
-                  <Form.Control type="text" placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
+                  <Form.Control type="text" name='brand' placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>Categories</Form.Label>
-                  <Form.Select defaultValue="Choose..." onChange={categoriesDataSelectFun} value={categoriesDataSelect} >
+                  <Form.Select defaultValue="Choose..." onChange={categoriesDataSelectFun} name='categoriesDataSelect' value={categoriesDataSelect} >
                     <option>Choose...</option>
                     {categoriesData && categoriesData.map((catee) => {
                       return (
@@ -324,11 +325,13 @@ const Products = () => {
 
                 <Form.Group as={Col} controlId="formGridStore">
                   <Form.Label>Store</Form.Label>
-                  <Form.Control type="text" placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
+                  <Form.Control type="text" name='Store' placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
                 </Form.Group>
               </Row>
 
-              <Button variant="primary" onClick={handleCloseAdd} type="submit">
+              <Button variant="primary"
+                // onClick={handleCloseAdd} 
+                type="submit">
                 Save Product
               </Button>
 

@@ -78,12 +78,26 @@ const cartSlice = createSlice({
             state.data = tempCart;
             // storeInLocalStorage(state.data);
         },
+        // getCartTotal(state) {
+        //     state.totalAmount = state.data.reduce((cartTotal, cartItem) => {
+        //         return cartTotal += cartItem.totalPrice;
+        //     }, 0);
+        //     state.totalItems = state.data.length;
+        // },
         getCartTotal(state) {
-            state.totalAmount = state.data.reduce((cartTotal, cartItem) => {
-                return cartTotal += cartItem.totalPrice;
-            }, 0);
-            state.totalItems = state.data.length;
-        }
+            let {totalAmount,totalItems} = state.data.reduce((cartTotal, cartItem) => {
+                const { price, quantity } = cartItem
+                const itemTotal = price * quantity;
+                cartTotal.totalAmount += itemTotal;
+                cartTotal.totalItems += quantity;
+                return cartTotal
+            }, {
+                totalAmount:0,
+              totalItems: 0,
+            });
+            state.totalItems = totalItems;
+            state.totalAmount = parseInt(totalAmount.toFixed(2))
+        },
     },
 });
 

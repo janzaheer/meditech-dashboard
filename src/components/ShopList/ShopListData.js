@@ -21,13 +21,13 @@ const ShopListData = () => {
     const [addFav, setAddFav] = useState('')
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
-    const userToken = useSelector(state => state.user.token);
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
     // const [nextPageUrl, setNextPageUrl] = useState('');
     const [categoriesData, setCategoriesData] = useState('')
-    const [visible, setVisible] = useState(10)
+    const [visible, setVisible] = useState(30)
 
+    const userToken = useSelector(state => state.user.token);
 
     const override = CSSProperties = {
         display: "block",
@@ -122,9 +122,10 @@ const ShopListData = () => {
     }
 
     const categoryList = async (e) => {
-        setCat(e.target.value)
-        console.log('target', e.target.value)
-        let Api = `${CATEGORY_MENU_LIST_ENDPOINT}${e.target.value}`
+        let val = e.target.value
+        setCat(val)
+        console.log('target', val)
+        let Api = `${CATEGORY_MENU_LIST_ENDPOINT}${val}`
         let finalURL = BASE_URL + Api
 
         axios.get(finalURL, {
@@ -133,15 +134,29 @@ const ShopListData = () => {
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('catLIst',res.data.results)
+            // console.log('catLIst',res.data.results)
             setProducts(res.data.results)
 
         }).catch(error => {
             console.log(error)
         })
-
     }
 
+    const categoryData = async () => {
+        let FInal = BASE_URL + CATEGORY_ENDPOINT
+        try {
+            let res = await axios.get(FInal, {
+                headers: {
+                    'Content-Type': "application/json",
+                    Authorization: `Token ${userToken}`
+                }
+            })
+            // console.log('catData',res.data.results)
+            setCategoriesData(res.data.results)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     // if (status === STATUSES.LOADING) {
     //     return <h6 className="my-5"><HashLoader color='#198754'
     //         cssOverride={override}
@@ -155,31 +170,12 @@ const ShopListData = () => {
     const handleSort = async (e) => {
         let val = e.target.value;
         setSortTerm(val)
-        console.log('click-e')
+        console.log('click-e', val)
         const response = await fetch(`${BASE_URL}${SORT_ENDPOINT}${val}`);
         const data = await response.json();
         setProducts(data.results)
         return data.results;
     }
-
-    
-    const categoryData = async () => {
-        let FInal = BASE_URL + CATEGORY_ENDPOINT
-        try {
-            let res = await axios.get(FInal, {
-                headers: {
-                    'Content-Type': "application/json",
-                    Authorization: `Token ${userToken}`
-                }
-            })
-            console.log('catData',res.data.results)
-            setCategoriesData(res.data.results)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
 
     return (
         <div>
@@ -243,10 +239,10 @@ const ShopListData = () => {
                                     <select className="form-select" aria-label="Default select example" onChange={handleSort}
                                         value={sortTerm}>
                                         <option selected>Sort By</option>
-                                        <option value="price">Low to High</option>
-                                        <option value="-price">High to Low</option>
-                                        <option value="title">A-Z</option>
-                                        <option value="-title">Z-A</option>
+                                        <option value="price">Price: Low to High</option>
+                                        <option value="-price">Price: High to Low</option>
+                                        <option value="title">Alphabets: A-Z</option>
+                                        <option value="-title">Alphabets: Z-A</option>
                                         <option value="created_a">Latest</option>
                                         <option value="-created_a">Old</option>
                                     </select>
