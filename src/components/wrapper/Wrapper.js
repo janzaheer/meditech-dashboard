@@ -30,22 +30,6 @@ const Wrapper = () => {
   ]
   return (
     <>
-      {/* <section className='wrapper background'>
-        <div className='container grid2'>
-          {data.map((val, index) => {
-            return (
-              <div className='product' key={index}>
-                <div className='img icon-circle'>
-                  <i>{val.cover}</i>
-                </div>
-                <h3>{val.title}</h3>
-                <p>{val.decs}</p>
-              </div>
-            )
-          })}
-        </div>
-      </section> */}
-
       <section className="wrapper background">
         <div className="container">
           <div className="row">
@@ -65,41 +49,9 @@ const Wrapper = () => {
                 </div>
               )
             })}
-
           </div>
         </div>
-
       </section>
-
-
-
-      {/* <section className="wrapper background">
-
-
-        <div className="row">
-
-          {data.map((val, index) => {
-            return (
-              // <div className="container">
-              <div className="col-3">
-                <div className='product p-3' key={index}>
-                  <div className='img icon-circle'>
-                    <i>{val.cover}</i>
-                  </div>
-                  <h3>{val.title}</h3>
-                  <p className="text-muted">{val.decs}</p>
-                </div>
-              </div>
-              // </div>
-
-            )
-          })}
-
-        </div>
-      </section> */}
-
-
-
     </>
   )
 }

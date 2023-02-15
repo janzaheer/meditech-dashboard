@@ -5,7 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartTotal, clearCart } from '../../store/cartSlice';
 import axios from 'axios';
-import { BASE_URL, ORDER_PLACED_ENDPOINT, ADDRESS_ADD_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, ORDER_PLACED_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT } from '../../utlis/apiUrls';
 import { MdAddCall, MdMarkEmailUnread, MdAddLocationAlt } from 'react-icons/md';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,7 +13,7 @@ import { FaAddressCard, FaUserCircle } from 'react-icons/fa'
 import { ImLocation2 } from 'react-icons/im';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
-import { Button, Col, Form, Row, Modal, Badge } from 'react-bootstrap';
+import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 
 const Checkout = () => {
 
@@ -40,7 +40,6 @@ const Checkout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [useSelector(state => state.cart)]);
 
-
     useEffect(() => {
         userList()
     }, [])
@@ -60,11 +59,8 @@ const Checkout = () => {
     });
     placeOrder['total_quantity'] = my_total_quantity
 
-
     const handlePlaceOrder = async () => {
-        console.log('order-clicked')
         let OrderURL = BASE_URL + ORDER_PLACED_ENDPOINT
-        console.log('--------------------------atif---------------------')
         console.log('newArray', placeOrder)
         try {
             const res = await fetch(OrderURL, {
@@ -77,11 +73,9 @@ const Checkout = () => {
                 body: JSON.stringify(
                     placeOrder,
                 ),
-                // body: JSON.stringify(body)
             })
             const data = await res.json();
             console.log('order-data', data);
-            // console.log('oderId', data, data.id)
             navigate(`/productSuccess/${data, data.id}`)
             dispatch(clearCart());
             return data;
@@ -90,12 +84,10 @@ const Checkout = () => {
         }
     }
 
-
     const userList = async () => {
-        console.log('---------------------11------ ------')
-        let Api = `/api/v1/user/${id}/`
-        let AddFavURL = BASE_URL + Api
-        axios.get(AddFavURL, {
+        let Api = `${USER_LIST_ENDPOINT}${id}/`
+        let userURL = BASE_URL + Api
+        axios.get(userURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
@@ -115,7 +107,6 @@ const Checkout = () => {
     const handleShowShowAddressListModel = () => setShowAddressListModel(true);
 
     const handleSelectNewAddress = async (id, phone_number, email_address, address) => {
-        console.log({ id, phone_number, email_address, address })
         try {
             setSelectedAddressPhone(phone_number)
             setSelectedAddressEmail(email_address)
@@ -125,6 +116,7 @@ const Checkout = () => {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
             });
+            setShowAddressListModel(false)
         } catch (error) {
             console.log(error)
         }
@@ -166,20 +158,21 @@ const Checkout = () => {
             setShow(true)
         }
     }
-    console.log('list', products.length)
+
     return (
         <div>
             <Header />
             <ToastContainer />
-
-            {/* <Modal
-                show={show}
+            {/* Address List Model start */}
+            <Modal
+                size="lg"
+                show={showAddressListModel}
                 onHide={handleCloseShowAddressListModel}
                 backdrop="static"
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title className='text-success' >Select New Address</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
@@ -187,13 +180,12 @@ const Checkout = () => {
                             return (
                                 <div className='col-6' key={item.id}>
                                     <div className='card shadow-sm my-2'  >
-                                        <div className="card-body product" data-bs-dismiss="modal" onClick={() => handleSelectNewAddress(item.id, item?.phone_number, item?.email_address, item?.address)}>
+                                        <div className="card-body product" onClick={() => handleSelectNewAddress(item.id, item?.phone_number, item?.email_address, item?.address)}>
                                             <div className='d-flex justify-content-between'>
                                                 <div>
                                                     <p className='text-muted'><ImLocation2 /> Address # {index + 1}</p>
                                                 </div>
                                                 <div>
-                                                 
                                                 </div>
                                             </div>
                                             <hr className='mb-3 mt-0' />
@@ -213,68 +205,25 @@ const Checkout = () => {
                         Add New Delivery Address <MdAddLocationAlt />
                     </Button>
                 </Modal.Footer>
-            </Modal> */}
-
-            
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5 text-success" id="staticBackdropLabel">Select Address / Add New Address</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-                        </div>
-                        <div className="modal-body">
-                            <div className='row'>
-                                {userData.addresses?.map((item, index) => {
-                                    return (
-                                        <div className='col-6' key={item.id}>
-                                            <div className='card shadow-sm my-2'  >
-                                                <div className="card-body product" data-bs-dismiss="modal" onClick={() => handleSelectNewAddress(item.id, item?.phone_number, item?.email_address, item?.address)}>
-                                                    <div className='d-flex justify-content-between'>
-                                                        <div>
-                                                            <p className='text-muted'><ImLocation2 /> Address # {index + 1}</p>
-                                                        </div>
-                                                        <div>
-                                                            {/* <Link to='#' className='text-danger' onClick={() => handleDelete(item.id)} ><GiCrossMark /></Link> */}
-                                                        </div>
-                                                    </div>
-                                                    <hr className='mb-3 mt-0' />
-                                                    <h6 className="card-subtitle mb-2 text-muted"><FaUserCircle /> Name: {userData.first_name} {userData.last_name}</h6>
-                                                    <p className='card-subtitle mb-1'><MdAddCall /> Phone: {item?.phone_number}</p>
-                                                    <p className='card-subtitle mb-1'><MdMarkEmailUnread /> Email: {item?.email_address}</p>
-                                                    <p className="card-text"><FaAddressCard /> Address: {item?.address}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <div className='address-form '>
-                                <button className='btn btn-success w-100' data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Delivery Address</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </Modal>
+            {/* Address List Model End */}
             <div className="container checkout-container mt-5">
                 <div>
-                    {/* Modal */}
-                    {/* <Modal show={show} onHide={handleCloseAdd}>
+                    {/* Add Address Modal Start */}
+                    <Modal show={show} onHide={handleCloseAdd}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Add Product</Modal.Title>
+                            <Modal.Title className='text-success'>Add Product</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form onSubmit={addAddress} >
                                 <Row className="mb-3">
                                     <Form.Group as={Col} controlId="formGridEmail">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control type="text" value={email_address} name='email_address' onChange={(e) => setEmail_address(e.target.value)}  />
+                                        <Form.Control type="text" value={email_address} name='email_address' onChange={(e) => setEmail_address(e.target.value)} />
                                     </Form.Group>
                                     <Form.Group as={Col} controlId="formGridPhone_number">
                                         <Form.Label>Phone</Form.Label>
-                                        <Form.Control type="number" value={phone_number} name='phone_number' onChange={(e) => setPhone_number(e.target.value)}  />
+                                        <Form.Control type="number" value={phone_number} name='phone_number' onChange={(e) => setPhone_number(e.target.value)} />
                                     </Form.Group>
                                 </Row>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlDescription1">
@@ -293,39 +242,8 @@ const Checkout = () => {
                                 <p>Thanks For Add New Address</p>
                             </div>
                         </Modal.Footer>
-                    </Modal> */}
-                    <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                        <div className="modal-dialog modal-lg">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Information</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-                                </div>
-                                <div className="modal-body">
-                                    <form className="row g-3" onSubmit={addAddress}>
-                                        <div className="col-md-6">
-                                            <label htmlFor="inputEmail4" className="form-label">Email</label>
-                                            <input type="email" className="form-control" id="inputEmail4" value={email_address}
-                                                name='email_address' onChange={(e) => setEmail_address(e.target.value)} required />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <label htmlFor="inputPhone4" className="form-label">Phone</label>
-                                            <input type="number" className="form-control" id="inputPhone4" value={phone_number}
-                                                name='phone_number' onChange={(e) => setPhone_number(e.target.value)} required />
-                                        </div>
-                                        <div className="col-12">
-                                            <label htmlFor="inputAddress" className="form-label">Address</label>
-                                            <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St"
-                                                name='address' value={address} onChange={(e) => setAddress(e.target.value)} required />
-                                        </div>
-                                        <div className="col-12">
-                                            <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Add Address</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </Modal>
+                     {/* Add Address Modal End */}
                 </div>
                 <main>
                     <div className='row g-1'>
@@ -337,15 +255,11 @@ const Checkout = () => {
                                             <h5 className="card-title"><ImLocation2 /> Address</h5>
                                         </div>
                                         <div className='mb-2'>
-                                            <button type="button" className="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                <MdAddLocationAlt /> Changes Address </button>
-                                            {/* <Button variant="outline-success" onClick={handleShowShowAddressListModel}>
+                                            <Button variant="outline-success" onClick={handleShowShowAddressListModel}>
                                                 <MdAddLocationAlt /> Changes Address
-                                            </Button> */}
-
+                                            </Button>
                                         </div>
                                     </div>
-
                                     <hr className='mt-0' />
                                     <h6 className="card-subtitle mb-2 text-muted" >Name: {user.user.username}</h6>
                                     <h6 className="card-subtitle mb-2 text-muted"> FullName: {userData?.first_name} {userData?.last_name}</h6>
@@ -358,7 +272,7 @@ const Checkout = () => {
                     </div>
                 </main>
                 <div className='row justify-content-center'>
-                    <div className='col-7 bg-white rounded shadow me-3'>
+                    <div className='col-12 sol-sm-12 col-md-7 bg-white rounded shadow me-3 mb-2'>
                         <div className='checkout-product'>
                             <div className="table-responsive mt-2">
                                 <Scrollbars>
@@ -388,7 +302,9 @@ const Checkout = () => {
                                                                 </div>
                                                             </div>
                                                         </th>
-                                                        <td className="border-0 align-middle"><strong>{item.price}</strong></td>
+                                                        <td className="border-0 align-middle"><strong>
+                                                            {item.price}
+                                                        </strong></td>
                                                         <td className="border-0 align-middle"><strong>{item.quantity}</strong></td>
                                                     </tr>
                                                 )
@@ -396,12 +312,10 @@ const Checkout = () => {
                                         </tbody>
                                     </table>
                                 </Scrollbars>
-
                             </div>
                         </div>
                     </div>
-
-                    <div className='col-4 bg-white rounded shadow'>
+                    <div className='col-12 sol-sm-12 col-md-4 bg-white rounded shadow'>
                         <div className='box-payment'>
                             <h4 className='mt-3'>Discount and Payment</h4>
                             <hr />
@@ -416,22 +330,18 @@ const Checkout = () => {
                                         <p>Amount</p>
                                         <p className='text-success fw-bolder'>Total:</p>
                                     </div>
-                                    <div className='mt-1'>
+                                    <div className='mt-1 ms-1'>
                                         <p> {totalItems}</p>
-                                        <p className='text-wrap'> Calculate by support after placing order </p>
+                                        <p className='text-wrap'>Calculate by support after placing order </p>
                                         <p>$ {totalAmount}</p>
                                         <p className='text-success fw-bolder'>$ {totalAmount}</p>
                                     </div>
                                 </div>
                                 <button onClick={() => handlePlaceOrder()} className='btn btn-outline-success w-100 my-3'>Place Order</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
             <Footer />
         </div>

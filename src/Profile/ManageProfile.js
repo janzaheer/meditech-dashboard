@@ -53,8 +53,6 @@ const ManageProfile = () => {
         })
     }
 
-
-
     const handleCloseAdd = () => setShow(false);
     const handleShowAdd = () => setShow(true);
     const addAddress = async (e) => {

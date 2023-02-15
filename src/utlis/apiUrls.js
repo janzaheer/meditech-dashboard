@@ -1,5 +1,6 @@
 
 export const BASE_URL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/`;
+// export const BASE_URL = `http://ec2-43-207-140-105.ap-northeast-1.compute.amazonaws.com/`;
 export const END_POINT = `api/v1/items/`; // list endpoint
 export const LOGIN_ENDPOINT = 'api/v1/auth/login/';
 export const ORDER_ENDPOINT = 'api/v1/orders/';
@@ -12,4 +13,6 @@ export const ADDRESS_REMOVE_ENDPOINT = 'api/v1/user/remove_address/';
 export const ADDRESS_ADD_ENDPOINT = `api/v1/user/add_address/`;
 export const USER_LIST_ENDPOINT = 'api/v1/user/';
 
-// for change page
+export const ORDER_CANCEL = (id) => {
+    return `api/v1/orders/${id}/canceled_order/`
+}

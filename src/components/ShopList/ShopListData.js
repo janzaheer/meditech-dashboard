@@ -11,8 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-import { Button } from "react-bootstrap";
-// import InfiniteScroll from 'react-infinite-scroll-component';
+// import { Button } from "react-bootstrap";
+ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ShopListData = () => {
 
@@ -25,7 +25,7 @@ const ShopListData = () => {
     const [itemFavourite, setItemFavourite] = useState({})
     // const [nextPageUrl, setNextPageUrl] = useState('');
     const [categoriesData, setCategoriesData] = useState('')
-    const [visible, setVisible] = useState(30)
+    // const [visible, setVisible] = useState(30)
 
     const userToken = useSelector(state => state.user.token);
 
@@ -58,35 +58,33 @@ const ShopListData = () => {
         }
     }
 
-    const handleShowMore = () => {
-        setVisible((pre) => pre + 10)
-    }
+    // const handleShowMore = () => {
+    //     setVisible((pre) => pre + 10)
+    // }
 
     const productList = async () => {
-        // let Page_Limit = res.data.next
-        // console.log(Page_Limit)
-        // let pageNo = Math.ceil(products.length / Page_Limit) + 1;
-        // const queryParam = '?page=' + pageNo + Page_Limit
-        let final = BASE_URL + END_POINT
-        // if (next_page_url) {
-        //     final = next_page_url;
-        //   }
+        
+        let aa = `api/v1/items/`
+        let final = BASE_URL + aa
+
         return await axios.get(final, {
             headers: headers
         })
-            // .then((res) => setProducts(res.data.results), setLoading(true))
             .then((res) => {
+                
                 const apiRes = res.data.results
-                const mergeData = [...products, ...apiRes]
-                setProducts(mergeData)
+                 setProducts(apiRes)
+                 console.log('new',res.data)
                 setLoading(true)
-                // setNextPageUrl(res?.data?.next)
             })
             .catch((err) => console.log(err))
     }
 
+    const lazyLoading = () => {
+
+    }
+
     const handleFav = async (id) => {
-        // console.log('click-id', id)
         console.log('addd', addFav)
 
         let AddFavURL = BASE_URL + FAV_ENDPOINT
@@ -122,7 +120,7 @@ const ShopListData = () => {
     }
 
     const categoryList = async (e) => {
-        let val = e.target.value
+        let val = e.target.value;
         setCat(val)
         console.log('target', val)
         let Api = `${CATEGORY_MENU_LIST_ENDPOINT}${val}`
@@ -187,8 +185,8 @@ const ShopListData = () => {
                         <hr className="border border-success border-2 opacity-50"></hr>
                         <div>
                             <p>
-                                <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-                                    {/* <span className="fas fa-bars"><span className="ps-3">Categories</span></span> */}
+                                <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse"
+                                 href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
                                     <h5 className="mt-1"><HiBars3 className="me-2" />Categories</h5>
                                     <span className="fas fa-chevron-down" />
                                 </a>
@@ -250,26 +248,22 @@ const ShopListData = () => {
 
                             </div>
                             <hr className="border border-success border-2 opacity-50"></hr>
-                            <div className="row g-2">
-                                {/* {loading && <HashLoader/> } */}
-                                {/* <InfiniteScroll
+                            {/* {loading && <HashLoader/> } */}
+                            <InfiniteScroll
                                     dataLength={products.length}
                                     next={lazyLoading}
-                                    hasMore={products.length > true}
+                                    hasMore={true}
                                     className="d-flex flex-wrap"
                                     loader={<div key={0} ><h6>loading.......................</h6></div>}
-                                    endMessage={<p style={{ textAlign: 'center' }}>
-                                        <b>Yay! NO More Data</b>
-                                    </p>}
-                                > */}
-                                {loading ? products && products.length > 0 && products.slice(0, visible).map((product) => {
+                                >
+                            <div className="row g-2">    
+                                {loading ? products && products.map((product) => {
                                     return (
                                         <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                             <div className='border shadow-sm' >
                                                 <div className="product">
-                                                    {/* <span className="off bg-success">{product?.category}</span> */}
                                                     <div className="text-center mb-1">
-                                                        <img src={product.images[0].image_url} alt='' className="images-class" width={180} height={180} />
+                                                        <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                     </div>
                                                     <div className="p-1">
                                                         <div className="about">
@@ -290,9 +284,9 @@ const ShopListData = () => {
                                         </div>
                                     )
                                 }) : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>}
-                                {/* </InfiniteScroll> */}
-                                <Button variant="primary" onClick={handleShowMore} >Load More</Button>
+                                {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
                             </div>
+                            </InfiniteScroll>
                         </div>
                     </div>
                 </div>
