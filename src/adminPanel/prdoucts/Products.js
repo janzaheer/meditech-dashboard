@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Head from '../head/Head'
-import { BASE_URL, END_POINT } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT } from '../../utlis/apiUrls';
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -44,6 +44,8 @@ const Products = () => {
   const [selectImage2, setSelectImage2] = useState('')
   const [selectImage3, setSelectImage3] = useState('')
   const [selectImage4, setSelectImage4] = useState('')
+  const [showAdd, setShowAdd] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     productList()
@@ -70,7 +72,7 @@ const Products = () => {
 
   const deleteProduct = async (id) => {
     console.log('delete-id', id)
-    let end = `api/v1/items/${id}/`
+    let end = `${END_POINT}${id}/`
     let final = BASE_URL + end
     try {
       let res = await axios.delete(final, {
@@ -147,8 +149,8 @@ const Products = () => {
   const addProducts = async (e) => {
     console.log('------------------add-----------------')
     e.preventDefault();
-    let api = 'api/v1/items/create_item/'
-    let FInal = BASE_URL + api
+    // let api = 'api/v1/items/create_item/'
+    let FInal = BASE_URL + END_POINT + ADD_PRODUCT_ENDPOINT
 
     let imageData = [selectImage]
     if (selectImage2) {
@@ -220,8 +222,7 @@ const Products = () => {
   }
 
   const categoryData = async () => {
-    let api = '/api/v1/category/'
-    let FInal = BASE_URL + api
+    let FInal = BASE_URL + CATEGORY_ENDPOINT
     try {
       let res = await axios.get(FInal, {
         headers: {
@@ -229,25 +230,20 @@ const Products = () => {
           Authorization: `Token ${userToken}`
         }
       })
-      // console.log('cateeeeee', res.data.results)
+      //  console.log('cateeeeee', res.data.results)
       setCategoriesData(res.data.results)
     } catch (error) {
       console.log(error)
     }
   }
 
-
-  const [show, setShow] = useState(false);
-
+  // Edit Model functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [showAdd, setShowAdd] = useState(false);
-
+  // Add Product model functions
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
-
-
 
   return (
     <div>
@@ -323,7 +319,7 @@ const Products = () => {
                 </Form.Group>
               </Row>
 
-              <Button variant="primary"
+              <Button variant="success"
                 // onClick={handleCloseAdd} 
                 type="submit">
                 Save Product

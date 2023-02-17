@@ -12,7 +12,12 @@ export const FAV_ENDPOINT = `api/v1/favourite/items/`;
 export const ADDRESS_REMOVE_ENDPOINT = 'api/v1/user/remove_address/';
 export const ADDRESS_ADD_ENDPOINT = `api/v1/user/add_address/`;
 export const USER_LIST_ENDPOINT = 'api/v1/user/';
+export const ADD_PRODUCT_ENDPOINT = `create_item/`;
 
 export const ORDER_CANCEL = (id) => {
     return `api/v1/orders/${id}/canceled_order/`
+}
+
+export const changeUrl = () => {
+    return 'http://127.0.0.1:8000/';
 }

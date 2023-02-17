@@ -3,14 +3,13 @@ import './SearchList.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchAsyncSearchProduct, getSearchProducts, getSearchProductsStatus, clearSearch } from '../../store/searchSlice';
-import { STATUS } from '../../utlis/status'
 import { NavLink } from 'react-router-dom';
 import '../../components/ShopList/style.css'
 import { FaRegEye } from 'react-icons/fa'
 import Header from './Header';
 import Footer from '../footer/Footer';
 import axios from 'axios';
-import { BASE_URL } from '../../utlis/apiUrls';
+import { BASE_URL, FAV_ENDPOINT } from '../../utlis/apiUrls';
 import Heart from "react-heart";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
@@ -44,10 +43,8 @@ const SearchLIst = () => {
   }
   const handleFav = async (id) => {
     console.log('click-id', id)
-
-
-    let Api = `api/v1/favourite/items/`
-    let AddFavURL = BASE_URL + Api
+    // let Api = `api/v1/favourite/items/`
+    let AddFavURL = BASE_URL + FAV_ENDPOINT
 
     axios.post(AddFavURL, { item_id: id }, {
       headers: {

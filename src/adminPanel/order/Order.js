@@ -8,7 +8,7 @@ import { GiReceiveMoney, GiBottomRight3DArrow } from 'react-icons/gi';
 import { FcProcess } from 'react-icons/fc'
 import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { BASE_URL, ORDER_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL } from '../../utlis/apiUrls';
 import Head from '../head/Head';
 import './order.css'
 import { NavLink } from 'react-router-dom';
@@ -27,10 +27,7 @@ const Order = () => {
     }, [])
 
     const myOrderList = async () => {
-        console.log('---------------------11------ ------')
-        let Api = `${ORDER_ENDPOINT}`
-        let finalURL = BASE_URL + Api
-
+        let finalURL = BASE_URL + ORDER_ENDPOINT
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
@@ -74,8 +71,7 @@ const Order = () => {
 
     const cancelOrder = async (id) => {
         console.log('order-cancel', id)
-        let end = `api/v1/orders/${id}/canceled_order/`
-        let final = BASE_URL + end
+        let final = BASE_URL + ORDER_CANCEL(id)
         try {
             let res = await axios.post(final, {}, {
                 headers: {

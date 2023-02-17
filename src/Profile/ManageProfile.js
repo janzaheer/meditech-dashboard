@@ -11,7 +11,7 @@ import { RiShoppingBag3Fill } from 'react-icons/ri'
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, ORDER_ENDPOINT, ADDRESS_REMOVE_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT } from '../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ADDRESS_REMOVE_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT, changeUrl } from '../utlis/apiUrls';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Scrollbars } from 'react-custom-scrollbars-2';
@@ -121,6 +121,7 @@ const ManageProfile = () => {
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
+            console.log('orderList',res.data)
             setOrderDataList(res.data.results)
         }).catch(error => {
             console.log(error)

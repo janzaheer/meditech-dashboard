@@ -6,12 +6,13 @@ import { HiBars3 } from 'react-icons/hi2';
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT ,changeUrl } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Form from 'react-bootstrap/Form';
 
 const ShopListData = () => {
 
@@ -34,23 +35,8 @@ const ShopListData = () => {
     };
 
     useEffect(() => {
-        productList()
-        lazyLoading();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    // useEffect(() => {
-    //     lazyLoading();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
-
-    useEffect(() => {
-        categoryList()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        categoryData()
+        productList();
+        categoryData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -60,10 +46,6 @@ const ShopListData = () => {
             'Content-Type': "application/json",
             Authorization: `Token ${userToken}`
         }
-    }
-
-    const changeUrl = () => {
-        return 'http://127.0.0.1:8000/';
     }
 
     const productList = async (next_page_url) => {
@@ -98,14 +80,9 @@ const ShopListData = () => {
             productList(final)
         }
         console.log('number', numberCount)
-        // if (products.length >= 134) {
-        //     setHasMore(false)
-        //     return
-        // }
         if (products.length >= numberCount) {
-            return
-        } else {
             setHasMore(false)
+            // return
         }
     }
 
@@ -138,7 +115,6 @@ const ShopListData = () => {
                     theme: "colored",
                 });
             }
-
         }).catch(error => {
             console.log(error)
         })
@@ -148,15 +124,14 @@ const ShopListData = () => {
         let val = e.target.value;
         setCat(val)
         console.log('target', val)
-        let Api = `${CATEGORY_MENU_LIST_ENDPOINT}${val}`
-        let finalURL = BASE_URL + Api
-
+        let finalURL = BASE_URL + CATEGORY_MENU_LIST_ENDPOINT + val
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
+            console.log('cateeee',res.data)
             setProducts(res.data.results)
 
         }).catch(error => {
@@ -249,70 +224,67 @@ const ShopListData = () => {
                             <div className="d-flex justify-content-between">
                                 <h2 className="text-success">Shopping</h2>
                                 <div className="mt-1">
-                                    <select className="form-select" aria-label="Default select example" onChange={handleSort}
-                                        value={sortTerm}>
-                                        <option selected>Sort By</option>
+                                    <Form.Select aria-label="Default select example" onChange={handleSort} value={sortTerm} >
+                                        <option> Sort By </option>
                                         <option value="price">Price: Low to High</option>
                                         <option value="-price">Price: High to Low</option>
                                         <option value="title">Alphabets: A-Z</option>
                                         <option value="-title">Alphabets: Z-A</option>
                                         <option value="created_a">Latest</option>
                                         <option value="-created_a">Old</option>
-                                    </select>
+                                    </Form.Select>
                                 </div>
-
                             </div>
                             <hr className="border border-success border-2 opacity-50"></hr>
                             {/* {loading && <HashLoader/> } */}
-                            {/* <div id="parentScrollDiv" style={{ height:800, overflow:'auto' }}> */}
-                                <InfiniteScroll
-                                    dataLength={products.length}
-                                    next={lazyLoading}
-                                    hasMore={hasMore}
-                                    className="d-flex flex-wrap"
-                                    loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
-                                    endMessage={
-                                        <p style={{ textAlign: "center" }}>
-                                            <b>Yay! You have seen it all</b>
-                                        </p>
-                                    }
-                                    // scrollableTarget='parentScrollDiv'
-                                >
-                                    <div className="row g-2">
-                                        {products && products.map((product) => {
-                                            return (
-                                                <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                                    <div className='border shadow-sm' >
-                                                        <div className="product">
-                                                            <div className="text-center mb-1">
-                                                                <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                            {/* <div id="scrollableDiv" style={{ height: 800, overflow: "auto" }}> */}
+                            <InfiniteScroll
+                                dataLength={products.length}
+                                next={lazyLoading}
+                                hasMore={hasMore}
+                                // className="d-flex flex-wrap"
+                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
+                                // endMessage={
+                                //     <p style={{ textAlign: "center" }}>
+                                //         <b>Yay! You have seen it all</b>
+                                //     </p>
+                                // }
+                                // scrollableTarget="scrollableDiv"
+                            >
+                                <div className="row g-2">
+                                    {products && products.map((product) => {
+                                        return (
+                                            <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                                <div className='border shadow-sm' >
+                                                    <div className="product">
+                                                        <div className="text-center mb-1">
+                                                            <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                        </div>
+                                                        <div className="p-1">
+                                                            <div className="about">
+                                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                                <span className="">$ {product.price}</span>
                                                             </div>
-                                                            <div className="p-1">
-                                                                <div className="about">
-                                                                    <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                                    <span className="">$ {product.price}</span>
+                                                            <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                                <div className="">
+                                                                    <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
                                                                 </div>
-                                                                <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                                    <div className="">
-                                                                        <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
-                                                                    </div>
-                                                                    <div style={{ width: "25px" }}>
-                                                                        <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
-                                                                    </div>
+                                                                <div style={{ width: "25px" }}>
+                                                                    <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )
-                                        })
-                                            // : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>
-                                        }
-                                        {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
-                                    </div>
-                                </InfiniteScroll>
+                                            </div>
+                                        )
+                                    })
+                                        // : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>
+                                    }
+                                    {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
+                                </div>
+                            </InfiniteScroll>
                             {/* </div> */}
-
                         </div>
                     </div>
                 </div>

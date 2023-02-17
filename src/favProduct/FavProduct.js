@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './fav.css';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { BASE_URL } from '../utlis/apiUrls';
+import { BASE_URL, FAV_ENDPOINT } from '../utlis/apiUrls';
 import Heart from "react-heart"
 import { NavLink } from 'react-router-dom';
 import { FaRegEye } from "react-icons/fa";
@@ -13,20 +13,16 @@ import Footer from '../common/footer/Footer';
 
 const FavProduct = () => {
     const userToken = useSelector(state => state.user.token);
-
-    // console.log(userToken);
-    console.log('----------------------11--------------------')
     const [products, setProducts] = useState([])
-    // const [active, setActive] = useState(false)
     const [itemFavourite, setItemFavourite] = useState({})
+    
     useEffect(() => {
 
         handleFavList()
     }, [])
 
     const handleFavList = async () => {
-        let Api = `api/v1/favourite/items/`
-        let FavURL = BASE_URL + Api
+        let FavURL = BASE_URL + FAV_ENDPOINT
         try {
             const res = await axios.get(FavURL, {
                 headers: {
@@ -34,7 +30,7 @@ const FavProduct = () => {
                     Authorization: `Token ${userToken}`
                 }
             })
-            console.log(res.data)
+            console.log('handleFavList',res.data)
             setProducts(res.data)
 
         } catch (error) {
@@ -44,22 +40,16 @@ const FavProduct = () => {
 
     const handleFav = async (id) => {
         console.log('click-id', id)
-
-        let Api = `api/v1/favourite/items/`
-        let AddFavURL = BASE_URL + Api
-
+        let AddFavURL = BASE_URL + FAV_ENDPOINT
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((result) => {
-            console.log(result)
-
-            // setProducts(result.data)
+            console.log('handleFav',result)
             if (result.data.message.includes('remove')) {
                 let idata = itemFavourite
-
                 idata[id] = true
                 setItemFavourite(idata)
                 handleFavList()
@@ -75,17 +65,11 @@ const FavProduct = () => {
                     position: toast.POSITION.TOP_RIGHT,
                     theme: "colored",
                 });
-
-
             }
-
         }).catch(error => {
             console.log(error)
         })
-
     }
-
-
 
     return (
         <div>
@@ -93,7 +77,7 @@ const FavProduct = () => {
             <div className='container fav'>
                 <ToastContainer />
                 <div className='row g-2'>
-                    <h1 className='text-center'>Favorite list</h1>
+                    <h1 className='text-center text-success'>Favorite list</h1>
                     {products.map((product) => {
                         return (
                             <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
@@ -104,7 +88,7 @@ const FavProduct = () => {
                                         </div>
                                         <div className='p-1'>
                                             <div className="about">
-                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
+                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
                                                 <span className="">Rs {product.price}</span>
                                             </div>
                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
