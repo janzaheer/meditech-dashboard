@@ -21,6 +21,7 @@ const SearchLIst = () => {
   const searchProducts = useSelector(getSearchProducts)
   const searchProductsStatus = useSelector(getSearchProductsStatus);
   console.log('searchlist', searchProducts)
+  console.log('searchStatus',searchProductsStatus)
   const userToken = useSelector(state => state.user.token);
   const [itemFavourite, setItemFavourite] = useState({})
 
@@ -41,11 +42,10 @@ const SearchLIst = () => {
       </div>
     )
   }
+
   const handleFav = async (id) => {
     console.log('click-id', id)
-    // let Api = `api/v1/favourite/items/`
     let AddFavURL = BASE_URL + FAV_ENDPOINT
-
     axios.post(AddFavURL, { item_id: id }, {
       headers: {
         'Content-Type': "application/json",
@@ -70,7 +70,6 @@ const SearchLIst = () => {
           theme: "colored",
         });
       }
-
     }).catch(error => {
       console.log(error)
     })
@@ -86,8 +85,8 @@ const SearchLIst = () => {
           <div className='search-content bg-whitesmoke'>
             <div className='container'>
               <div className='py-5'>
-                <div className='title-md'>
-                  <h3>Search results:</h3>
+                <div className='title-md text-center'>
+                  <h3 className='text-success'>Search results</h3>
                 </div>
                 <br />
                 <div className="row g-2">

@@ -49,7 +49,6 @@ const ShopListData = () => {
     }
 
     const productList = async (next_page_url) => {
-        console.log('--------------------11----------------------')
         let final = BASE_URL + END_POINT
         if (next_page_url) {
             final = next_page_url;
@@ -66,14 +65,11 @@ const ShopListData = () => {
                 setNextUrlPage(res?.data?.next)
                 console.log('new', res.data)
                 setNumberCount(res.data.count)
-                // setLoading(true)
-                console.log('---------------------end---------------------')
             })
             .catch((err) => console.log(err))
     }
 
     const lazyLoading = () => {
-        console.log('----------------123------------------')
         let final = BASE_URL + END_POINT
         if (nextUrlPage) {
             final = nextUrlPage.replace(changeUrl(), BASE_URL);
@@ -82,7 +78,6 @@ const ShopListData = () => {
         console.log('number', numberCount)
         if (products.length >= numberCount) {
             setHasMore(false)
-            // return
         }
     }
 
