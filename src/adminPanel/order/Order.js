@@ -3,6 +3,9 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsEyeFill, BsThreeDotsVertical } from 'react-icons/bs';
+import { IoTrashBin, IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
+import { GiReceiveMoney, GiBottomRight3DArrow } from 'react-icons/gi';
+import { FcProcess } from 'react-icons/fc'
 import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { BASE_URL, ORDER_ENDPOINT } from '../../utlis/apiUrls';
@@ -148,10 +151,11 @@ const Order = () => {
                                                                 <BsThreeDotsVertical />
                                                             </a>
                                                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                <li><a className="dropdown-item text-success" href="#">Completed</a></li>
-                                                                <li><a className="dropdown-item text-info" href="#">Received</a></li>
-                                                                <li><a className="dropdown-item text-primary" href="#">Placed</a></li>
-                                                                <li><a className="dropdown-item text-danger" onClick={() => cancelOrder(item?.id)} href="#"> Canceled</a></li>
+                                                                <li><a className="dropdown-item text-success" href="#"><IoCheckmarkDoneCircleSharp/> Completed</a></li>
+                                                                <li><a className="dropdown-item text-info" href="#"><GiReceiveMoney/> Received</a></li>
+                                                                <li><a className="dropdown-item text-primary" href="#"><GiBottomRight3DArrow/> Placed</a></li>
+                                                                <li><a className="dropdown-item text-warning" href="#"><FcProcess/> Processed</a></li>
+                                                                <li><a className="dropdown-item text-danger" onClick={() => cancelOrder(item?.id)} href="#"><IoTrashBin/> Canceled</a></li>
                                                                 <li><NavLink to={`/productSuccess/${item.id}`} className='dropdown-item text-success'><BsEyeFill /> View</NavLink></li>
                                                             </ul>
                                                         </div></td>

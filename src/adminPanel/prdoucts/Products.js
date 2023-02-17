@@ -6,7 +6,7 @@ import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
-import { IoAddCircle } from 'react-icons/io5'
+import { IoAddCircle } from 'react-icons/io5';
 import moment from 'moment';
 import axios from "axios";
 import { Scrollbars } from 'react-custom-scrollbars-2';
@@ -56,9 +56,6 @@ const Products = () => {
 
   const productList = async () => {
     let final = BASE_URL + END_POINT
-    // if (next_page_url) {
-    //     final = next_page_url;
-    //   }
     return await axios.get(final, {
       headers: {
         'Content-Type': "application/json",
@@ -67,14 +64,11 @@ const Products = () => {
     })
       .then((res) => {
         setProducts(res.data.results)
-        // setLoading(true)
-        // console.log(res.data)
-        // setNextPageUrl(res?.data?.next)
       })
       .catch((err) => console.log(err))
   }
 
-  const deleteComments = async (id) => {
+  const deleteProduct = async (id) => {
     console.log('delete-id', id)
     let end = `api/v1/items/${id}/`
     let final = BASE_URL + end
@@ -260,7 +254,7 @@ const Products = () => {
       <Head />
       <div className='container-fluid'>
         <ToastContainer />
-
+        {/* Add Product Model */}
         <Modal show={showAdd} onHide={handleCloseAdd}>
           <Modal.Header closeButton>
             <Modal.Title>Add Product</Modal.Title>
@@ -343,81 +337,6 @@ const Products = () => {
             </div>
           </Modal.Footer>
         </Modal>
-        {/* Add Product Model */}
-        {/* <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-lg modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                <form className="row g-3" onSubmit={addProducts} autocomplete="off">
-                  <div className="col-md-6">
-                    <label htmlFor="inputTitle4" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputPrice4" className="form-label">Price</label>
-                    <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
-                    <input type="file" onChange={uploadImage}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" required />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 2nd</label>
-                    <input type="file" onChange={uploadImage2}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 3rd</label>
-                    <input type="file" onChange={uploadImage3}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
-                  </div>
-                  <div className="col-6">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 4th</label>
-                    <input type="file" onChange={uploadImage4}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
-                      placeholder=' description...' value={description} onChange={(e) => setDescription(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputBrand" className="form-label">Brand</label>
-                    <input type="text" className="form-control" id="inputBrand" placeholder='Enter Brand Name' value={brand} onChange={(e) => setBrand(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">Category</label>
-                    <select id="inputState" className="form-select" onChange={categoriesDataSelectFun} value={categoriesDataSelect}>
-                      <option selected>Choose...</option>
-                      {categoriesData && categoriesData.map((catee) => {
-                        return (
-                          <option key={catee.id} value={catee?.id}>{catee?.name}</option>
-                        )
-                      })}
-                    </select>
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputStore" className="form-label">Store</label>
-                    <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-success">Save Product</button>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer d-flex justify-content-center align-items-center">
-                <div>
-                  <p>Thanks For Add New Product</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
         {/* Add Product Model End */}
 
         {/* Product Edit Model */}
@@ -549,7 +468,7 @@ const Products = () => {
                               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 {/* <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li> */}
                                 <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li>
-                                <li><a className="dropdown-item text-danger" onClick={() => deleteComments(ite?.id)} href="#">Delete <FaTrash /></a></li>
+                                <li><a className="dropdown-item text-danger" onClick={() => deleteProduct(ite?.id)} href="#">Delete <FaTrash /></a></li>
                                 <li><Link className="dropdown-item text-success" to={`/dashboard/productDetail/${ite.id}`}>View <FaEye /></Link></li>
                               </ul>
                             </div></td>

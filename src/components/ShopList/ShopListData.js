@@ -11,21 +11,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-// import { Button } from "react-bootstrap";
- import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ShopListData = () => {
 
     const [sortTerm, setSortTerm] = useState('')
-    // const [active, setActive] = useState(false)
     const [addFav, setAddFav] = useState('')
-    const [products, setProducts] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [products, setProducts] = useState([], []);
+    const [nextUrlPage, setNextUrlPage] = useState('');
+    // const [loading, setLoading] = useState(false)
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
-    // const [nextPageUrl, setNextPageUrl] = useState('');
     const [categoriesData, setCategoriesData] = useState('')
-    // const [visible, setVisible] = useState(30)
+    const [hasMore, setHasMore] = useState(true);
+    const [numberCount, setNumberCount] = useState('')
 
     const userToken = useSelector(state => state.user.token);
 
@@ -36,9 +35,14 @@ const ShopListData = () => {
 
     useEffect(() => {
         productList()
-        //  lazyLoading();
+        lazyLoading();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    // useEffect(() => {
+    //     lazyLoading();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     useEffect(() => {
         categoryList()
@@ -58,30 +62,51 @@ const ShopListData = () => {
         }
     }
 
-    // const handleShowMore = () => {
-    //     setVisible((pre) => pre + 10)
-    // }
+    const changeUrl = () => {
+        return 'http://127.0.0.1:8000/';
+    }
 
-    const productList = async () => {
-        
-        let aa = `api/v1/items/`
-        let final = BASE_URL + aa
+    const productList = async (next_page_url) => {
+        console.log('--------------------11----------------------')
+        let final = BASE_URL + END_POINT
+        if (next_page_url) {
+            final = next_page_url;
+        } else {
+            // setShow(false)
+        }
 
         return await axios.get(final, {
             headers: headers
         })
             .then((res) => {
-                
-                const apiRes = res.data.results
-                 setProducts(apiRes)
-                 console.log('new',res.data)
-                setLoading(true)
+                const apiRes = [...products, ...res?.data?.results]
+                setProducts(apiRes)
+                setNextUrlPage(res?.data?.next)
+                console.log('new', res.data)
+                setNumberCount(res.data.count)
+                // setLoading(true)
+                console.log('---------------------end---------------------')
             })
             .catch((err) => console.log(err))
     }
 
     const lazyLoading = () => {
-
+        console.log('----------------123------------------')
+        let final = BASE_URL + END_POINT
+        if (nextUrlPage) {
+            final = nextUrlPage.replace(changeUrl(), BASE_URL);
+            productList(final)
+        }
+        console.log('number', numberCount)
+        // if (products.length >= 134) {
+        //     setHasMore(false)
+        //     return
+        // }
+        if (products.length >= numberCount) {
+            return
+        } else {
+            setHasMore(false)
+        }
     }
 
     const handleFav = async (id) => {
@@ -132,7 +157,6 @@ const ShopListData = () => {
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            // console.log('catLIst',res.data.results)
             setProducts(res.data.results)
 
         }).catch(error => {
@@ -155,15 +179,6 @@ const ShopListData = () => {
             console.log(error)
         }
     }
-    // if (status === STATUSES.LOADING) {
-    //     return <h6 className="my-5"><HashLoader color='#198754'
-    //         cssOverride={override}
-    //         size={100} /> </h6>;
-    // }
-
-    // if (status === STATUSES.ERROR) {
-    //     return <h2>Something went wrong!</h2>;
-    // }
 
     const handleSort = async (e) => {
         let val = e.target.value;
@@ -184,13 +199,13 @@ const ShopListData = () => {
                         <h2 className="text-success mt-1">FIlters & category</h2>
                         <hr className="border border-success border-2 opacity-50"></hr>
                         <div>
-                            <p>
+                            <h6>
                                 <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse"
-                                 href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-                                    <h5 className="mt-1"><HiBars3 className="me-2" />Categories</h5>
+                                    href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+                                    <h6 className="mt-1"><HiBars3 className="me-2" />Categories</h6>
                                     <span className="fas fa-chevron-down" />
                                 </a>
-                            </p>
+                            </h6>
                             <div className="collapse show border shadow" id="collapseExample">
                                 <ul className="list-unstyled">
                                     <li><Link to='/favorite' className="dropdown-item"> favorite List <MdOutlineFavoriteBorder className="text-success ms-1" /> </Link></li>
@@ -249,44 +264,55 @@ const ShopListData = () => {
                             </div>
                             <hr className="border border-success border-2 opacity-50"></hr>
                             {/* {loading && <HashLoader/> } */}
-                            <InfiniteScroll
+                            {/* <div id="parentScrollDiv" style={{ height:800, overflow:'auto' }}> */}
+                                <InfiniteScroll
                                     dataLength={products.length}
                                     next={lazyLoading}
-                                    hasMore={true}
+                                    hasMore={hasMore}
                                     className="d-flex flex-wrap"
-                                    loader={<div key={0} ><h6>loading.......................</h6></div>}
+                                    loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
+                                    endMessage={
+                                        <p style={{ textAlign: "center" }}>
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                    // scrollableTarget='parentScrollDiv'
                                 >
-                            <div className="row g-2">    
-                                {loading ? products && products.map((product) => {
-                                    return (
-                                        <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                            <div className='border shadow-sm' >
-                                                <div className="product">
-                                                    <div className="text-center mb-1">
-                                                        <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
-                                                    </div>
-                                                    <div className="p-1">
-                                                        <div className="about">
-                                                            <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                            <span className="">$ {product.price}</span>
-                                                        </div>
-                                                        <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                            <div className="">
-                                                                <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                    <div className="row g-2">
+                                        {products && products.map((product) => {
+                                            return (
+                                                <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                                    <div className='border shadow-sm' >
+                                                        <div className="product">
+                                                            <div className="text-center mb-1">
+                                                                <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                             </div>
-                                                            <div style={{ width: "25px" }}>
-                                                                <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                            <div className="p-1">
+                                                                <div className="about">
+                                                                    <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                                    <span className="">$ {product.price}</span>
+                                                                </div>
+                                                                <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                                    <div className="">
+                                                                        <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                                                    </div>
+                                                                    <div style={{ width: "25px" }}>
+                                                                        <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    )
-                                }) : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>}
-                                {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
-                            </div>
-                            </InfiniteScroll>
+                                            )
+                                        })
+                                            // : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>
+                                        }
+                                        {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
+                                    </div>
+                                </InfiniteScroll>
+                            {/* </div> */}
+
                         </div>
                     </div>
                 </div>

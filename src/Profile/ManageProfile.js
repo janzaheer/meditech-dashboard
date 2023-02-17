@@ -222,7 +222,7 @@ const ManageProfile = () => {
                             <div className="card controlCard shadow">
                                 <div className='d-flex justify-content-between mx-3 my-2'>
                                     <h5 className='card-title mt-2'><FaAddressBook /> Address Book</h5>
-                                    <Button variant="outline-success" onClick={handleShowAdd}>
+                                    <Button variant="outline-success" size="sm" onClick={handleShowAdd}>
                                         Add Address <MdAddLocationAlt />
                                     </Button>
                                 </div>

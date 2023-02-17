@@ -64,9 +64,9 @@ const Cart = () => {
         {/* For demo purpose */}
         <div className="container text-dark py-5 text-center mt-1">
           <h1 className="display-4">Shopping Cart</h1>
-          <p className="lead mb-0">Build a fully structred shopping cart page using MediTech. </p>
-          <p className="lead">Snippet by <a href="https://bootstrapious.com/snippets" className="text-success font-italic">
-            <u>MediTech</u></a>
+          <p className="lead mb-0">Build a fully structred shopping cart page using Cosmedicos. </p>
+          <p className="lead">Snippet by <a href="#" className="text-success font-italic">
+            <u>Cosmedicos</u></a>
           </p>
         </div>
         {/* End */}

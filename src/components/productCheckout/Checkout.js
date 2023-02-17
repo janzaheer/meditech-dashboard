@@ -332,7 +332,7 @@ const Checkout = () => {
                                     </div>
                                     <div className='mt-1 ms-1'>
                                         <p> {totalItems}</p>
-                                        <p className='text-wrap'>Calculate by support after placing order </p>
+                                        <p className='text-muted text-wrap'>Calculate by support after placing order </p>
                                         <p>$ {totalAmount}</p>
                                         <p className='text-success fw-bolder'>$ {totalAmount}</p>
                                     </div>
