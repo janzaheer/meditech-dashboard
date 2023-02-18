@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/meditech-dashboard/static/css/main.b7bd3247.css",
+    "main.js": "/meditech-dashboard/static/js/main.cc535c8c.js",
+    "static/media/caard2.png": "/meditech-dashboard/static/media/caard2.efc5446540db1581145c.png",
+    "static/media/logo.png": "/meditech-dashboard/static/media/logo.8d1a95aa0ce4c24220c3.png",
+    "static/media/JazzCash.png": "/meditech-dashboard/static/media/JazzCash.672df5dbd30a96913f1a.png",
+    "static/media/cash.png": "/meditech-dashboard/static/media/cash.8ad593acc06ba0a1c556.png",
+    "static/media/slick.svg": "/meditech-dashboard/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/meditech-dashboard/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/meditech-dashboard/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/meditech-dashboard/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/meditech-dashboard/index.html",
+    "main.b7bd3247.css.map": "/meditech-dashboard/static/css/main.b7bd3247.css.map",
+    "main.cc535c8c.js.map": "/meditech-dashboard/static/js/main.cc535c8c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b7bd3247.css",
+    "static/js/main.cc535c8c.js"
+  ]
+}
