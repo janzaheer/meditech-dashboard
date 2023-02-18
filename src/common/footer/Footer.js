@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="row w-100">
             <div className="col-md-3">
               <div className='box'>
-                <h1>MediTech</h1>
+                <h1>Cosmedicos</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus.</p>
                 <div className='d-flex justify-content-between'>
                   <div>
@@ -52,7 +52,7 @@ const Footer = () => {
                 <ul>
                   <li><NavLink className='text-white' to='/contact'>Contact us</NavLink></li>
                   <li>H34 street 6 M7C Lake City Lahore Pakistan Asia Earth </li>
-                  <li>Email: medi.help@gmail.com</li>
+                  <li>Email: Cosmedicos@gmail.com</li>
                   <li>Phone: +93 1234 567 890</li>
                 </ul>
               </div>

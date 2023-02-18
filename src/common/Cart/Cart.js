@@ -1,12 +1,12 @@
 import React, { useEffect } from "react"
 import "./style.css"
 import { TbShoppingCartOff } from 'react-icons/tb'
-import { BsTrash, BsMinecart, BsCartPlus } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
+import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai';
 import { Link } from "react-router-dom";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useSelector, useDispatch } from "react-redux";
 import { remove, toggleCartQty, getCartTotal, clearCart } from "../../store/cartSlice";
-import { formatPrice } from "../../utlis/helpers";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast} from 'react-toastify';
 import Header from "../header/Header";
@@ -17,18 +17,12 @@ const Cart = () => {
   const { data: cartProducts, totalItems, totalAmount, deliveryCharge } = useSelector(state => state.cart);
   const userToken = useSelector(state => state.user.token);
   console.log('userToken', userToken)
-  const user = useSelector(state => state.user);
-
 
   useEffect(() => {
     dispatch(getCartTotal());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useSelector(state => state.cart)]);
 
-
-  console.log('cart', cartProducts)
-  console.log('user', window.localStorage.getItem('user'))
-  console.log('user from state', user.token)
   // const emptyCartMsg = <h4 className='text-red fw-6'>No items found!</h4>;
 
   const handleRemove = (id) =>{
@@ -70,9 +64,9 @@ const Cart = () => {
         {/* For demo purpose */}
         <div className="container text-dark py-5 text-center mt-1">
           <h1 className="display-4">Shopping Cart</h1>
-          <p className="lead mb-0">Build a fully structred shopping cart page using MediTech. </p>
-          <p className="lead">Snippet by <a href="https://bootstrapious.com/snippets" className="text-success font-italic">
-            <u>MediTech</u></a>
+          <p className="lead mb-0">Build a fully structred shopping cart page using Cosmedicos. </p>
+          <p className="lead">Snippet by <a href="#" className="text-success font-italic">
+            <u>Cosmedicos</u></a>
           </p>
         </div>
         {/* End */}
@@ -128,11 +122,11 @@ const Cart = () => {
                                 <div className=''>
                                   {/* <button className='btn btn-outline-success me-4' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "INC" }))}> */}
                                   <button className='btn btn-outline-success me-4' onClick={() => increase(cartProduct.id)}>
-                                    <BsCartPlus />
+                                    <AiOutlinePlus />
                                   </button>
                                   {/* <button className='btn btn-outline-warning' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "DEC" }))}> */}
                                   <button className='btn btn-outline-warning' onClick={() => decrease(cartProduct.id)}>
-                                    <BsMinecart />
+                                    <AiOutlineMinus />
                                   </button>
                                 </div>
                               </strong></td>
@@ -180,7 +174,7 @@ const Cart = () => {
                 <div className="p-4">
                   <p className="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
                   <ul className="list-unstyled mb-4">
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Price</strong><strong>$ {totalAmount}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Quantity Price</strong><strong>$ {totalAmount}</strong></li>
                     {/* <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Order Subtotal </strong><strong>Rs 390.00</strong></li> */}
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>$ {deliveryCharge}</strong></li>
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>$ {(0)}</strong></li>

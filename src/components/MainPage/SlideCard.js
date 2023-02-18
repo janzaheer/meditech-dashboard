@@ -36,10 +36,10 @@ const SlideCard = () => {
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
                     <img src={value.cover} height='380px' className="d-block w-100" alt="..." />
-                    <div className="carousel-caption d-none d-md-block">
+                    {/* <div className="carousel-caption d-none d-md-block">
                       <h5>{value.title}</h5>
                       <p>{value.desc}.</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">

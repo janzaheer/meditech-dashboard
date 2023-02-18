@@ -1,9 +1,10 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { selectUser } from "../../store/authSlice";
-function ProtectedRoute({ children }) {
-    const isAuthenticated = useSelector(selectUser);
-    return !isAuthenticated ? children : <Navigate to="/" />;
-  }
-  
-  export default ProtectedRoute;
+
+function ProtectedRoute() {
+  const user = useSelector(state => state.user);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  return isAuthenticated && user.user.is_staff == true ? <Outlet /> : <Navigate to="*" />;
+}
+
+export default ProtectedRoute;

@@ -3,14 +3,13 @@ import './SearchList.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchAsyncSearchProduct, getSearchProducts, getSearchProductsStatus, clearSearch } from '../../store/searchSlice';
-import { STATUS } from '../../utlis/status'
 import { NavLink } from 'react-router-dom';
 import '../../components/ShopList/style.css'
 import { FaRegEye } from 'react-icons/fa'
 import Header from './Header';
 import Footer from '../footer/Footer';
 import axios from 'axios';
-import { BASE_URL } from '../../utlis/apiUrls';
+import { BASE_URL, FAV_ENDPOINT } from '../../utlis/apiUrls';
 import Heart from "react-heart";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
@@ -22,6 +21,7 @@ const SearchLIst = () => {
   const searchProducts = useSelector(getSearchProducts)
   const searchProductsStatus = useSelector(getSearchProductsStatus);
   console.log('searchlist', searchProducts)
+  console.log('searchStatus',searchProductsStatus)
   const userToken = useSelector(state => state.user.token);
   const [itemFavourite, setItemFavourite] = useState({})
 
@@ -42,13 +42,10 @@ const SearchLIst = () => {
       </div>
     )
   }
+
   const handleFav = async (id) => {
     console.log('click-id', id)
-
-
-    let Api = `api/v1/favourite/items/`
-    let AddFavURL = BASE_URL + Api
-
+    let AddFavURL = BASE_URL + FAV_ENDPOINT
     axios.post(AddFavURL, { item_id: id }, {
       headers: {
         'Content-Type': "application/json",
@@ -56,7 +53,6 @@ const SearchLIst = () => {
       }
     }).then((result) => {
       console.log(result)
-      
       if (result.data.message.includes('remove')) {
         let idata = itemFavourite
         idata[id] = false
@@ -74,7 +70,6 @@ const SearchLIst = () => {
           theme: "colored",
         });
       }
-
     }).catch(error => {
       console.log(error)
     })
@@ -85,37 +80,40 @@ const SearchLIst = () => {
     <>
       <Header />
       <div className='container'>
-        <ToastContainer/>
+        <ToastContainer />
         <main>
           <div className='search-content bg-whitesmoke'>
             <div className='container'>
               <div className='py-5'>
-                <div className='title-md'>
-                  <h3>Search results:</h3>
+                <div className='title-md text-center'>
+                  <h3 className='text-success'>Search results</h3>
                 </div>
                 <br />
                 <div className="row g-2">
                   {searchProducts.map((product) => {
                     return (
-                      <div key={product.id} className=" col-md-6 col-lg-4 col-xl-3">
+                      <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-2">
                         <div className='box rounded border shadow-sm' >
                           <div className="product ">
                             {/* <span className="off bg-success">{product.category}</span> */}
-                            <div className="text-center my-3">
-                              <img src={product.images[0].image_url} alt='' width={100} height={100} />
+                            <div className="text-center mb-3">
+                              <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                             </div>
-                            <div className="about">
-                              <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
-                              <span className="">Rs {product.price}</span>
-                            </div>
-                            <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                              <div className="">
-                                <NavLink to={`/${product.id}`} className="btn btn-success btn-md" ><FaRegEye /></NavLink>
+                            <div className='p-1'>
+                              <div className="about">
+                                <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
+                                <span className="">Rs {product.price}</span>
                               </div>
-                              <div style={{ width: "25px" }}>
-                                <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                              <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                <div className="">
+                                  <NavLink to={`/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                </div>
+                                <div style={{ width: "25px" }}>
+                                  <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                </div>
                               </div>
                             </div>
+
                           </div>
                         </div>
                       </div>

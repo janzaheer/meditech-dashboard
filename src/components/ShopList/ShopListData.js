@@ -2,29 +2,32 @@ import React, { useEffect, useState, CSSProperties } from "react"
 import "./style.css"
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
+import { HiBars3 } from 'react-icons/hi2';
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
-import { BASE_URL, END_POINT, changeUrl } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT ,changeUrl } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-// import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Form from 'react-bootstrap/Form';
 
 const ShopListData = () => {
 
     const [sortTerm, setSortTerm] = useState('')
-    // const [active, setActive] = useState(false)
     const [addFav, setAddFav] = useState('')
-    const [products, setProducts] = useState([])
-    const [loading, setLoading] = useState(false)
-    const userToken = useSelector(state => state.user.token);
+    const [products, setProducts] = useState([], []);
+    const [nextUrlPage, setNextUrlPage] = useState('');
+    // const [loading, setLoading] = useState(false)
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
-    // const [nextPageUrl, setNextPageUrl] = useState('');
     const [categoriesData, setCategoriesData] = useState('')
+    const [hasMore, setHasMore] = useState(true);
+    const [numberCount, setNumberCount] = useState('')
 
+    const userToken = useSelector(state => state.user.token);
 
     const override = CSSProperties = {
         display: "block",
@@ -32,8 +35,8 @@ const ShopListData = () => {
     };
 
     useEffect(() => {
-        productList()
-        //  lazyLoading();
+        productList();
+        categoryData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -45,39 +48,43 @@ const ShopListData = () => {
         }
     }
 
-
-    const productList = async () => {
-        // let Page_Limit = res.data.next
-        // console.log(Page_Limit)
-        // let pageNo = Math.ceil(products.length / Page_Limit) + 1;
-        // const queryParam = '?page=' + pageNo + Page_Limit
+    const productList = async (next_page_url) => {
         let final = BASE_URL + END_POINT
-        // if (next_page_url) {
-        //     final = next_page_url;
-        //   }
+        if (next_page_url) {
+            final = next_page_url;
+        } else {
+            // setShow(false)
+        }
+
         return await axios.get(final, {
             headers: headers
         })
-            // .then((res) => setProducts(res.data.results), setLoading(true))
             .then((res) => {
-                const apiRes = res.data.results
-                const mergeData = [...products, ...apiRes]
-                setProducts(mergeData)
-                setLoading(true)
-                console.log('----11--------------------')
-                // setNextPageUrl(res?.data?.next)
-                console.log('----22--------------------')
+                const apiRes = [...products, ...res?.data?.results]
+                setProducts(apiRes)
+                setNextUrlPage(res?.data?.next)
+                console.log('new', res.data)
+                setNumberCount(res.data.count)
             })
             .catch((err) => console.log(err))
     }
 
+    const lazyLoading = () => {
+        let final = BASE_URL + END_POINT
+        if (nextUrlPage) {
+            final = nextUrlPage.replace(changeUrl(), BASE_URL);
+            productList(final)
+        }
+        console.log('number', numberCount)
+        if (products.length >= numberCount) {
+            setHasMore(false)
+        }
+    }
+
     const handleFav = async (id) => {
-        console.log('click-id', id)
         console.log('addd', addFav)
 
-        let Api = `api/v1/favourite/items/`
-        let AddFavURL = BASE_URL + Api
-
+        let AddFavURL = BASE_URL + FAV_ENDPOINT
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -103,67 +110,32 @@ const ShopListData = () => {
                     theme: "colored",
                 });
             }
-
         }).catch(error => {
             console.log(error)
         })
     }
 
-
-    useEffect(() => {
-        categoryList()
-    }, [])
-
     const categoryList = async (e) => {
-        // let val = e.target.value;
-        // console.log('catval',val)
-        setCat(e.target.value)
-        console.log('target', e.target.value)
-        let Api = `/api/v1/items/?category__name=${e.target.value}`
-        let finalURL = BASE_URL + Api
-
+        let val = e.target.value;
+        setCat(val)
+        console.log('target', val)
+        let finalURL = BASE_URL + CATEGORY_MENU_LIST_ENDPOINT + val
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('CategoryList-here', res.data.results)
+            console.log('cateeee',res.data)
             setProducts(res.data.results)
 
         }).catch(error => {
             console.log(error)
         })
-
-    }
-
-
-    // if (status === STATUSES.LOADING) {
-    //     return <h6 className="my-5"><HashLoader color='#198754'
-    //         cssOverride={override}
-    //         size={100} /> </h6>;
-    // }
-
-    // if (status === STATUSES.ERROR) {
-    //     return <h2>Something went wrong!</h2>;
-    // }
-
-
-    const handleSort = async (e) => {
-        let val = e.target.value;
-        setSortTerm(val)
-        console.log('click-e')
-        const response = await fetch(`${BASE_URL}api/v1/items/?ordering=${val}`);
-        const data = await response.json();
-        console.log('sort', data.results)
-        setProducts(data.results)
-        return data.results;
-
     }
 
     const categoryData = async () => {
-        let api = '/api/v1/category/'
-        let FInal = BASE_URL + api
+        let FInal = BASE_URL + CATEGORY_ENDPOINT
         try {
             let res = await axios.get(FInal, {
                 headers: {
@@ -171,17 +143,22 @@ const ShopListData = () => {
                     Authorization: `Token ${userToken}`
                 }
             })
-            console.log('cateeeeee', res.data.results)
+            // console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
         } catch (error) {
             console.log(error)
         }
     }
-    useEffect(() => {
-        categoryData()
-    }, [])
 
-
+    const handleSort = async (e) => {
+        let val = e.target.value;
+        setSortTerm(val)
+        console.log('click-e', val)
+        const response = await fetch(`${BASE_URL}${SORT_ENDPOINT}${val}`);
+        const data = await response.json();
+        setProducts(data.results)
+        return data.results;
+    }
 
     return (
         <div>
@@ -192,12 +169,13 @@ const ShopListData = () => {
                         <h2 className="text-success mt-1">FIlters & category</h2>
                         <hr className="border border-success border-2 opacity-50"></hr>
                         <div>
-                            <p>
-                                <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-                                    <span className="fas fa-bars"><span className="ps-3">category & FIlter</span></span>
+                            <h6>
+                                <a className="btn btn-primary w-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse"
+                                    href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+                                    <h6 className="mt-1"><HiBars3 className="me-2" />Categories</h6>
                                     <span className="fas fa-chevron-down" />
                                 </a>
-                            </p>
+                            </h6>
                             <div className="collapse show border shadow" id="collapseExample">
                                 <ul className="list-unstyled">
                                     <li><Link to='/favorite' className="dropdown-item"> favorite List <MdOutlineFavoriteBorder className="text-success ms-1" /> </Link></li>
@@ -220,7 +198,6 @@ const ShopListData = () => {
                                                                     {cate?.name}
                                                                 </label>
                                                             </div>
-
                                                         )
                                                     })}
                                                 </div>
@@ -237,65 +214,72 @@ const ShopListData = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-12 col-lg-9">
                         <div className='container'>
                             <div className="d-flex justify-content-between">
                                 <h2 className="text-success">Shopping</h2>
                                 <div className="mt-1">
-                                    <select className="form-select" aria-label="Default select example" onChange={handleSort}
-                                        value={sortTerm}>
-                                        <option selected>Sort By</option>
-                                        <option value="price">Low to High</option>
-                                        <option value="-price">High to Low</option>
-                                        <option value="title">A-Z</option>
-                                        <option value="-title">Z-A</option>
+                                    <Form.Select aria-label="Default select example" onChange={handleSort} value={sortTerm} >
+                                        <option> Sort By </option>
+                                        <option value="price">Price: Low to High</option>
+                                        <option value="-price">Price: High to Low</option>
+                                        <option value="title">Alphabets: A-Z</option>
+                                        <option value="-title">Alphabets: Z-A</option>
                                         <option value="created_a">Latest</option>
                                         <option value="-created_a">Old</option>
-                                    </select>
+                                    </Form.Select>
                                 </div>
-
                             </div>
                             <hr className="border border-success border-2 opacity-50"></hr>
-                            <div className="row g-2">
-                                {/* {loading && <HashLoader/> } */}
-                                {/* <InfiniteScroll
-                                    dataLength={products.length}
-                                    next={lazyLoading}
-                                    hasMore={products.length > true}
-                                    className="d-flex flex-wrap"
-                                    loader={<div key={0} ><h6>loading.......................</h6></div>}
-                                    endMessage={<p style={{ textAlign: 'center' }}>
-                                        <b>Yay! NO More Data</b>
-                                    </p>}
-                                > */}
-                                {loading ? products && products.length > 0 && products.map((product) => {
-                                    return (
-                                        <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                            <div className='box rounded border shadow-sm' >
-                                                <div className="product my-1">
-                                                    {/* <span className="off bg-success">{product?.category}</span> */}
-                                                    <div className="text-center my-3">
-                                                        <img src={product.images[0].image_url} alt='' width={100} height={100} />
-                                                    </div>
-                                                    <div className="about">
-                                                        <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
-                                                        <span className="">$ {product.price}</span>
-                                                    </div>
-                                                    <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                        <div className="">
-                                                            <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-md" ><FaRegEye /></NavLink>
+                            {/* {loading && <HashLoader/> } */}
+                            {/* <div id="scrollableDiv" style={{ height: 800, overflow: "auto" }}> */}
+                            <InfiniteScroll
+                                dataLength={products.length}
+                                next={lazyLoading}
+                                hasMore={hasMore}
+                                // className="d-flex flex-wrap"
+                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
+                                // endMessage={
+                                //     <p style={{ textAlign: "center" }}>
+                                //         <b>Yay! You have seen it all</b>
+                                //     </p>
+                                // }
+                                // scrollableTarget="scrollableDiv"
+                            >
+                                <div className="row g-2">
+                                    {products && products.map((product) => {
+                                        return (
+                                            <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                                <div className='border shadow-sm' >
+                                                    <div className="product">
+                                                        <div className="text-center mb-1">
+                                                            <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                         </div>
-                                                        <div style={{ width: "25px" }}>
-                                                            <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                        <div className="p-1">
+                                                            <div className="about">
+                                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                                <span className="">$ {product.price}</span>
+                                                            </div>
+                                                            <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                                <div className="">
+                                                                    <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                                                </div>
+                                                                <div style={{ width: "25px" }}>
+                                                                    <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )
-                                }) : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>}
-                                {/* </InfiniteScroll> */}
-                            </div>
+                                        )
+                                    })
+                                        // : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>
+                                    }
+                                    {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
+                                </div>
+                            </InfiniteScroll>
+                            {/* </div> */}
                         </div>
                     </div>
                 </div>

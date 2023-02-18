@@ -18,12 +18,10 @@ const ProductDetail = () => {
     console.log(`id is ${id}`)
     const [product, setProduct] = useState([]);
     const [mainImage, setMainImage] = useState(product?.images && product?.images[0].image_url)
-
     const [qty, setQty] = useState(1);
-
-
      const navigate = useNavigate();
     const dispatch = useDispatch();
+
     useEffect(() => {
         const getProduct = async () => {
             // eslint-disable-next-line         
@@ -43,6 +41,7 @@ const ProductDetail = () => {
         getProduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     const addToCartHandler = (product) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         let totalPrice = qty * product.price;
@@ -84,7 +83,6 @@ const ProductDetail = () => {
           });
     }
 
-
     const { images } = product;
     // console.log('img', images)
 
@@ -92,17 +90,13 @@ const ProductDetail = () => {
     return (
         <div>
             <Header />
-
             <div className="container my-5">
-
                 <div className="single_product">
                     <div className="container-fluid" style={{ backgroundColor: '#fff', padding: 11 }}>
                         <ToastContainer/>
                         <div className="row">
                             {/* <ReactImageZoom {...props} /> */}
-
-
-                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1">
+                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1 imagesul">
                                 <Scrollbars>
                                     {product.images && images.map((im, index) => {
                                         return (
@@ -112,16 +106,10 @@ const ProductDetail = () => {
                                         )
                                     })}
                                 </Scrollbars>
-
-
                             </div>
-
-
-
                             <div className="col-lg-4 order-lg-2 order-1">
                                 <div className="image_selected">
-
-                                    <img src={mainImage ? mainImage.image_url : product.images && product.images[0].image_url} alt='img' />
+                                    <img src={mainImage ? mainImage.image_url : product.images && product.images[0].image_url} alt='img' className='w-100'/>
                                 </div>
                                 {/* <Zoom
                                         img="https://www.lifeofpix.com/wp-content/uploads/2018/06/20180120-P1201659-1600x1089.jpg"
@@ -132,47 +120,43 @@ const ProductDetail = () => {
                             </div>
                             <div className="col-lg-6 order-3">
                                 <div className="product_description">
-                                    <div className="product_name">{product?.title}</div>
-                                    <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div>
+                                    <div className="product_name mt-5">{product?.title}</div>
+                                    {/* <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div> */}
                                     <div> <span className="product_price">$ {product?.price}</span> 
                                     {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
                                     </div>
-                                    <hr className="singleline" />
                                     <div>
                                         <div className="row">
-                                            <div className="col-md-5">
-                                                <div className="p-1">
-                                                    <p >Description: {product.description}</p>
+                                            <div className="col-md-10">
+                                                <div className="p-1 my-2 table-responsive2">
+                                                    <Scrollbars>
+                                                    <p> {product.description}</p>
+                                                    </Scrollbars>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                     <div className="qty-change flex">
-                                        <button type="button" className='btn btn-outline-success qty-dec fs-14' onClick={() => decreaseQty()}>
+                                        <button type="button" className='btn btn-outline-warning fs-14' onClick={() => decreaseQty()}>
                                             -
                                         </button>
                                         <span className="qty-value flex flex-center mx-3">{qty}</span>
-                                        <button type="button" className='btn btn-outline-primary qty-inc fs-14 text-light-blue' onClick={() => increaseQty()}>
+                                        <button type="button" className='btn btn-outline-success fs-14 text-light-blue' onClick={() => increaseQty()}>
                                             +
                                         </button>
                                     </div>
-                                    <hr className="singleline" />
+                                    {/* <hr className="singleline" />
                                     <div className="order_info d-flex flex-row">
                                         <form action="#">
-                                        </form></div>
+                                        </form></div> */}
                                     <div className="row">
-                                        <div className="col-xs-6">
+                                        <div className="col-xs-6 mt-4">
                                             <button type="button" className="btn btn-success me-1" onClick={() => addToCartHandler(product)}>Add to Cart</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                         <div className="row row-underline">
                             <div className="col-md-6"> <span className=" deal-text">Specifications</span> </div>
                             <div className="col-md-6"> </div>
@@ -182,7 +166,7 @@ const ProductDetail = () => {
                                 <table className="col-md-12">
                                     <tbody>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Sales Package :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Product Title :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>{product.title}</li>
@@ -190,42 +174,42 @@ const ProductDetail = () => {
                                             </td>
                                         </tr>
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Model Number :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Store :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li> 14-dh0107TU </li>
+                                                    <li> {product?.store} </li>
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr className="row mt-10">
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Part Number :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>7AL87PA</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Color :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Black</li>
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        <tr className="row mt-10">
+                                        </tr> */}
+                                        {/* <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Suitable for :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
                                                     <li>Processing &amp; Multitasking</li>
                                                 </ul>
                                             </td>
-                                        </tr>
+                                        </tr> */}
                                         <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Processor Brand :</span> </td>
+                                            <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
                                             <td className="col-md-8">
                                                 <ul>
-                                                    <li>Intel</li>
+                                                    <li>{product?.brand}</li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -235,7 +219,6 @@ const ProductDetail = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
             <Footer/>
         </div>

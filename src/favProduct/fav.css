@@ -2,20 +2,20 @@
     margin-top: 50px !important;
     margin-bottom: 50px !important;
 }
-/* .heart{
-    font-size: 35px;
-    color:rgb(182, 173, 173);
-    margin-top: 7px;
-     width: 70px;
-     outline: none;
-     text-transform: uppercase;
-     cursor: pointer;
-     font-weight: bold;
-   
- }
-.heart:hover{
-    color: rgb(192, 39, 39);
+
+@media screen and (max-width: 1415px) {
+    .images-class {
+        width: 97% !important;
+    }
 }
-.heart :active {
-color:color when active
-} */
+@media screen and (max-width: 1400px) {
+    .images-class {
+        width: 97% !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .images-class {
+        width: 100% !important;
+    }
+}

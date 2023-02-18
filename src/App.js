@@ -14,19 +14,17 @@ import ProductSuccess from "./components/ProductSuccess/ProductSuccess"
 
 import Login from "./Auth/Login"
 import ManageProfile from "./Profile/ManageProfile"
-// import ProfileEdit from "./Profile/ProfileEdit"
 import AddressEdit from "./Profile/AddressEdit"
 import Register from "./Auth/Register";
 import SearchLIst from "./common/header/SearchLIst";
 import PrivateRoute from "./common/Routes/PrivateRoute";
-// import Sort from "./components/ShopList/Sort";
+import ProtectedRoute from "./common/Routes/ProtectRoute";
 import FavProduct from "./favProduct/FavProduct";
-// import ProfileEdit from "./Profile/ProfileEdit";
- import Dashboard from "./adminPanel/Dashboard";
- import Products from "./adminPanel/prdoucts/Products";
- import ProductDetailDashboard from "./adminPanel/prdoucts/ProductDetailDashboard";
- import Order from "./adminPanel/order/Order";
- import PageNotFond from "./errorPage/PageNotFond";
+import Dashboard from "./adminPanel/Dashboard";
+import Products from "./adminPanel/prdoucts/Products";
+import ProductDetailDashboard from "./adminPanel/prdoucts/ProductDetailDashboard";
+import Order from "./adminPanel/order/Order";
+import PageNotFond from "./errorPage/PageNotFond";
 
 function App() {
 
@@ -34,23 +32,33 @@ function App() {
     <>
 
       <BrowserRouter>
-  
-
-        {/* <Header /> */}
-        
         <Routes>
           <Route path='/' element={<Pages />} ></Route>
           <Route path='/contact' element={<Contact />} ></Route>
           <Route path='/productDetails/:id' element={<ProductDetail />} ></Route>
           <Route path='/login' element={<Login />} ></Route>
           <Route path='/register' element={<Register />} ></Route>
-          <Route path = "search/:searchTerm" element = {<SearchLIst />}></Route>
-          <Route path='/dashboard' element={<Dashboard />} ></Route>
-          <Route path='/dashboard/products' element={<Products />} ></Route>
-          <Route path="/dashboard/productDetail/:id" element={<ProductDetailDashboard/>} ></Route>
-          <Route path='/dashboard/orders' element={<Order />} ></Route>
+          <Route path="search/:searchTerm" element={<SearchLIst />}></Route>
 
-          {/* Protected Routes */}
+          {/*Admin Protected Routes */}
+          <Route exact path='/dashboard' element={<ProtectedRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} ></Route>
+          </Route>
+          <Route exact path='/dashboard/products' element={<ProtectedRoute />}>
+          <Route path='/dashboard/products' element={<Products />} ></Route>
+          </Route>
+          <Route exact path='/dashboard/productDetail/:id' element={<ProtectedRoute />}>
+          <Route path="/dashboard/productDetail/:id" element={<ProductDetailDashboard />} ></Route>
+          </Route>
+          <Route exact path='/dashboard/orders' element={<ProtectedRoute />}>
+          <Route path='/dashboard/orders' element={<Order />} ></Route>
+          </Route>
+          {/* <Route path='/dashboard' element={<Dashboard />} ></Route>
+          <Route path='/dashboard/products' element={<Products />} ></Route>
+          <Route path="/dashboard/productDetail/:id" element={<ProductDetailDashboard />} ></Route>
+          <Route path='/dashboard/orders' element={<Order />} ></Route> */}
+
+          {/*Public Private Routes */}
           <Route exact path='/cart' element={<PrivateRoute />}>
             <Route exact path='/cart' element={<Cart />} />
           </Route>
@@ -63,7 +71,7 @@ function App() {
           <Route exact path='/productSuccess/:id' element={<PrivateRoute />}>
             <Route exact path='/productSuccess/:id' element={<ProductSuccess />} />
           </Route>
-          
+
           <Route exact path='/manageProfile' element={<PrivateRoute />}>
             <Route exact path='/manageProfile' element={<ManageProfile />} />
           </Route>
@@ -75,7 +83,6 @@ function App() {
           </Route>
           <Route path='*' element={<PageNotFond />} />
         </Routes>
-        {/* <Footer /> */}
       </BrowserRouter>
     </>
   )

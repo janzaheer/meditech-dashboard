@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import Head from '../head/Head'
-import { BASE_URL, END_POINT } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT } from '../../utlis/apiUrls';
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
-import { IoAddCircle } from 'react-icons/io5'
+import { IoAddCircle } from 'react-icons/io5';
 import moment from 'moment';
 import axios from "axios";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import './product.css'
 import { Link } from 'react-router-dom';
-// import S3FileUpload from 'react-s3';
-//Optional Import
+import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 import { uploadFile } from 'react-s3';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
+
 
 const config = {
   bucketName: 'meditech-products',
@@ -30,6 +30,7 @@ const config = {
 }
 
 const Products = () => {
+
   const [products, setProducts] = useState([])
   const userToken = useSelector(state => state.user.token);
   const [title, setTitle] = useState('');
@@ -39,37 +40,39 @@ const Products = () => {
   const [store, setStore] = useState('');
   const [categoriesData, setCategoriesData] = useState('')
   const [categoriesDataSelect, setCategoriesDataSelect] = useState('')
+  const [selectImage, setSelectImage] = useState('')
+  const [selectImage2, setSelectImage2] = useState('')
+  const [selectImage3, setSelectImage3] = useState('')
+  const [selectImage4, setSelectImage4] = useState('')
+  const [showAdd, setShowAdd] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     productList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    categoryData()
+  }, [])
+
   const productList = async () => {
     let final = BASE_URL + END_POINT
-    // if (next_page_url) {
-    //     final = next_page_url;
-    //   }
     return await axios.get(final, {
       headers: {
         'Content-Type': "application/json",
         Authorization: `Token ${userToken}`
       }
     })
-      // .then((res) => setProducts(res.data.results), setLoading(true))
       .then((res) => {
         setProducts(res.data.results)
-        // setLoading(true)
-        console.log(res.data)
-        // setNextPageUrl(res?.data?.next)
-        console.log('----22--------------------')
       })
       .catch((err) => console.log(err))
   }
 
-  const deleteComments = async (id) => {
+  const deleteProduct = async (id) => {
     console.log('delete-id', id)
-    let end = `api/v1/items/${id}/`
+    let end = `${END_POINT}${id}/`
     let final = BASE_URL + end
     try {
       let res = await axios.delete(final, {
@@ -89,7 +92,8 @@ const Products = () => {
     }
   }
 
-  const [selectImage, setSelectImage] = useState('')
+
+  // 1st image function
   const uploadImage = async (e) => {
     e.preventDefault();
     // let image_urls = []
@@ -102,27 +106,67 @@ const Products = () => {
   }
   console.log('here', selectImage)
 
+  // 2nd image function
+  const uploadImage2 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage2(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-2', selectImage2)
 
-  //   {
-  //     "title": "Atif Product",
-  //     "description": "Here is my product, My name is atif matrix gilchrist and clark and maxwell",
-  //     "images": ["google.com", "atif.com"],
-  //     "category_id": 1,
-  //     "price": 19.99,
-  //     "brand": "Badini",
-  //     "store": "Udadzai"
-  // }
+  // 3rd image function
+  const uploadImage3 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage3(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-3', selectImage3)
+
+  // 4th image function
+  const uploadImage4 = async (e) => {
+    e.preventDefault();
+    // let image_urls = []
+    const myFiles = e.target.files[0]
+    await uploadFile(myFiles, config)
+      .then((data) => {
+        setSelectImage4(data.location)
+      })
+      .catch(err => console.error(err))
+  }
+  console.log('here-4', selectImage4)
 
 
   const addProducts = async (e) => {
     console.log('------------------add-----------------')
     e.preventDefault();
-    let api = 'api/v1/items/create_item/'
-    let FInal = BASE_URL + api
+    // let api = 'api/v1/items/create_item/'
+    let FInal = BASE_URL + END_POINT + ADD_PRODUCT_ENDPOINT
+
+    let imageData = [selectImage]
+    if (selectImage2) {
+      imageData.push(selectImage2)
+    }
+    if (selectImage3) {
+      imageData.push(selectImage3)
+    }
+    if (selectImage4) {
+      imageData.push(selectImage4)
+    }
+
     await axios.post(FInal, {
       title: title,
       description: description,
-      images: [selectImage],
+      images: imageData,
       category_id: categoriesDataSelect,
       price: price,
       brand: brand,
@@ -135,40 +179,41 @@ const Products = () => {
       }
     }).then((resp) => {
       console.log(resp.ok)
+
+      setShowAdd(false)
+      toast.success('Product Add Successfully', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: "colored",
+      });
       setTitle('')
       setDescription('')
       setSelectImage('')
       setBrand('')
       setPrice('')
       setStore('')
-      setCategoriesData('')
-     
-      
-      toast.success('Product Add Successfully', {
-            position: toast.POSITION.TOP_RIGHT,
-            theme: "colored",
-          });
+      setCategoriesDataSelect('')
       console.log('-----------------11-------------------')
     }).catch(resp => {
       console.log('------------------------catch-------------------')
-      console.log(resp.response)
+      setShowAdd(true)
+      if (resp.response) {
+        console.log(resp.response);
+        toast.error('please required these fields', {
+          position: toast.POSITION.TOP_RIGHT,
+          theme: "colored",
+        });
+
+      } else if (resp.request) {
+        toast.warning('network error', {
+          position: toast.POSITION.TOP_RIGHT,
+          theme: "colored",
+        });
+      } else {
+        console.log(resp);
+      }
     })
+    console.log('error-comes-here')
     productList()
-    // if (res.ok) {
-    //   setTitle('')
-    //   setDescription('')
-    //   setSelectImage('')
-    //   setBrand('')
-    //   setPrice('')
-    //   setStore('')
-    //   // setCategoriesData('')
-    //   // productList()
-    // } else {
-    //   toast.error(res.title, {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //     theme: "colored",
-    //   });
-    // }
   }
 
   const categoriesDataSelectFun = (e) => {
@@ -177,8 +222,7 @@ const Products = () => {
   }
 
   const categoryData = async () => {
-    let api = '/api/v1/category/'
-    let FInal = BASE_URL + api
+    let FInal = BASE_URL + CATEGORY_ENDPOINT
     try {
       let res = await axios.get(FInal, {
         headers: {
@@ -186,16 +230,20 @@ const Products = () => {
           Authorization: `Token ${userToken}`
         }
       })
-      console.log('cateeeeee', res.data.results)
+      //  console.log('cateeeeee', res.data.results)
       setCategoriesData(res.data.results)
     } catch (error) {
       console.log(error)
     }
   }
-  useEffect(() => {
-    categoryData()
-  }, [])
 
+  // Edit Model functions
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // Add Product model functions
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
 
   return (
     <div>
@@ -203,128 +251,154 @@ const Products = () => {
       <div className='container-fluid'>
         <ToastContainer />
         {/* Add Product Model */}
-        <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                <form className="row g-3" onSubmit={addProducts}  autocomplete="off">
-                  <div className="col-md-6">
-                    <label htmlFor="inputTitle4" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="inputTitle4" placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputPrice4" className="form-label">Price</label>
-                    <input type="text" className="form-control" id="inputPrice4" placeholder='Enter Price' value={price} onChange={(e) => setPrice(e.target.value)} />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputUploadImage" className="form-label">Upload Image 1st</label>
-                    <input type="file" onChange={uploadImage}
-                      className="form-control" id="inputUploadImage" placeholder="Please upload your image here" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
-                      placeholder=' description...' value={description} onChange={(e) => setDescription(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputBrand" className="form-label">Brand</label>
-                    <input type="text" className="form-control" id="inputBrand" placeholder='Enter Brand Name' value={brand} onChange={(e) => setBrand(e.target.value)} />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">Category</label>
-                    <select id="inputState" className="form-select" onChange={categoriesDataSelectFun} value={categoriesDataSelect}>
-                      <option selected>Choose...</option>
-                      {categoriesData && categoriesData.map((catee) => {
-                        return (
-                          <option key={catee.id} value={catee?.id}>{catee?.name}</option>
-                        )
-                      })}
-                    </select>
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputStore" className="form-label">Store</label>
-                    <input type="text" className="form-control" id="inputStore" placeholder='Enter Store' value={store} onChange={(e) => setStore(e.target.value)} />
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Save Product</button>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer d-flex justify-content-center align-items-center">
-                <div>
-                  <p>Thanks For Add New Product</p>
-                </div>
-              </div>
+        <Modal show={showAdd} onHide={handleCloseAdd}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Product</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={addProducts} >
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" name='title' placeholder='Enter Title' value={title} onChange={(e) => setTitle(e.target.value)} />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPrice">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control type="text" name='price' placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridUploadImage1">
+                  <Form.Label>Upload Image 1st</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" required />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridUploadImage2">
+                  <Form.Label>Upload Image 2nd</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage2} placeholder="Please upload your image here" />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridUploadImage3">
+                  <Form.Label>Upload Image 3rd</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage3} placeholder="Please upload your image here" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridUploadImage4">
+                  <Form.Label>Upload Image 4th</Form.Label>
+                  <Form.Control type='file' onChange={uploadImage4} placeholder="Please upload your image here" />
+                </Form.Group>
+              </Row>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlDescription1">
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" name='description' rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+              </Form.Group>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridBrand">
+                  <Form.Label>Brand</Form.Label>
+                  <Form.Control type="text" name='brand' placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridState">
+                  <Form.Label>Categories</Form.Label>
+                  <Form.Select defaultValue="Choose..." onChange={categoriesDataSelectFun} name='categoriesDataSelect' value={categoriesDataSelect} >
+                    <option>Choose...</option>
+                    {categoriesData && categoriesData.map((catee) => {
+                      return (
+                        <option key={catee.id} value={catee?.id}>{catee?.name}</option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridStore">
+                  <Form.Label>Store</Form.Label>
+                  <Form.Control type="text" name='Store' placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
+                </Form.Group>
+              </Row>
+
+              <Button variant="success"
+                // onClick={handleCloseAdd} 
+                type="submit">
+                Save Product
+              </Button>
+
+            </Form>
+          </Modal.Body>
+          <Modal.Footer className="modal-footer d-flex justify-content-center align-items-center">
+            <div>
+              <p>Thanks For Add New Product</p>
             </div>
-          </div>
-        </div>
+          </Modal.Footer>
+        </Modal>
         {/* Add Product Model End */}
 
         {/* Product Edit Model */}
-        <div className="modal fade" id="viewModal" tabIndex={-1} aria-labelledby="viewModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="viewModalLabel">Product Details</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                <form className="row g-3">
-                  <div className="col-md-6">
-                    <label htmlFor="inputEmail4" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail4" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputPassword4" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="inputPassword4" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputAddress" className="form-label">Address</label>
-                    <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="inputAddress2" className="form-label">Address 2</label>
-                    <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="inputCity" className="form-label">City</label>
-                    <input type="text" className="form-control" id="inputCity" />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor="inputState" className="form-label">State</label>
-                    <select id="inputState" className="form-select">
-                      <option selected>Choose...</option>
-                      <option>...</option>
-                    </select>
-                  </div>
-                  <div className="col-md-2">
-                    <label htmlFor="inputZip" className="form-label">Zip</label>
-                    <input type="text" className="form-control" id="inputZip" />
-                  </div>
-                  <div className="col-12">
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="gridCheck" />
-                      <label className="form-check-label" htmlFor="gridCheck">
-                        Check me out
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Sign in</button>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Product</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" placeholder="Enter Title" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPrice">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control type="text" placeholder="Price" />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridAddress1">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control placeholder="1234 Main St" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridAddress2">
+                  <Form.Label>Address 2</Form.Label>
+                  <Form.Control placeholder="Apartment, studio, or floor" />
+                </Form.Group>
+              </Row>
+
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label>Example textarea</Form.Label>
+                <Form.Control as="textarea" rows={3} />
+              </Form.Group>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridBrand">
+                  <Form.Label>Brand</Form.Label>
+                  <Form.Control type="text" placeholder="Brand" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridState">
+                  <Form.Label>Categories</Form.Label>
+                  <Form.Select defaultValue="Choose...">
+                    <option>Choose...</option>
+                    <option>...</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridStore">
+                  <Form.Label>Store</Form.Label>
+                  <Form.Control type="text" placeholder="Store" />
+                </Form.Group>
+              </Row>
+
+              <Button variant="primary" onClick={handleClose} type="submit">
+                Update Product
+              </Button>
+
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
         {/* Product Edit Model End */}
 
         <div className='row mt-5'>
@@ -337,7 +411,10 @@ const Products = () => {
                   <h5 className='text-success mt-4'>Products List <RiShoppingBag3Fill /></h5>
                 </div>
                 <div className='mt-3'>
-                  <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button>
+                  {/* <button className="btn btn-outline-success mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Product <IoAddCircle /></button> */}
+                  <Button variant="outline-success" onClick={handleShowAdd}>
+                    Add Product <IoAddCircle />
+                  </Button>
                 </div>
               </div>
               <hr />
@@ -385,8 +462,9 @@ const Products = () => {
                                 <BsThreeDotsVertical />
                               </a>
                               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li>
-                                <li><a className="dropdown-item text-danger" onClick={() => deleteComments(ite?.id)} href="#">Delete <FaTrash /></a></li>
+                                {/* <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li> */}
+                                <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li>
+                                <li><a className="dropdown-item text-danger" onClick={() => deleteProduct(ite?.id)} href="#">Delete <FaTrash /></a></li>
                                 <li><Link className="dropdown-item text-success" to={`/dashboard/productDetail/${ite.id}`}>View <FaEye /></Link></li>
                               </ul>
                             </div></td>
