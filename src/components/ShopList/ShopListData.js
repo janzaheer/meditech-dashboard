@@ -1,4 +1,4 @@
-import React, { useEffect, useState, CSSProperties } from "react"
+import React, { useEffect, useState } from "react"
 import "./style.css"
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
@@ -28,11 +28,6 @@ const ShopListData = () => {
     const [numberCount, setNumberCount] = useState('')
 
     const userToken = useSelector(state => state.user.token);
-
-    const override = CSSProperties = {
-        display: "block",
-        margin: "0 auto",
-    };
 
     useEffect(() => {
         productList();
@@ -238,7 +233,7 @@ const ShopListData = () => {
                                 next={lazyLoading}
                                 hasMore={hasMore}
                                 // className="d-flex flex-wrap"
-                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
+                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={ {display: "block", margin: "0 auto"} } size={100} /></div>}
                                 // endMessage={
                                 //     <p style={{ textAlign: "center" }}>
                                 //         <b>Yay! You have seen it all</b>
