@@ -1,4 +1,4 @@
-import React, { useEffect, useState, CSSProperties } from "react"
+import React, { useEffect, useState } from "react"
 import "./style.css"
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
@@ -20,7 +20,6 @@ const ShopListData = () => {
     const [addFav, setAddFav] = useState('')
     const [products, setProducts] = useState([], []);
     const [nextUrlPage, setNextUrlPage] = useState('');
-    // const [loading, setLoading] = useState(false)
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
     const [categoriesData, setCategoriesData] = useState('')
@@ -28,11 +27,6 @@ const ShopListData = () => {
     const [numberCount, setNumberCount] = useState('')
 
     const userToken = useSelector(state => state.user.token);
-
-    const override = CSSProperties = {
-        display: "block",
-        margin: "0 auto",
-    };
 
     useEffect(() => {
         productList();
@@ -56,14 +50,16 @@ const ShopListData = () => {
             // setShow(false)
         }
 
-        return await axios.get(final, {
+        return await axios.get(final
+            , {
             headers: headers
-        })
+        }
+        )
             .then((res) => {
                 const apiRes = [...products, ...res?.data?.results]
                 setProducts(apiRes)
                 setNextUrlPage(res?.data?.next)
-                console.log('new', res.data)
+                // console.log('new', res.data)
                 setNumberCount(res.data.count)
             })
             .catch((err) => console.log(err))
@@ -120,33 +116,38 @@ const ShopListData = () => {
         setCat(val)
         console.log('target', val)
         let finalURL = BASE_URL + CATEGORY_MENU_LIST_ENDPOINT + val
-        axios.get(finalURL, {
+        axios.get(finalURL
+            , {
             headers: {
                 'Content-Type': "application/json",
-                Authorization: `Token ${userToken}`
+                 Authorization: `Token ${userToken}`
             }
-        }).then((res) => {
+        }
+        ).then((res) => {
             console.log('cateeee',res.data)
             setProducts(res.data.results)
 
         }).catch(error => {
-            console.log(error)
+            console.log('cateLIst',error)
         })
     }
 
     const categoryData = async () => {
         let FInal = BASE_URL + CATEGORY_ENDPOINT
         try {
-            let res = await axios.get(FInal, {
+            let res = await axios.get(FInal
+                ,
+                {
                 headers: {
                     'Content-Type': "application/json",
-                    Authorization: `Token ${userToken}`
+                     Authorization: `Token ${userToken}`
                 }
-            })
-            // console.log('catData',res.data.results)
+            }
+            )
+             console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
         } catch (error) {
-            console.log(error)
+            console.log('cateData',error)
         }
     }
 
@@ -238,7 +239,7 @@ const ShopListData = () => {
                                 next={lazyLoading}
                                 hasMore={hasMore}
                                 // className="d-flex flex-wrap"
-                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={override} size={100} /></div>}
+                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={{display: "block", margin: "0 auto"} } size={100} /></div>}
                                 // endMessage={
                                 //     <p style={{ textAlign: "center" }}>
                                 //         <b>Yay! You have seen it all</b>
@@ -253,12 +254,12 @@ const ShopListData = () => {
                                                 <div className='border shadow-sm' >
                                                     <div className="product">
                                                         <div className="text-center mb-1">
-                                                            <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                            <img src={product?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                         </div>
                                                         <div className="p-1">
                                                             <div className="about">
                                                                 <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                                <span className="">$ {product.price}</span>
+                                                                <span className="">$ {product?.price}</span>
                                                             </div>
                                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
                                                                 <div className="">
