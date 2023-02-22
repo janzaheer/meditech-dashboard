@@ -86,6 +86,13 @@ const ProductDetail = () => {
     const { images } = product;
     // console.log('img', images)
 
+    const price =(p) =>{
+        if (p == 0) {
+            return <h6 className='text-danger'> Please place a order for quotation, Once order is placed our support team will call you </h6>
+        } else {
+            return `$ ${p}`
+        }
+    }
 
     return (
         <div>
@@ -109,7 +116,7 @@ const ProductDetail = () => {
                             </div>
                             <div className="col-lg-4 order-lg-2 order-1">
                                 <div className="image_selected">
-                                    <img src={mainImage ? mainImage.image_url : product.images && product.images[0].image_url} alt='img' className='w-100'/>
+                                    <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100'/>
                                 </div>
                                 {/* <Zoom
                                         img="https://www.lifeofpix.com/wp-content/uploads/2018/06/20180120-P1201659-1600x1089.jpg"
@@ -122,7 +129,9 @@ const ProductDetail = () => {
                                 <div className="product_description">
                                     <div className="product_name mt-5">{product?.title}</div>
                                     {/* <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div> */}
-                                    <div> <span className="product_price">$ {product?.price}</span> 
+                                    <div>
+                                         {/* <span className="product_price">$ {product?.price}</span>  */}
+                                    <span className="product_price"> {price(product?.price)}</span> 
                                     {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
                                     </div>
                                     <div>
@@ -130,7 +139,7 @@ const ProductDetail = () => {
                                             <div className="col-md-10">
                                                 <div className="p-1 my-2 table-responsive2">
                                                     <Scrollbars>
-                                                    <p> {product.description}</p>
+                                                    <p> {product?.description}</p>
                                                     </Scrollbars>
                                                 </div>
                                             </div>

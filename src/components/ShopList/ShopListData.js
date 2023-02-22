@@ -155,6 +155,14 @@ const ShopListData = () => {
         return data.results;
     }
 
+    const price = (p)=>{
+        if (p == 0) {
+            return ''
+        } else {
+            return`$ ${p}`
+        }
+    }
+
     return (
         <div>
             <div className="container-fluid mt-3 mb-5">
@@ -253,7 +261,8 @@ const ShopListData = () => {
                                                         <div className="p-1">
                                                             <div className="about">
                                                                 <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                                <span className="">$ {product?.price}</span>
+                                                                {/* <span className="">$ {product?.price}</span> */}
+                                                                <span className=""> {price(product?.price)}</span>
                                                             </div>
                                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
                                                                 <div className="">
