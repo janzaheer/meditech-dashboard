@@ -12,6 +12,7 @@ import Footer from '../common/footer/Footer';
 
 const Login = () => {
     const { isAuthenticated } = useSelector((state) => state.user)
+    const user = useSelector(state => state.user);
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
@@ -19,19 +20,23 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        dispatch(signInUser({ username, password }))
+        // dispatch(signInUser({ username, password }))
         // console.log(isAuthenticated)
+         await dispatch(signInUser({ username, password }))
         
         if (isAuthenticated) {
             setUsername('')
             setPassword('')
-            navigation('/')
+            // navigation('/')
+            console.log('authUser',isAuthenticated)
+            console.log('user',user)
         } else {
             toast.error(`Invalid username or password`, {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
             });
         }
+        
     }
 
     const handleUserNAme = (e) => {

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, LOGIN_ENDPOINT } from "../utlis/apiUrls";
+import { BASE_URL, LOGIN_ENDPOINT, SIGNUP_ENDPOINT } from "../utlis/apiUrls";
 
 // const user = JSON.parse(localStorage.getItem('user'))
 
@@ -13,7 +13,7 @@ const initialState = {
 }
 
 export const signUpUser = createAsyncThunk('signupuser', async (body) => {
-    let SIGNUP_ENDPOINT = 'api/v1/auth/register/';
+    // let SIGNUP_ENDPOINT = 'api/v1/auth/register/';
     let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT
     const res = await fetch(SignUpUrl, {
         method: "post",
@@ -40,6 +40,7 @@ export const signInUser = createAsyncThunk('signinuser', async ({ username, pass
         }),
     })
     const data = await res.json()
+    console.log('loginData',data)
     return data
 
 })
