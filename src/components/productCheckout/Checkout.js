@@ -159,6 +159,22 @@ const Checkout = () => {
         }
     }
 
+    const price = (p) => {
+        if (p == 0) {
+            return `-`
+        } else {
+            return p
+        }
+    }
+
+    const total = (p) => {
+        if (p == 0) {
+            return `-`
+        } else {
+            return `${p}`
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -303,7 +319,7 @@ const Checkout = () => {
                                                             </div>
                                                         </th>
                                                         <td className="border-0 align-middle"><strong>
-                                                            {item.price}
+                                                            {price(item.price)}
                                                         </strong></td>
                                                         <td className="border-0 align-middle"><strong>{item.quantity}</strong></td>
                                                     </tr>
@@ -333,8 +349,8 @@ const Checkout = () => {
                                     <div className='mt-1 ms-1'>
                                         <p> {totalItems}</p>
                                         <p className='text-muted text-wrap'>Calculate by support after placing order </p>
-                                        <p>$ {totalAmount}</p>
-                                        <p className='text-success fw-bolder'>$ {totalAmount}</p>
+                                        <p>$ {total(totalAmount)}</p>
+                                        <p className='text-success fw-bolder'>$ {total(totalAmount)}</p>
                                     </div>
                                 </div>
                                 <button onClick={() => handlePlaceOrder()} className='btn btn-outline-success w-100 my-3'>Place Order</button>

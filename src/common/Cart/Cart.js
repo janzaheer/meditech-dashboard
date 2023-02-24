@@ -57,6 +57,38 @@ const Cart = () => {
 
   }
 
+  const price = (p) => {
+    if (p == 0) {
+        return `-`
+    } else {
+        return `${p}`
+    }
+}
+
+const TotalPrice = (p) => {
+  if (p == 0) {
+      return `-`
+  } else {
+      return `${p}`
+  }
+}
+
+const total = (p) => {
+  if (p == 0) {
+      return `-`
+  } else {
+      return `${p}`
+  }
+}
+
+const deliveryPrice = (p) => {
+  if (p == 0) {
+      return `-`
+  } else {
+      return `${p}`
+  }
+}
+
   return (
     <>
   <Header />
@@ -105,19 +137,19 @@ const Cart = () => {
                         {cartProducts.map((cartProduct) => {
                           return (
 
-                            <tr key={cartProduct.id} >
+                            <tr key={cartProduct?.id} >
                               <th scope="row" className="border-0">
                                 <div className="p-2">
-                                  <img src={cartProduct.images[0].image_url} alt='' width={60} className="img-fluid rounded shadow-sm" />
+                                  <img src={cartProduct?.images[0]?.image_url} alt='' width={60} className="img-fluid rounded shadow-sm" />
 
                                   <div className="ms-3 ml-3 d-inline-block align-middle">
-                                    <h6 className="mb-0"> <Link to="#" className="text-dark d-inline-block align-middle">{cartProduct.title.substring(0, 15)}...</Link>
-                                    </h6><span className="text-muted font-weight-normal font-italic d-block"> $ {cartProduct?.price}</span>
+                                    <h6 className="mb-0"> <Link to="#" className="text-dark d-inline-block align-middle">{cartProduct?.title.substring(0, 15)}...</Link>
+                                    </h6><span className="text-muted font-weight-normal font-italic d-block">$ {price(cartProduct?.price)}</span>
                                   </div>
                                 </div>
                               </th>
-                              <td className="border-0 align-middle"><strong>{cartProduct.totalPrice}</strong></td>
-                              <td className="border-0 align-middle"><strong>{cartProduct.quantity}</strong></td>
+                              <td className="border-0 align-middle"><strong>{TotalPrice(cartProduct?.totalPrice)}</strong></td>
+                              <td className="border-0 align-middle"><strong>{cartProduct?.quantity}</strong></td>
                               <td className="border-0 align-middle"><strong>
                                 <div className=''>
                                   {/* <button className='btn btn-outline-success me-4' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "INC" }))}> */}
@@ -174,19 +206,18 @@ const Cart = () => {
                 <div className="p-4">
                   <p className="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
                   <ul className="list-unstyled mb-4">
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Quantity Price</strong><strong>$ {totalAmount}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Quantity Price</strong><strong>$ {total(totalAmount)}</strong></li>
                     {/* <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Order Subtotal </strong><strong>Rs 390.00</strong></li> */}
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>$ {deliveryCharge}</strong></li>
-                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>$ {(0)}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>$ {deliveryPrice(deliveryCharge)}</strong></li>
+                    <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>$ -</strong></li>
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Total</strong>
-                      <h5 className="font-weight-bold">$ {totalAmount + deliveryCharge} </h5>
+                      <h5 className="font-weight-bold">$ {total(totalAmount) + deliveryPrice(deliveryCharge)} </h5>
                     </li>
                   </ul>
                   <Link to='/checkout' className="btn btn-success">Proceed to Checkout</Link>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
