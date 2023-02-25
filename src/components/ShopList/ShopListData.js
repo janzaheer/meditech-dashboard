@@ -155,6 +155,14 @@ const ShopListData = () => {
         return data.results;
     }
 
+    const price = (p)=>{
+        if (p == 0) {
+            return ''
+        } else {
+            return`$ ${p}`
+        }
+    }
+
     return (
         <div>
             <div className="container-fluid mt-3 mb-5">
@@ -244,20 +252,21 @@ const ShopListData = () => {
                                 <div className="row g-2">
                                     {products && products.map((product) => {
                                         return (
-                                            <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                            <div key={product?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                                 <div className='border shadow-sm' >
                                                     <div className="product">
                                                         <div className="text-center mb-1">
-                                                            <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                            <img src={product?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                         </div>
                                                         <div className="p-1">
                                                             <div className="about">
                                                                 <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                                <span className="">$ {product.price}</span>
+                                                                {/* <span className="">$ {product?.price}</span> */}
+                                                                <span className=""> {price(product?.price)}</span>
                                                             </div>
                                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
                                                                 <div className="">
-                                                                    <NavLink to={`/productDetails/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
+                                                                    <NavLink to={`/productDetails/${product?.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
                                                                 </div>
                                                                 <div style={{ width: "25px" }}>
                                                                     <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />

@@ -88,6 +88,30 @@ const ProductSuccess = () => {
         return <Link to='#' onClick={() => cancelOrder(id)} className='btn btn-outline-danger my-1 ms-3'>cancel order</Link>
     }
 
+    const price = (p) => {
+        if (p == 0) {
+            return `-`
+        } else {
+            return `${p}`
+        }
+    }
+
+    const subTotal = (p) => {
+        if (p == 0) {
+            return `-`
+        } else {
+            return `${p}`
+        }
+    }
+
+    const ShippingPrice = (p) => {
+        if (p == 0) {
+            return `-`
+        } else {
+            return `${p}`
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -127,7 +151,7 @@ const ProductSuccess = () => {
                                     return (
                                         <div key={ite?.item.id} className="d-flex justify-content-between align-items-center product-details">
                                             <div className="d-flex flex-row product-name-image">
-                                                <img className="rounded shadow me-3" src={ite?.item.images[0].image_url} width={60} alt={ite?.item.title} />
+                                                <img className="rounded shadow me-3" src={ite?.item.images[0]?.image_url} width={60} alt={ite?.item.title} />
                                                 <div className="d-flex flex-column justify-content-evenly ml-2">
                                                     <div>
                                                         <span className="d-block font-weight-bold p-name">{ite?.item.title}</span>
@@ -136,7 +160,7 @@ const ProductSuccess = () => {
                                                 </div>
                                             </div>
                                             <div className="product-price">
-                                                <h5>$ {ite?.item.price}</h5>
+                                                <h5>$ {price(ite?.item.price)}</h5>
                                             </div>
                                         </div>
                                     )
@@ -148,15 +172,15 @@ const ProductSuccess = () => {
                                     <div className="col-md-6">
                                         <div className="billing">
                                             <div className="d-flex justify-content-between"><span>Subtotal</span><span className="font-weight-bold">
-                                                $ {orderDataList?.total_amount}
+                                                $ {subTotal(orderDataList?.total_amount)}
                                             </span></div>
                                             <div className="d-flex justify-content-between mt-2"><span>Shipping fee</span><span className="font-weight-bold">
-                                                $ {orderDataList?.shipping_amount}
+                                                $ {ShippingPrice(orderDataList?.shipping_amount)}
                                             </span></div>
-                                            <div className="d-flex justify-content-between mt-2"><span className="text-success">Discount</span><span className="font-weight-bold text-success">$ {(0)}</span></div>
+                                            <div className="d-flex justify-content-between mt-2"><span className="text-success">Discount</span><span className="font-weight-bold text-success">$ -</span></div>
                                             <hr />
                                             <div className="d-flex justify-content-between mt-1"><span className="font-weight-bold">Total</span><span className="font-weight-bold text-success">
-                                                $ {orderDataList?.total_amount + orderDataList?.shipping_amount}
+                                                $ {subTotal(orderDataList?.total_amount) + ShippingPrice(orderDataList?.shipping_amount)}
                                             </span></div>
                                         </div>
                                     </div>
@@ -165,7 +189,7 @@ const ProductSuccess = () => {
                                 <span className="d-block mt-3 text-black-50 fs-15"><BsEnvelopeFill />  We will be sending a shipping confirmation email when the item is shipped!</span>
                                 <hr />
                                 <div className="d-flex justify-content-between align-items-center footer">
-                                    <div className="thanks"><span className="d-block font-weight-bold">Thanks for shopping</span><span>Cosmedicos team</span></div>
+                                    <div className="thanks"><span className="d-block font-weight-bold">Thanks for shopping</span><span>Cosmedicos Team</span></div>
                                     <div className="d-flex flex-column justify-content-end align-items-end"><span className="d-block font-weight-bold">Need Help?</span><span>Call - 93333333333</span></div>
                                 </div>
                                 <div className='my-3'>

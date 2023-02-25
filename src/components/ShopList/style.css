@@ -25,6 +25,10 @@
     border: 1px solid #fff;
 }
 
+.infinite-scroll-component {
+    overflow:hidden !important;
+}
+
 .product:hover {
     border-color: #198754 !important;
     /* box-shadow: 0 0 15px rgba(54, 202, 54, 0.2) !important; */

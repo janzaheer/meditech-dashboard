@@ -32,7 +32,7 @@ const SlideCard = () => {
         <Slider {...settings}>
           {sd.map((value) => {
             return (
-              <div key={value.id} id="carouselExampleDark" className="carousel carousel-dark slide sli" data-bs-ride="carousel">
+              <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark slide sli" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
                     <img src={value.cover} height='380px' className="d-block w-100" alt="..." />
@@ -42,14 +42,6 @@ const SlideCard = () => {
                     </div> */}
                   </div>
                 </div>
-                {/* <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                  <span className="carousel-control-prev-icon" aria-hidden="true" />
-                  <span className="visually-hidden">Previous</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                  <span className="carousel-control-next-icon" aria-hidden="true" />
-                  <span className="visually-hidden">Next</span>
-                </button> */}
               </div>
             )
           })}
