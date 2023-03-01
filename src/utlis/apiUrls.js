@@ -1,5 +1,5 @@
 
-export const BASE_URL = process.env.NODE_ENV == 'development' ? `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/` : `http://ec2-43-207-140-105.ap-northeast-1.compute.amazonaws.com/`;
+export const BASE_URL = process.env.NODE_ENV == 'development' ? `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/` : `https://api.cosmedicos.com/`;
 // export const BASE_URL = `http://ec2-43-207-140-105.ap-northeast-1.compute.amazonaws.com/`;
 export const END_POINT = `api/v1/items/`; // list endpoint
 export const LOGIN_ENDPOINT = 'api/v1/auth/login/';
