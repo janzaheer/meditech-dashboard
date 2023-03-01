@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <>
       <footer className="px-md-5 py-5 text-white">
-        <div className="container-fluid">
+        <div className="container-fluid" style="display:none">
           <div className="row w-100">
             <div className="col-md-3">
               <div className='box'>
