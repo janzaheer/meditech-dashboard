@@ -115,8 +115,7 @@ const ShopListData = () => {
         let finalURL = BASE_URL + CATEGORY_MENU_LIST_ENDPOINT + val
         axios.get(finalURL, {
             headers: {
-                'Content-Type': "application/json",
-                Authorization: `Token ${userToken}`
+                'Content-Type': "application/json"
             }
         }).then((res) => {
             console.log('cateeee',res.data)
