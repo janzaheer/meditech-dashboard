@@ -226,8 +226,7 @@ const Products = () => {
     try {
       let res = await axios.get(FInal, {
         headers: {
-          'Content-Type': "application/json",
-          Authorization: `Token ${userToken}`
+          'Content-Type': "application/json"
         }
       })
       //  console.log('cateeeeee', res.data.results)
