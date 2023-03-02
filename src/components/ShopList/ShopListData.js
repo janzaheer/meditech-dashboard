@@ -185,7 +185,7 @@ const ShopListData = () => {
                                                 <div className="ms-3" onChange={categoryList} value={cat}>
                                                     <div className="form-check">
                                                         <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value='' />
-                                                        <label className="form-check-label" htmlFor="exampleRadios2">
+                                                        <label className="form-check-lab" htmlFor="exampleRadios2">
                                                             All
                                                         </label>
                                                     </div>
@@ -193,7 +193,7 @@ const ShopListData = () => {
                                                         return (
                                                             <div className="form-check" key={cate.id}>
                                                                 <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value={cate?.name} />
-                                                                <label className="form-check-label" htmlFor="exampleRadios2">
+                                                                <label className="form-check-lab" htmlFor="exampleRadios2">
                                                                     {cate?.name}
                                                                 </label>
                                                             </div>
