@@ -6,7 +6,7 @@ import { HiBars3 } from 'react-icons/hi2';
 import { NavLink, Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT ,changeUrl } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_MENU_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
@@ -121,7 +121,7 @@ const ShopListData = () => {
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('cateeee',res.data)
+            console.log('cateeee', res.data)
             setProducts(res.data.results)
 
         }).catch(error => {
@@ -155,13 +155,16 @@ const ShopListData = () => {
         return data.results;
     }
 
-    const price = (p)=>{
+    const price = (p) => {
         if (p == 0) {
             return ''
         } else {
-            return`$ ${p}`
+            return `$ ${parseFloat(p).toFixed(1)}`
         }
     }
+
+    var i = parseFloat(25.00090).toFixed(0)
+    console.log('toFixed',i)//-6527.34
 
     return (
         <div>
@@ -169,7 +172,7 @@ const ShopListData = () => {
                 <div className="row">
                     <ToastContainer />
                     <div className="col-lg-3 mb-lg-0 mb-2 mt-1">
-                        <h2 className="text-success mt-1">FIlters & category</h2>
+                        <h2 className="text-success mt-1">Filters & Category</h2>
                         <hr className="border border-success border-2 opacity-50"></hr>
                         <div>
                             <h6>
@@ -241,13 +244,13 @@ const ShopListData = () => {
                                 next={lazyLoading}
                                 hasMore={hasMore}
                                 // className="d-flex flex-wrap"
-                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={ {display: "block", margin: "0 auto"} } size={100} /></div>}
-                                // endMessage={
-                                //     <p style={{ textAlign: "center" }}>
-                                //         <b>Yay! You have seen it all</b>
-                                //     </p>
-                                // }
-                                // scrollableTarget="scrollableDiv"
+                                loader={<div key={0} ><HashLoader color='#198754' cssOverride={{ display: "block", margin: "0 auto" }} size={100} /></div>}
+                            // endMessage={
+                            //     <p style={{ textAlign: "center" }}>
+                            //         <b>Yay! You have seen it all</b>
+                            //     </p>
+                            // }
+                            // scrollableTarget="scrollableDiv"
                             >
                                 <div className="row g-2">
                                     {products && products.map((product) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import Sdata from "./Sdata"
+import Sdata from "./Sdata";
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -35,7 +35,7 @@ const SlideCard = () => {
               <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark slide sli" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
-                    <img src={value.cover} height='380px' className="d-block w-100" alt="..." />
+                    <img src={value.cover} alt='img' height='380px' className="d-block w-100"/>
                     {/* <div className="carousel-caption d-none d-md-block">
                       <h5>{value.title}</h5>
                       <p>{value.desc}.</p>
