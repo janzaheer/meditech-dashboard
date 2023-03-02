@@ -51,9 +51,7 @@ const ShopListData = () => {
             // setShow(false)
         }
 
-        return await axios.get(final, {
-            headers: headers
-        })
+        return await axios.get(final)
             .then((res) => {
                 const apiRes = [...products, ...res?.data?.results]
                 setProducts(apiRes)

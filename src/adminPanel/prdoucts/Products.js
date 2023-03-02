@@ -60,8 +60,7 @@ const Products = () => {
     let final = BASE_URL + END_POINT
     return await axios.get(final, {
       headers: {
-        'Content-Type': "application/json",
-        Authorization: `Token ${userToken}`
+        'Content-Type': "application/json"
       }
     })
       .then((res) => {
