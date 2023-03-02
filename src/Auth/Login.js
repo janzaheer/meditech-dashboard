@@ -11,7 +11,6 @@ import Header from '../common/header/Header';
 import Footer from '../common/footer/Footer';
 
 const Login = () => {
-    const { isAuthenticated } = useSelector((state) => state.user)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
@@ -19,10 +18,8 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        dispatch(signInUser({ username, password }))
-        // console.log(isAuthenticated)
-        
-        if (isAuthenticated) {
+        const loginData = await dispatch(signInUser({ username, password }))
+        if (loginData.payload && loginData.payload.user) {
             setUsername('')
             setPassword('')
             navigation('/')

@@ -29,8 +29,8 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         console.log(first_name, last_name, phone_number, username, email, password, confirm_password)
-        await dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
-        if (isAuthenticated) {
+        const registerResp = await dispatch(signUpUser({ first_name, last_name, phone_number, username, email, password, confirm_password }))
+        if (registerResp.payload && registerResp.payload.user) {
             setFirst_Name('')
             setLast_Name('')
             setUserName('')
