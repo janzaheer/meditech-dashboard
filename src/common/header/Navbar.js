@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react"
 import { NavLink, Link } from "react-router-dom"
 import './new.css'
 import { HiOutlineShoppingCart } from "react-icons/hi";
-// import logo from '../../../public/images/logo/logo.png'
-import logo from '../../logo/logo.png';
+import logo from '../../logo/logo_new.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCartTotal } from "../../store/cartSlice";
 import { useNavigate } from 'react-router-dom';
