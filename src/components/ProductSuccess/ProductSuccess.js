@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsEnvelopeFill } from 'react-icons/bs'
 import './ProductSuccess.css';
-import logo from '../../logo/logo.png';
+import logo from '../../logo/logo_new.png';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -105,7 +105,15 @@ const ProductSuccess = () => {
     }
 
     const ShippingPrice = (p) => {
+        // if (p == 0) {
+        //     return `-`
+        // } else {
+        //     return `${p}`
+        // }
+        
         if (p == 0) {
+            return ``;
+        } else if (p == 0) {
             return `-`
         } else {
             return `${p}`

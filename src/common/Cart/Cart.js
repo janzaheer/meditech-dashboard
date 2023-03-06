@@ -83,7 +83,7 @@ const total = (p) => {
 
 const deliveryPrice = (p) => {
   if (p == 0) {
-      return `-`
+      return ``
   } else {
       return `${p}`
   }

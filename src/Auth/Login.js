@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Login.css'
-import logo from '../logo/logo.png'
+// import logo from '../logo/logo.png';
+import logo from '../logo/logo_new.png'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../store/authSlice';

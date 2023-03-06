@@ -13,37 +13,31 @@ const Navbar = () => {
   const { totalItems } = useSelector((state => state.cart));
 
   const navigate = useNavigate()
+  useEffect(() => {
+    dispatch(getCartTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSearchTerm = (e) => {
     e.preventDefault();
     if (e.key == 'Enter') {
 
       setSearchTerm(e.target.value);
       navigate(`search/${e.target.value}`)
-      console.log('value',e.target.value)
-      console.log('searchterm',searchTerm)
+      console.log('searchterm', searchTerm)
     }
-
-    // setSearchTerm('')
-
   }
-
-  // console.log('search', searchTerm)
-
-  useEffect(() => {
-    dispatch(getCartTotal());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
 
   return (
     <>
       <header className="section-header sticky-top shadow">
         <section className="header-main border-bottom bg-white">
           <div className="container-fluid">
-            <div className="row p-2 pt-3 pb-3 d-flex align-items-center">
+            <div className="row p-2 d-flex align-items-center">
               <div className="col-md-2">
                 <NavLink to='/'>
-                  <img className="d-md-flex" src={logo} alt='' width={110} />
+                  {/* <img className="d-md-flex" src={logo} alt='' height={100} width={110} /> */}
+                  <img className="d-md-flex" src={logo} alt='' height={110} />
                 </NavLink>
               </div>
               <div className="col-md-8">
@@ -60,7 +54,6 @@ const Navbar = () => {
                     <span className="qty">{totalItems} Product</span>
                     {/* <span className="fw-bold">Rs {totalAmount} </span> */}
                   </div>
-
                 </div>
               </div>
             </div>

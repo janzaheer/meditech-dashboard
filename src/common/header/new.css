@@ -15,7 +15,10 @@
     right:10px;
     top:15px;
 } */
-
+.section-header{
+    /* margin-bottom: 73px !important; */
+      margin-bottom: 36px !important;
+}
 .shop-bag{
     background-color:#198754;
     color:#fff;
