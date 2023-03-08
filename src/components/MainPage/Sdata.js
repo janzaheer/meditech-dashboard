@@ -3,28 +3,28 @@ const Sdata = [
     id: 1,
     title: "50% Off For Your First Shopping",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-    cover: "./images/SlideCard/1.jpg",
+    cover: "./images/SlideCard/Blue1800x800.jpg",
     price: 20000
   },
   {
     id: 2,
     title: "50% Off For Your First Shopping",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-    cover: "./images/SlideCard/2.jpg",
+    cover: "./images/SlideCard/Green1800x600.jpg",
     price: 2500
   },
   {
     id: 3,
     title: "50% Off For Your First Shopping",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-    cover: "./images/SlideCard/3.jpg",
+    cover: "./images/SlideCard/Gray1800x1000.jpg",
     price: 3000
   },
   {
     id: 4,
     title: "50% Off For Your First Shopping",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-    cover: "./images/SlideCard/5.jpg",
+    cover: "./images/SlideCard/4.jpg",
     price: 3500
   },
   // {

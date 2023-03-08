@@ -3,7 +3,7 @@ import './Register.css'
 import './Login.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../store/authSlice';
-import logo from '../logo/logo.png';
+import logo from '../logo/logo_new.png';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
@@ -21,10 +21,8 @@ const Register = () => {
 
 
     const { isAuthenticated } = useSelector((state) => state.user)
-
     const navigation = useNavigate()
     const dispatch = useDispatch();
-
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -44,11 +42,8 @@ const Register = () => {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
             });
-        }
-        
+        } 
     }
-
-
 
     return (
         <div>
