@@ -11,6 +11,7 @@ import ProductDetail from "./components/ProductDetails/ProductDetail"
 import Checkout from "./components/productCheckout/Checkout"
 import PaymentMethod from "./components/paymentMethod/PaymentMethod"
 import ProductSuccess from "./components/ProductSuccess/ProductSuccess"
+import ProductCategory from "./components/ProductCategory/ProductCategory";
 
 import Login from "./Auth/Login"
 import ManageProfile from "./Profile/ManageProfile"
@@ -39,6 +40,7 @@ function App() {
           <Route path='/login' element={<Login />} ></Route>
           <Route path='/register' element={<Register />} ></Route>
           <Route path="search/:searchTerm" element={<SearchLIst />}></Route>
+          <Route path="/productCategory/:id" element={<ProductCategory />}></Route>
 
           {/*Admin Protected Routes */}
           <Route exact path='/dashboard' element={<ProtectedRoute />}>

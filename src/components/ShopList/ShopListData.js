@@ -31,6 +31,10 @@ const ShopListData = () => {
 
     useEffect(() => {
         productList();
+        // categoryData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    useEffect(() => {
         categoryData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -129,13 +133,14 @@ const ShopListData = () => {
     const categoryData = async () => {
         let FInal = BASE_URL + CATEGORY_ENDPOINT
         try {
-            let res = await axios.get(FInal, {
+            let res = await axios.get(FInal,{
                 headers: {
-                    'Content-Type': "application/json"
+                    'Content-Type': "application/json",
+                    Authorization: `Token ${userToken}`
                 }
             })
-            // console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
+            console.log('catApi',res.data.results)
         } catch (error) {
             console.log(error)
         }
@@ -153,9 +158,10 @@ const ShopListData = () => {
 
     const price = (p)=>{
         if (p == 0) {
+            /* eslint eqeqeq: 0 */
             return ''
         } else {
-            return`$ ${p}`
+            return`$ ${parseFloat(p).toFixed(1)}`
         }
     }
 
@@ -194,7 +200,9 @@ const ShopListData = () => {
                                                             <div className="form-check" key={cate.id}>
                                                                 <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value={cate?.name} />
                                                                 <label className="form-check-lab" htmlFor="exampleRadios2">
-                                                                    {cate?.name}
+                                                                <NavLink to={`/productCategory/${cate?.id}`}>
+                                                                {cate?.name}
+                                                                </NavLink>
                                                                 </label>
                                                             </div>
                                                         )
