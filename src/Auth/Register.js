@@ -3,7 +3,7 @@ import './Register.css'
 import './Login.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../store/authSlice';
-import logo from '../logo/logo.png';
+import logo from '../logo/logo_new.png';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
@@ -60,7 +60,7 @@ const Register = () => {
                         <div className="card-body p-5 text-center" >
                             <div className="mb-5">
                                 <img className="mb-1" src={logo} alt='' width={110} />
-                                <h3>Welcome to MediTech! Please Register Now.</h3>
+                                <h3>Welcome to Cosmedicos! Please Register Now.</h3>
                             </div>
                             <form className="row g-3 " onSubmit={handleRegister}>
                                 <div className="col-md-6 form-floating">
