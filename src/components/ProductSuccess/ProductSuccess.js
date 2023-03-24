@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsEnvelopeFill } from 'react-icons/bs'
 import './ProductSuccess.css';
-import logo from '../../logo/logo.png';
+import logo from '../../logo/logo_new.png';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
