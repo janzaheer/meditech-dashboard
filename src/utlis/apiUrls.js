@@ -6,7 +6,7 @@ export const LOGIN_ENDPOINT = 'api/v1/auth/login/';
 export const ORDER_ENDPOINT = 'api/v1/orders/';
 export const ORDER_PLACED_ENDPOINT = 'api/v1/orders/place_order/';
 export const CATEGORY_ENDPOINT = 'api/v1/category/';
-export const CATEGORY_MENU_LIST_ENDPOINT = '/api/v1/items/?category__name=';
+export const CATEGORY_ITEMS_LIST_ENDPOINT = '?category__name=';
 export const SORT_ENDPOINT = 'api/v1/items/?ordering=';
 export const FAV_ENDPOINT = `api/v1/favourite/items/`;
 export const ADDRESS_REMOVE_ENDPOINT = 'api/v1/user/remove_address/';

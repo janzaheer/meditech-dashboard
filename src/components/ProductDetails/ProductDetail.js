@@ -103,7 +103,7 @@ const ProductDetail = () => {
                         <ToastContainer/>
                         <div className="row">
                             {/* <ReactImageZoom {...props} /> */}
-                            <div className="col-lg-2 order-lg-1 order-2 table-responsive1 imagesul">
+                            <div className="col-4 col-sm-4 col-lg-2 order-sm-1 order-2 table-responsive1 imagesul">
                                 <Scrollbars>
                                     {product.images && images.map((im, index) => {
                                         return (
@@ -114,7 +114,7 @@ const ProductDetail = () => {
                                     })}
                                 </Scrollbars>
                             </div>
-                            <div className="col-lg-4 order-lg-2 order-1">
+                            <div className="col-8 col-sm-8 col-lg-4 order-sm-2 order-1">
                                 <div className="image_selected">
                                     <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100'/>
                                 </div>

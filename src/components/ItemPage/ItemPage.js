@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
-import "./style.css"
+import React, { useEffect, useState } from "react";
+import './style.css';
+import Header from '../../common/header/Header';
+import Footer from '../../common/footer/Footer';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl } from '../../utlis/apiUrls';
 import { FaRegEye } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import HashLoader from 'react-spinners/HashLoader'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
@@ -12,15 +14,13 @@ import Heart from "react-heart";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Form from 'react-bootstrap/Form';
 
-
-const ShopListData = () => {
+const ItemPage = () => {
 
     const [sortTerm, setSortTerm] = useState('')
     const [addFav, setAddFav] = useState('')
     const [products, setProducts] = useState([], []);
     const [nextUrlPage, setNextUrlPage] = useState('');
-    // const [loading, setLoading] = useState(false)
-    const [cateList, setCateList] = useState('')
+    const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
     const [categoriesData, setCategoriesData] = useState('')
     const [hasMore, setHasMore] = useState(true);
@@ -28,14 +28,13 @@ const ShopListData = () => {
 
     const userToken = useSelector(state => state.user.token);
 
+    let params = (new URL(document.location)).searchParams;
+    let category_name = params.get("category_name") ? params.get("category_name") : '';
+    console.log('category_name', category_name)
+
     useEffect(() => {
         productList();
         categoryData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        categoryList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -46,20 +45,20 @@ const ShopListData = () => {
             Authorization: `Token ${userToken}`
         }
     }
-
+    
     const productList = async (next_page_url) => {
-        let final = BASE_URL + END_POINT
+        let final = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category_name
         if (next_page_url) {
             final = next_page_url;
-        } else {
-            // setShow(false)
         }
+
+        category_name = ''
+
         return await axios.get(final)
             .then((res) => {
                 const apiRes = [...products, ...res?.data?.results]
                 setProducts(apiRes)
                 setNextUrlPage(res?.data?.next)
-                // console.log('new', res.data)
                 setNumberCount(res.data.count)
             })
             .catch((err) => console.log(err))
@@ -111,11 +110,11 @@ const ShopListData = () => {
         })
     }
 
-    const categoryList = async () => {
-        // let val = e.target.value;
-        // setCat(val)
-        // console.log('target', val)
-        let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT
+    const categoryList = async (e) => {
+        let val = e.target.value;
+        setCat(val)
+        console.log('target', val)
+        let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + val
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
@@ -123,8 +122,7 @@ const ShopListData = () => {
             }
         }).then((res) => {
             console.log('cateeee', res.data)
-            //  setProducts(res.data.results)
-            setCateList(res.data.results)
+            setProducts(res.data.results)
 
         }).catch(error => {
             console.log(error)
@@ -140,7 +138,7 @@ const ShopListData = () => {
                     Authorization: `Token ${userToken}`
                 }
             })
-            console.log('catData', res.data.results)
+            // console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
         } catch (error) {
             console.log(error)
@@ -158,7 +156,6 @@ const ShopListData = () => {
     }
 
     const price = (p) => {
-        /* eslint eqeqeq: 0 */
         if (p == 0) {
             return ''
         } else {
@@ -166,125 +163,49 @@ const ShopListData = () => {
         }
     }
 
-    const getRandomCategoryImage = () => {
-        const CategoryImagesList = [
-            "./images/categoryList/1.jpg",
-            "./images/categoryList/2.jpg",
-            "./images/categoryList/3.jpg",
-            "./images/categoryList/4.jpg",
-            './images/categoryList/5.jpg'
-        ]
-        const random = Math.floor(Math.random() * CategoryImagesList.length);
-        return CategoryImagesList[random]
-    }
-
     return (
-        <div>
-            <div className="container-fluid mt-3 mb-5">
+        <>
+            <Header />
+            <div className='container-fluid mt-5 mb-5'>
                 <div className="row">
                     <ToastContainer />
-                    <div className="col-md-4 col-lg-12">
-                        <div className="container">
-                            <h2 className="text-success mt-5">Category</h2>
-                            <hr className="border border-success border-1 opacity-50"></hr>
-                            <div className="row g-0">
-
-                                {categoriesData && categoriesData.map((categoryName) => {
-                                    return (
-                                        <div key={categoryName.id} className="col-lg-2">
-                                            <div className="card" style={{ height: '100px' }}>
-                                                <div className="card-body">
-                                                    <NavLink to={`/item/?category_name=${categoryName.name}`} className='text-dark d-block' >
-                                                        <img src={getRandomCategoryImage()} alt='' height={50} width={50} className="mx-5" />
-                                                        <p className="mx-1 mt-1">{categoryName.name}.</p>
-                                                    </NavLink>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        {categoriesData && categoriesData.map((categoryName) => {
-                            return (
-                                <div key={categoryName.id} className="col-lg-12 mb-5">
-                                    <div className="container">
-                                        <h2 className="text-success mt-5">{categoryName.name}</h2>
-                                        <hr className="border border-success border-1 opacity-50"></hr>
-                                        <div className="row g-2">
-                                            {cateList && cateList.slice(0, 12).map((catItem) => {
-                                                return (
-                                                    <div key={catItem?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                                        <div className='border shadow-sm' >
-                                                            <div className="product">
-                                                                <div className="text-center mb-1">
-                                                                    <img src={catItem?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
-                                                                </div>
-                                                                <div className="p-1">
-                                                                    <div className="about">
-                                                                        <h6 className="text-muted text-wrap">{catItem.title.substring(0, 15)}</h6>
-                                                                        <span className=""> {price(catItem?.price)}</span>
-                                                                    </div>
-                                                                    <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                                        <div className="">
-                                                                            <NavLink to={`/productDetails/${catItem?.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
-                                                                        </div>
-                                                                        <div style={{ width: "25px" }}>
-                                                                            <Heart isActive={itemFavourite && catItem.id in itemFavourite ? itemFavourite[catItem.id] : catItem.is_favourite} onClick={() => handleFav(catItem.id)} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })}
-                                        </div>
-                                        <div className="d-flex justify-content-center mt-2">
-                                            <NavLink to={`/item/?category_name=${categoryName.name}`} className="btn btn-outline-success" >View More</NavLink>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-
                     <div className="col-md-12 col-lg-12">
                         <div className='container'>
                             <div className="d-flex justify-content-between">
                                 <h2 className="text-success">Just For You</h2>
-                                <div className="mt-1">
-                                    <Form.Select aria-label="Default select example" onChange={handleSort} value={sortTerm} >
-                                        <option> Sort By </option>
-                                        <option value="price">Price: Low to High</option>
-                                        <option value="-price">Price: High to Low</option>
-                                        <option value="title">Alphabets: A-Z</option>
-                                        <option value="-title">Alphabets: Z-A</option>
-                                        <option value="created_a">Latest</option>
-                                        <option value="-created_a">Old</option>
-                                    </Form.Select>
+                                <div className="d-flex justify-content-between">
+                                    <div className="mt-1 me-2">
+                                        <Form.Select aria-label="Default select example" onChange={categoryList} value={cat} >
+                                            <option value="" > All Category </option>
+                                            {categoriesData && categoriesData.map((cate) => {
+                                                return (
+                                                    <option key={cate.id}>{cate.name}</option>
+                                                )
+                                            })}
+                                        </Form.Select>
+                                    </div>
+                                    <div className="mt-1">
+                                        <Form.Select aria-label="Default select example" onChange={handleSort} value={sortTerm} >
+                                            <option> Sort By </option>
+                                            <option value="price">Price: Low to High</option>
+                                            <option value="-price">Price: High to Low</option>
+                                            <option value="title">Alphabets: A-Z</option>
+                                            <option value="-title">Alphabets: Z-A</option>
+                                            <option value="created_a">Latest</option>
+                                            <option value="-created_a">Old</option>
+                                        </Form.Select>
+                                    </div>
                                 </div>
                             </div>
                             <hr className="border border-success border-2 opacity-50"></hr>
-                            {/* {loading && <HashLoader/> } */}
-                            {/* <div id="scrollableDiv" style={{ height: 800, overflow: "auto" }}> */}
                             <InfiniteScroll
                                 dataLength={products.length}
                                 next={lazyLoading}
                                 hasMore={hasMore}
-                                // className="d-flex flex-wrap"
                                 loader={<div key={0} ><HashLoader color='#198754' cssOverride={{ display: "block", margin: "0 auto" }} size={100} /></div>}
-                            // endMessage={
-                            //     <p style={{ textAlign: "center" }}>
-                            //         <b>Yay! You have seen it all</b>
-                            //     </p>
-                            // }
-                            // scrollableTarget="scrollableDiv"
                             >
                                 <div className="row g-2">
-                                    {products && products.map((product) => {
+                                    {products && products.length > 0 && products.map((product) => {
                                         return (
                                             <div key={product?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                                 <div className='border shadow-sm' >
@@ -322,8 +243,9 @@ const ShopListData = () => {
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     )
 }
 
-export default ShopListData
+export default ItemPage

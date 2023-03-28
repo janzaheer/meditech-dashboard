@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { BsEmojiSmile, BsBox } from 'react-icons/bs'
-import { MdOutlineStars } from 'react-icons/md'
+import { MdOutlineFavoriteBorder } from 'react-icons/md'
 import { SlLogout } from 'react-icons/sl'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../../store/authSlice"
@@ -37,7 +37,8 @@ const Head = () => {
                   <ul className="dropdown-menu dropdown-menu-light">
                     <li><Link to='/manageProfile' className="dropdown-item"><BsEmojiSmile /> Manage My Account</Link></li>
                     {user.user.is_staff == true?  <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
-                    <li><a className="dropdown-item" href="#"><MdOutlineStars /> My Reviews</a></li>
+                    <li><Link to='/favorite' className="dropdown-item"><MdOutlineFavoriteBorder/> My favorites</Link>
+                    </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="#" onClick={handleLogout}><SlLogout /> Logout</a></li>
                   </ul>

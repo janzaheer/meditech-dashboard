@@ -25,7 +25,6 @@ const Register = () => {
     const navigation = useNavigate()
     const dispatch = useDispatch();
 
-
     const handleRegister = async (e) => {
         e.preventDefault();
         console.log(first_name, last_name, phone_number, username, email, password, confirm_password)
@@ -45,10 +44,7 @@ const Register = () => {
                 theme: "colored",
             });
         }
-        
     }
-
-
 
     return (
         <div>
