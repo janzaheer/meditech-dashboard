@@ -1,5 +1,7 @@
 footer {
   background-color: #0f3460;
+  /* position: sticky !important; */
+  bottom: 0 !important;
 }
 footer h1 {
   margin-bottom: 30px;

@@ -45,20 +45,21 @@ const ItemPage = () => {
             Authorization: `Token ${userToken}`
         }
     }
-    
+
     const productList = async (next_page_url) => {
         let final = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category_name
         if (next_page_url) {
             final = next_page_url;
+        } else {
+            // setShow(false)
+            category_name = ''
         }
-
-        category_name = ''
-
         return await axios.get(final)
             .then((res) => {
                 const apiRes = [...products, ...res?.data?.results]
                 setProducts(apiRes)
                 setNextUrlPage(res?.data?.next)
+                // console.log('new', res.data)
                 setNumberCount(res.data.count)
             })
             .catch((err) => console.log(err))
@@ -169,10 +170,12 @@ const ItemPage = () => {
             <div className='container-fluid mt-5 mb-5'>
                 <div className="row">
                     <ToastContainer />
-                    <div className="col-md-12 col-lg-12">
+                    <div className="col-md-12 col-lg-12 colside">
                         <div className='container'>
                             <div className="d-flex justify-content-between">
-                                <h2 className="text-success">Just For You</h2>
+                                <div className="">
+                                    <h2 className="text-success">Just For You</h2>
+                                </div>
                                 <div className="d-flex justify-content-between">
                                     <div className="mt-1 me-2">
                                         <Form.Select aria-label="Default select example" onChange={categoryList} value={cat} >
@@ -197,7 +200,7 @@ const ItemPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <hr className="border border-success border-2 opacity-50"></hr>
+                            <hr className="border border-success border-1 opacity-50"></hr>
                             <InfiniteScroll
                                 dataLength={products.length}
                                 next={lazyLoading}
@@ -216,7 +219,6 @@ const ItemPage = () => {
                                                         <div className="p-1">
                                                             <div className="about">
                                                                 <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
-                                                                {/* <span className="">$ {product?.price}</span> */}
                                                                 <span className=""> {price(product?.price)}</span>
                                                             </div>
                                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
@@ -233,12 +235,9 @@ const ItemPage = () => {
                                             </div>
                                         )
                                     })
-                                        // : <div> <HashLoader color='#198754' cssOverride={override} size={100} /> </div>
                                     }
-                                    {/* <Button variant="primary" onClick={handleShowMore} >Load More</Button> */}
                                 </div>
                             </InfiniteScroll>
-                            {/* </div> */}
                         </div>
                     </div>
                 </div>
