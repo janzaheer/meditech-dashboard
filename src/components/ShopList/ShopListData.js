@@ -112,8 +112,7 @@ const ShopListData = () => {
         let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT
         axios.get(finalURL, {
             headers: {
-                'Content-Type': "application/json",
-                Authorization: `Token ${userToken}`
+                'Content-Type': "application/json"
             }
         }).then((res) => {
             console.log('cateeee', res.data)
@@ -128,8 +127,7 @@ const ShopListData = () => {
         try {
             let res = await axios.get(FInal, {
                 headers: {
-                    'Content-Type': "application/json",
-                    Authorization: `Token ${userToken}`
+                    'Content-Type': "application/json"
                 }
             })
             console.log('catData', res.data.results)

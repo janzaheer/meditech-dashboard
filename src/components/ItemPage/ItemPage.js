@@ -128,8 +128,7 @@ const ItemPage = () => {
         
         axios.get(finalURL, {
             headers: {
-                'Content-Type': "application/json",
-                Authorization: `Token ${userToken}`
+                'Content-Type': "application/json"
             }
         }).then((res) => {
             console.log('cateeee', res.data)
@@ -144,8 +143,7 @@ const ItemPage = () => {
         try {
             let res = await axios.get(FInal, {
                 headers: {
-                    'Content-Type': "application/json",
-                    Authorization: `Token ${userToken}`
+                    'Content-Type': "application/json"
                 }
             })
             // console.log('catData',res.data.results)
