@@ -177,7 +177,7 @@ const ShopListData = () => {
                     <ToastContainer />
                     <div className="col-md-12 col-lg-12 mb-2">
                         <div className="container">
-                            <h2 className="text-success mt-2">Category</h2>
+                            <h2 className="text-success mt-2">Categories</h2>
                             <hr className="border border-success border-1 opacity-50"></hr>
                             <div className="row g-0 d-flex justify-content-center">
                                 {categoriesData && categoriesData.slice(0, 12).map((categoryName) => {
@@ -188,7 +188,7 @@ const ShopListData = () => {
                                                     <div className="card-body">
                                                         <NavLink to={`/item/?category_name=${categoryName.name}`} className='text-dark' >
                                                             <img src={getRandomCategoryImage()} alt='' height={50} width={50} className="" />
-                                                            <p className="mx-1 mt-1 text-wrap">{categoryName.name}.</p>
+                                                            <p className="mx-1 mt-1 text-wrap">{categoryName?.name}.</p>
                                                         </NavLink>
                                                     </div>
                                                 </div>

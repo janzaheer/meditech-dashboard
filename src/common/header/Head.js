@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Head = () => {
   const user = useSelector(state => state.user);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-// console.log('userData',user)
+  // console.log('userData',user)
   const navigation = useNavigate()
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -36,8 +36,8 @@ const Head = () => {
                   </button>
                   <ul className="dropdown-menu dropdown-menu-light">
                     <li><Link to='/manageProfile' className="dropdown-item"><BsEmojiSmile /> Manage My Account</Link></li>
-                    {user.user.is_staff == true?  <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
-                    <li><Link to='/favorite' className="dropdown-item"><MdOutlineFavoriteBorder/> My favorites</Link>
+                    {user.user.is_staff == true ? <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
+                    <li><Link to='/favorite' className="dropdown-item"><MdOutlineFavoriteBorder /> My favorites</Link>
                     </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li><a className="dropdown-item" href="#" onClick={handleLogout}><SlLogout /> Logout</a></li>

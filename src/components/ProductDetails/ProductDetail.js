@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { add } from '../../store/cartSlice'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import Header from '../../common/header/Header'
 import Footer from '../../common/footer/Footer'
 
@@ -19,7 +19,7 @@ const ProductDetail = () => {
     const [product, setProduct] = useState([]);
     const [mainImage, setMainImage] = useState(product?.images && product?.images[0].image_url)
     const [qty, setQty] = useState(1);
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -54,8 +54,8 @@ const ProductDetail = () => {
         toast.info("Product add TO Cart successfully", {
             position: toast.POSITION.TOP_RIGHT,
             theme: "colored",
-          });
-            navigate(`/cart`);
+        });
+        navigate(`/cart`);
     };
 
     const increaseQty = () => {
@@ -66,7 +66,7 @@ const ProductDetail = () => {
         toast.success("Qty increase +1 successfully", {
             position: toast.POSITION.TOP_RIGHT,
             theme: "colored",
-          });
+        });
     }
 
     const decreaseQty = () => {
@@ -80,13 +80,12 @@ const ProductDetail = () => {
         toast.warning("Qty decrease -1 successfully", {
             position: toast.POSITION.TOP_RIGHT,
             theme: "colored",
-          });
+        });
     }
 
     const { images } = product;
-    // console.log('img', images)
 
-    const price =(p) =>{
+    const price = (p) => {
         if (p == 0) {
             return <h6 className='text-danger'> Please place a order for quotation, Once order is placed our support team will call you </h6>
         } else {
@@ -100,10 +99,10 @@ const ProductDetail = () => {
             <div className="container my-5">
                 <div className="single_product">
                     <div className="container-fluid" style={{ backgroundColor: '#fff', padding: 11 }}>
-                        <ToastContainer/>
+                        <ToastContainer />
                         <div className="row">
                             {/* <ReactImageZoom {...props} /> */}
-                            <div className="col-4 col-sm-4 col-lg-2 order-sm-1 order-2 table-responsive1 imagesul">
+                            <div className="col-4 col-sm-4 col-lg-2 order-sm-1 table-responsive1 imagesul" >
                                 <Scrollbars>
                                     {product.images && images.map((im, index) => {
                                         return (
@@ -114,9 +113,9 @@ const ProductDetail = () => {
                                     })}
                                 </Scrollbars>
                             </div>
-                            <div className="col-8 col-sm-8 col-lg-4 order-sm-2 order-1">
+                            <div className="col-8 col-sm-8 col-lg-4 order-sm-2">
                                 <div className="image_selected">
-                                    <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100'/>
+                                    <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100' />
                                 </div>
                                 {/* <Zoom
                                         img="https://www.lifeofpix.com/wp-content/uploads/2018/06/20180120-P1201659-1600x1089.jpg"
@@ -130,16 +129,16 @@ const ProductDetail = () => {
                                     <div className="product_name mt-5">{product?.title}</div>
                                     {/* <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div> */}
                                     <div>
-                                         {/* <span className="product_price">$ {product?.price}</span>  */}
-                                    <span className="product_price"> {price(product?.price)}</span> 
-                                    {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
+                                        {/* <span className="product_price">$ {product?.price}</span>  */}
+                                        <span className="product_price"> {price(product?.price)}</span>
+                                        {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
                                     </div>
                                     <div>
                                         <div className="row">
                                             <div className="col-md-10">
                                                 <div className="p-1 my-2 table-responsive2">
                                                     <Scrollbars>
-                                                    <p> {product?.description}</p>
+                                                        <p> {product?.description}</p>
                                                     </Scrollbars>
                                                 </div>
                                             </div>
@@ -154,10 +153,6 @@ const ProductDetail = () => {
                                             +
                                         </button>
                                     </div>
-                                    {/* <hr className="singleline" />
-                                    <div className="order_info d-flex flex-row">
-                                        <form action="#">
-                                        </form></div> */}
                                     <div className="row">
                                         <div className="col-xs-6 mt-4">
                                             <button type="button" className="btn btn-success me-1" onClick={() => addToCartHandler(product)}>Add to Cart</button>
@@ -190,30 +185,6 @@ const ProductDetail = () => {
                                                 </ul>
                                             </td>
                                         </tr>
-                                        {/* <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Part Number :</span> </td>
-                                            <td className="col-md-8">
-                                                <ul>
-                                                    <li>7AL87PA</li>
-                                                </ul>
-                                            </td>
-                                        </tr> */}
-                                        {/* <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Color :</span> </td>
-                                            <td className="col-md-8">
-                                                <ul>
-                                                    <li>Black</li>
-                                                </ul>
-                                            </td>
-                                        </tr> */}
-                                        {/* <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Suitable for :</span> </td>
-                                            <td className="col-md-8">
-                                                <ul>
-                                                    <li>Processing &amp; Multitasking</li>
-                                                </ul>
-                                            </td>
-                                        </tr> */}
                                         <tr className="row mt-10">
                                             <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
                                             <td className="col-md-8">
@@ -229,10 +200,8 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
-        
     )
 }
-
 export default ProductDetail

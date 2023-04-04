@@ -5,7 +5,7 @@ import "./style.css"
 const Footer = () => {
   return (
     <>
-      <footer className="px-md-5 py-5 text-white">
+      <footer className="px-md-5 py-5 text-white footer">
         <div className="container-fluid" style={{ display:"none" }}>
           <div className="row w-100">
             <div className="col-md-3">

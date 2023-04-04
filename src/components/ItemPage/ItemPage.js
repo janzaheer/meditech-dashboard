@@ -24,14 +24,21 @@ const ItemPage = () => {
     const [itemFavourite, setItemFavourite] = useState({})
     const [categoriesData, setCategoriesData] = useState('')
     const [hasMore, setHasMore] = useState(true);
-    const [numberCount, setNumberCount] = useState('')
+    const [numberCount, setNumberCount] = useState('');
 
     const userToken = useSelector(state => state.user.token);
 
-    let params = (new URL(document.location)).searchParams;
-    let category_name = params.get("category_name") ? params.get("category_name") : '';
+    // let params = (new URL(document.location)).searchParams;
+    // let category_name = params.get("category_name") ? params.get("category_name") : '';
+
+    const queryParams = new URLSearchParams(window.location.search)
+    let category_name = queryParams.get("category_name");
     console.log('category_name', category_name)
 
+
+
+// let category_name = query.get('category_name') ? query.get('category_name') : ''
+//     console.log('category_name', category_name)
     useEffect(() => {
         productList();
         categoryData();
@@ -52,11 +59,13 @@ const ItemPage = () => {
             final = next_page_url;
         } else {
             // setShow(false)
-            category_name = ''
+            
         }
+           category_name = ''
         return await axios.get(final)
             .then((res) => {
                 const apiRes = [...products, ...res?.data?.results]
+                console.log('---------------',res.data)
                 setProducts(apiRes)
                 setNextUrlPage(res?.data?.next)
                 // console.log('new', res.data)
@@ -114,8 +123,9 @@ const ItemPage = () => {
     const categoryList = async (e) => {
         let val = e.target.value;
         setCat(val)
-        console.log('target', val)
+        // setQuery(val)
         let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + val
+        
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
@@ -124,7 +134,6 @@ const ItemPage = () => {
         }).then((res) => {
             console.log('cateeee', res.data)
             setProducts(res.data.results)
-
         }).catch(error => {
             console.log(error)
         })
@@ -167,7 +176,7 @@ const ItemPage = () => {
     return (
         <>
             <Header />
-            <div className='container-fluid mt-5 mb-5'>
+            <div className='container-fluid mt-5 mb-5 itemPage'>
                 <div className="row">
                     <ToastContainer />
                     <div className="col-md-12 col-lg-12 colside">
@@ -182,7 +191,7 @@ const ItemPage = () => {
                                             <option value="" > All Category </option>
                                             {categoriesData && categoriesData.map((cate) => {
                                                 return (
-                                                    <option key={cate.id}>{cate.name}</option>
+                                                    <option key={cate.id} value={cate.name}>{cate.name}</option>
                                                 )
                                             })}
                                         </Form.Select>
@@ -218,7 +227,7 @@ const ItemPage = () => {
                                                         </div>
                                                         <div className="p-1">
                                                             <div className="about">
-                                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                                <h6 className="text-muted text-wrap">{product?.title.substring(0, 15)}</h6>
                                                                 <span className=""> {price(product?.price)}</span>
                                                             </div>
                                                             <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
