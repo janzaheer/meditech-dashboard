@@ -82,9 +82,7 @@ function App() {
           <Route exact path='/favorite' element={<PrivateRoute />}>
             <Route exact path='/favorite' element={<FavProduct />} />
           </Route>
-          <Route exact path='/item' element={<PrivateRoute />}>
-            <Route exact path='/item' element={<ItemPage />} />
-          </Route>
+          <Route exact path='/item' element={<ItemPage />} />
           <Route path='*' element={<PageNotFond />} />
         </Routes>
       </BrowserRouter>

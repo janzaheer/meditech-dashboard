@@ -1,20 +1,25 @@
 .footer {
   background-color: #0f3460;
-  /* position: sticky !important; */
-  bottom: 0 !important;
+  /* position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%; */
 }
+
 footer h1 {
   margin-bottom: 30px;
   color: #e94560;
   font-weight: 800;
   font-style: italic;
 }
+
 footer .img {
   background-color: #0c2a4d;
   /* padding: 15px 20px; */
   border-radius: 5px;
   /* cursor: pointer; */
 }
+
 /* .img:hover{
   background-color: #4a7eb952 !important;
 } */
@@ -34,16 +39,19 @@ footer .img {
 footer h2 {
   margin-bottom: 20px;
 }
+
 footer li {
   margin-bottom: 10px;
   opacity: 0.5;
 }
+
 @media (min-width: 768px) {
   .px-md-5 {
-    padding-right: 0rem!important;
-    padding-left: 0rem!important;
-}
-.btn-outline-secondary{
-  font-size: 9px !important;
-}
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+  }
+
+  .btn-outline-secondary {
+    font-size: 9px !important;
+  }
 }

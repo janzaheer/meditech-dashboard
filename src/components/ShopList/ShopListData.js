@@ -111,9 +111,7 @@ const ShopListData = () => {
     const categoryList = async () => {
         let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT
         axios.get(finalURL, {
-            headers: {
-                'Content-Type': "application/json"
-            }
+            headers: headers
         }).then((res) => {
             console.log('cateeee', res.data)
             setCateList(res.data.results)
@@ -126,9 +124,7 @@ const ShopListData = () => {
         let FInal = BASE_URL + CATEGORY_ENDPOINT
         try {
             let res = await axios.get(FInal, {
-                headers: {
-                    'Content-Type': "application/json"
-                }
+                headers: headers
             })
             console.log('catData', res.data.results)
             setCategoriesData(res.data.results)
