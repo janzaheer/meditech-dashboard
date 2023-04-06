@@ -25,6 +25,7 @@ import Products from "./adminPanel/prdoucts/Products";
 import ProductDetailDashboard from "./adminPanel/prdoucts/ProductDetailDashboard";
 import Order from "./adminPanel/order/Order";
 import PageNotFond from "./errorPage/PageNotFond";
+import ItemPage from "./components/ItemPage/ItemPage";
 
 function App() {
 
@@ -81,6 +82,7 @@ function App() {
           <Route exact path='/favorite' element={<PrivateRoute />}>
             <Route exact path='/favorite' element={<FavProduct />} />
           </Route>
+          <Route exact path='/item' element={<ItemPage />} />
           <Route path='*' element={<PageNotFond />} />
         </Routes>
       </BrowserRouter>

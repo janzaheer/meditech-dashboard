@@ -21,7 +21,7 @@ const SearchLIst = () => {
   const searchProducts = useSelector(getSearchProducts)
   const searchProductsStatus = useSelector(getSearchProductsStatus);
   console.log('searchlist', searchProducts)
-  console.log('searchStatus',searchProductsStatus)
+  console.log('searchStatus', searchProductsStatus)
   const userToken = useSelector(state => state.user.token);
   const [itemFavourite, setItemFavourite] = useState({})
 
@@ -75,7 +75,6 @@ const SearchLIst = () => {
     })
   }
 
-
   return (
     <>
       <Header />
@@ -95,7 +94,6 @@ const SearchLIst = () => {
                       <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-2">
                         <div className='box rounded border shadow-sm' >
                           <div className="product ">
-                            {/* <span className="off bg-success">{product.category}</span> */}
                             <div className="text-center mb-3">
                               <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                             </div>
@@ -113,7 +111,6 @@ const SearchLIst = () => {
                                 </div>
                               </div>
                             </div>
-
                           </div>
                         </div>
                       </div>
@@ -127,7 +124,6 @@ const SearchLIst = () => {
       </div>
       <Footer />
     </>
-
   )
 }
 export default SearchLIst

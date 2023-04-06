@@ -393,7 +393,7 @@ ul {
     height: 40rem !important;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .image_list li {
         width: 60%;
     }
@@ -403,7 +403,7 @@ ul {
     .imagesul ul {
         width: 200px;
     }
-}
+} */
 
 .table-responsive2 {
     height: 17rem !important;

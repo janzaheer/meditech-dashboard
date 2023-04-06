@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsEnvelopeFill } from 'react-icons/bs'
 import './ProductSuccess.css';
-import logo from '../../logo/logo.png';
+import logo from '../../logo/logo_new.png';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -92,7 +92,7 @@ const ProductSuccess = () => {
         if (p == 0) {
             return `-`
         } else {
-            return `${p}`
+            return `$ ${p}`
         }
     }
 
@@ -100,7 +100,7 @@ const ProductSuccess = () => {
         if (p == 0) {
             return `-`
         } else {
-            return `${p}`
+            return `$ ${p}`
         }
     }
 
@@ -160,7 +160,7 @@ const ProductSuccess = () => {
                                                 </div>
                                             </div>
                                             <div className="product-price">
-                                                <h5>$ {price(ite?.item.price)}</h5>
+                                                <h5> {price(ite?.item.price)}</h5>
                                             </div>
                                         </div>
                                     )
@@ -172,7 +172,7 @@ const ProductSuccess = () => {
                                     <div className="col-md-6">
                                         <div className="billing">
                                             <div className="d-flex justify-content-between"><span>Subtotal</span><span className="font-weight-bold">
-                                                $ {subTotal(orderDataList?.total_amount)}
+                                                 {subTotal(orderDataList?.total_amount)}
                                             </span></div>
                                             <div className="d-flex justify-content-between mt-2"><span>Shipping fee</span><span className="font-weight-bold">
                                                 $ {ShippingPrice(orderDataList?.shipping_amount)}

@@ -29,8 +29,8 @@
 }
 
 .sli{
-  margin-top: 30px !important;
-  height: 48vh !important;
+  margin-top: 25px !important;
+  /* height: 48vh !important; */
 }
 
 @media only screen and (max-width: 992px) {
@@ -39,4 +39,18 @@
     font-size: 15px !important;
   }
 
+ }
+ @media only screen and (max-width: 480px) {
+
+  .slideImage{
+    height: 200px !important;
+    margin-top: 20px !important;
+  }
+ }
+ @media only screen and (max-width: 390px) {
+
+  .slideImage{
+    height: 200px !important;
+    margin-top: 25px !important;
+  }
  }
