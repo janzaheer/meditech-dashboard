@@ -40,6 +40,7 @@ export const signInUser = createAsyncThunk('signinuser', async ({ username, pass
         }),
     })
     const data = await res.json()
+    console.log('user',data)
     return data
 
 })

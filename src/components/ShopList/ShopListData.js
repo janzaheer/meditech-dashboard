@@ -177,7 +177,7 @@ const ShopListData = () => {
                                 {categoriesData && categoriesData.slice(0, 12).map((categoryName) => {
                                     return (
                                         <div key={categoryName.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center">
-                                            <div className="bg-white border">
+                                            <div className="bg-white productShadow mx-1 border rounded">
                                                 <div className="card" style={{ height: '100px' }}>
                                                     <div className="card-body">
                                                         <NavLink to={`/item/?category_name=${categoryName.name}`} className='text-dark' >
@@ -201,27 +201,35 @@ const ShopListData = () => {
                                         <h2 className="text-success mt-2">{categoryName.name}</h2>
                                         <hr className="border border-success border-1 opacity-50"></hr>
                                         <div className="row g-2">
-                                            {cateList && cateList.slice(0, 12).map((catItem) => {
+                                            {cateList && cateList.slice(0, 6).map((catItem) => {
                                                 return (
                                                     <div key={catItem?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                                        <div className='border shadow-sm' >
-                                                            <div className="product">
+                                                        <div className='bg-white border rounded productShadow' >
+                                                            <div className="">
                                                                 <div className="text-center mb-1">
-                                                                    <img src={catItem?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                                    <NavLink to={`/productDetails/${catItem?.id}`} className="" >
+                                                                        <img src={catItem?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                                    </NavLink>
                                                                 </div>
                                                                 <div className="p-1">
                                                                     <div className="about">
                                                                         <h6 className="text-muted text-wrap">{catItem.title.substring(0, 15)}</h6>
-                                                                        <span className=""> {price(catItem?.price)}</span>
+                                                                        <div className="d-flex justify-content-between align-items-center px-2">
+                                                                            <span className=""> {price(catItem?.price)}</span>
+                                                                            <div style={{ width: "20px" }}>
+                                                                                <Heart isActive={itemFavourite && catItem.id in itemFavourite ? itemFavourite[catItem.id] : catItem.is_favourite} onClick={() => handleFav(catItem.id)} />
+                                                                            </div>
+                                                                        </div>
+                                                                    
                                                                     </div>
-                                                                    <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                                                    {/* <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
                                                                         <div className="">
                                                                             <NavLink to={`/productDetails/${catItem?.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
                                                                         </div>
-                                                                        <div style={{ width: "25px" }}>
+                                                                        <div style={{ width: "23px" }}>
                                                                             <Heart isActive={itemFavourite && catItem.id in itemFavourite ? itemFavourite[catItem.id] : catItem.is_favourite} onClick={() => handleFav(catItem.id)} />
                                                                         </div>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                             </div>
                                                         </div>

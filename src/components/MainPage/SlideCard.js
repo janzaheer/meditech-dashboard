@@ -16,6 +16,8 @@ const SlideCard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+
   const settings = {
     dots: true,
     infinite: true,
@@ -28,14 +30,14 @@ const SlideCard = () => {
   }
   return (
     <>
-      <div className="">
+      <div className="mx-2">
         <Slider {...settings}>
           {sd.map((value) => {
             return (
-              <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark slide sli" data-bs-ride="carousel">
+              <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark sli" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
-                    <img src={value.cover} height={400}  className="d-block w-100 slideImage" alt="..." />
+                    <img src={value.cover} height={400} className="d-block w-100 slideImage" alt="..." />
                     {/* <div className="carousel-caption d-none d-md-block">
                       <h5>{value.title}</h5>
                       <p>{value.desc}.</p>

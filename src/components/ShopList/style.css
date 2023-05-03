@@ -10,6 +10,9 @@
 .box {
     width: 100% !important;
 }
+.productShadow:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 .form-check-label {
     cursor: pointer !important;
@@ -22,20 +25,19 @@
 .product {
     width: 100% !important;
     background-color: #fff;
-    border: 1px solid #fff;
+    /* border: 1px solid #fff; */
 }
 
 .infinite-scroll-component {
     overflow:hidden !important;
 }
 
-.product:hover {
+/* .product:hover {
     border-color: #198754 !important;
-    /* box-shadow: 0 0 15px rgba(54, 202, 54, 0.2) !important; */
     box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
     -webkit-box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
     -moz-box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
-}
+} */
 
 .about span {
     color: #198754;
