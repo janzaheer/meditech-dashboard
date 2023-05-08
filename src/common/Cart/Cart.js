@@ -95,7 +95,6 @@ const Cart = () => {
     <>
       <Header />
       <div className="px-4 px-lg-0">
-        {/* For demo purpose */}
         <div className="container text-dark py-5 text-center mt-1">
           <h1 className="display-4">Shopping Cart</h1>
           <p className="lead mb-0">Build a fully structred shopping cart page using Cosmedicos. </p>

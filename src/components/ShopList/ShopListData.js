@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import "./style.css"
 import { NavLink } from "react-router-dom";
 import { useSelector } from 'react-redux';
-// import HashLoader from 'react-spinners/HashLoader'
 import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'

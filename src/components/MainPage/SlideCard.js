@@ -4,7 +4,6 @@ import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-// import { Carousel } from 'react-responsive-carousel';
 
 const SlideCard = () => {
   const [sd, setSd] = useState(Sdata)
@@ -38,10 +37,6 @@ const SlideCard = () => {
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
                     <img src={value.cover} height={400} className="d-block w-100 slideImage" alt="..." />
-                    {/* <div className="carousel-caption d-none d-md-block">
-                      <h5>{value.title}</h5>
-                      <p>{value.desc}.</p>
-                    </div> */}
                   </div>
                 </div>
               </div>
