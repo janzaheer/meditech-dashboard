@@ -25,19 +25,11 @@
 .product {
     width: 100% !important;
     background-color: #fff;
-    /* border: 1px solid #fff; */
 }
 
 .infinite-scroll-component {
     overflow:hidden !important;
 }
-
-/* .product:hover {
-    border-color: #198754 !important;
-    box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
-    -webkit-box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
-    -moz-box-shadow: 15px 13px 25px -10px rgba(54, 202, 54, 0.2) !important;
-} */
 
 .about span {
     color: #198754;

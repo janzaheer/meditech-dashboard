@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import logo from '../logo/logo_new.png'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signInUser } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +22,7 @@ const Login = () => {
         if (loginData.payload && loginData.payload.user) {
             setUsername('')
             setPassword('')
-            navigation('/')
+             navigation('/')
         } else {
             toast.error(`Invalid username or password`, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -69,8 +69,6 @@ const Login = () => {
                                             <button className="btn btn-success w-50" type="submit">Login</button>
                                             <hr className="my-3" />
                                             <Link to='/register' className='btn btn-success w-100'>Register Now</Link>
-                                            {/* <button className='btn btn-danger w-100'><i className="fab fa-google me-2" /> Sign in with google</button>
-                                        <button className='btn btn-primary w-100 mt-2'><i className="fab fa-facebook-f me-2" />Sign in with facebook</button> */}
                                         </form>
                                     </div>
                                 </div>

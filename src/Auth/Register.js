@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Register.css'
 import './Login.css'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signUpUser } from '../store/authSlice';
 import logo from '../logo/logo_new.png';
 import { useNavigate } from 'react-router-dom';
@@ -19,9 +19,6 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-
-    const { isAuthenticated } = useSelector((state) => state.user)
-
     const navigation = useNavigate()
     const dispatch = useDispatch();
 
@@ -37,9 +34,23 @@ const Register = () => {
             setEmail('')
             setPassword('')
             setConfirm_Password('')
+            toast.success(`SignUp Successfully`, {
+                position: toast.POSITION.TOP_RIGHT,
+                theme: "colored",
+            });
              navigation('/login')
         } else {
-            toast.error(`Something is wrong, please try again!`, {
+            let error_message = '';
+            if (registerResp.payload.username) {
+                error_message = registerResp.payload.username[0]
+            }
+            if (registerResp.payload.password) {
+                error_message = registerResp.payload.password[0]
+            }
+            if (registerResp.payload.non_field_errors) {
+                error_message = registerResp.payload.non_field_errors[0]
+            }
+            toast.error(error_message, {
                 position: toast.POSITION.TOP_RIGHT,
                 theme: "colored",
             });

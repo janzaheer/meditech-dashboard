@@ -2,13 +2,13 @@ import React, { useEffect } from "react"
 import "./style.css"
 import { TbShoppingCartOff } from 'react-icons/tb'
 import { BsTrash } from "react-icons/bs";
-import {AiOutlinePlus,AiOutlineMinus} from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { Link } from "react-router-dom";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useSelector, useDispatch } from "react-redux";
 import { remove, toggleCartQty, getCartTotal, clearCart } from "../../store/cartSlice";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 
@@ -23,9 +23,7 @@ const Cart = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useSelector(state => state.cart)]);
 
-  // const emptyCartMsg = <h4 className='text-red fw-6'>No items found!</h4>;
-
-  const handleRemove = (id) =>{
+  const handleRemove = (id) => {
     dispatch(remove(id));
     toast.error("Product Remove successfully", {
       position: toast.POSITION.TOP_RIGHT,
@@ -34,18 +32,18 @@ const Cart = () => {
   }
 
   const increase = (id) => {
-    dispatch(toggleCartQty({ id:id, type: "INC" }));
+    dispatch(toggleCartQty({ id: id, type: "INC" }));
     toast.success("Increase +1 Qty successfully", {
       position: toast.POSITION.TOP_RIGHT,
       theme: "colored",
     });
-}
+  }
   const decrease = (id) => {
-      dispatch(toggleCartQty({ id:id, type: "DEC" }));
-      toast.warning("Decrease -1 Qty successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        theme: "colored",
-      });
+    dispatch(toggleCartQty({ id: id, type: "DEC" }));
+    toast.warning("Decrease -1 Qty successfully", {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
   }
 
   const clear = () => {
@@ -58,40 +56,44 @@ const Cart = () => {
   }
 
   const price = (p) => {
+    /* eslint eqeqeq: 0 */
     if (p == 0) {
-        return `-`
+      return `-`
     } else {
-        return `${p}`
+      return `${p}`
     }
-}
-
-const TotalPrice = (p) => {
-  if (p == 0) {
-      return `-`
-  } else {
-      return `${p}`
   }
-}
 
-const total = (p) => {
-  if (p == 0) {
+  const TotalPrice = (p) => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
       return `-`
-  } else {
+    } else {
       return `${p}`
+    }
   }
-}
 
-const deliveryPrice = (p) => {
-  if (p == 0) {
+  const total = (p) => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
       return `-`
-  } else {
+    } else {
       return `${p}`
+    }
   }
-}
+
+  const deliveryPrice = (p) => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`
+    } else {
+      return `${p}`
+    }
+  }
 
   return (
     <>
-  <Header />
+      <Header />
       <div className="px-4 px-lg-0">
         {/* For demo purpose */}
         <div className="container text-dark py-5 text-center mt-1">
@@ -104,10 +106,9 @@ const deliveryPrice = (p) => {
         {/* End */}
         <div className="pb-5">
           <div className="container">
-
             <div className="row">
               <div className="col-lg-12 p-5 bg-white rounded shadow mb-5">
-                <ToastContainer/>
+                <ToastContainer />
                 <div className="table-responsive">
                   <Scrollbars>
                     <table className="table">
@@ -130,13 +131,10 @@ const deliveryPrice = (p) => {
                           </th>
                         </tr>
                       </thead>
-
                       <tbody>
                         {cartProducts.length === 0 ? <h2 className='m-5 text-danger'>No Items are add in Cart</h2> : ''}
-
                         {cartProducts.map((cartProduct) => {
                           return (
-
                             <tr key={cartProduct?.id} >
                               <th scope="row" className="border-0">
                                 <div className="p-2">
@@ -152,18 +150,15 @@ const deliveryPrice = (p) => {
                               <td className="border-0 align-middle"><strong>{cartProduct?.quantity}</strong></td>
                               <td className="border-0 align-middle"><strong>
                                 <div className=''>
-                                  {/* <button className='btn btn-outline-success me-4' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "INC" }))}> */}
                                   <button className='btn btn-outline-success me-4' onClick={() => increase(cartProduct.id)}>
                                     <AiOutlinePlus />
                                   </button>
-                                  {/* <button className='btn btn-outline-warning' onClick={() => dispatch(toggleCartQty({ id: cartProduct.id, type: "DEC" }))}> */}
                                   <button className='btn btn-outline-warning' onClick={() => decrease(cartProduct.id)}>
                                     <AiOutlineMinus />
                                   </button>
                                 </div>
                               </strong></td>
                               <td className="border-0 align-middle">
-                                {/* <button className='btn btn-outline-danger' onClick={() => dispatch(remove(cartProduct.id))}> */}
                                 <button className='btn btn-outline-danger' onClick={() => handleRemove(cartProduct.id)}>
                                   <BsTrash />
                                 </button>
@@ -171,16 +166,12 @@ const deliveryPrice = (p) => {
                             </tr>
                           )
                         })}
-
                       </tbody>
-
                     </table>
                   </Scrollbars>
-
                 </div>
                 {/* End */}
               </div>
-              {/* <button type="button" className='btn btn-danger mb-5 shadow' onClick={() => dispatch(clearCart())}> Clear Cart <TbShoppingCartOff /></button> */}
               <button type="button" className='btn btn-danger mb-5 shadow' onClick={() => clear()}> Clear Cart <TbShoppingCartOff /></button>
             </div>
             <div className="row py-5 p-4 bg-white rounded shadow">
@@ -207,7 +198,6 @@ const deliveryPrice = (p) => {
                   <p className="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
                   <ul className="list-unstyled mb-4">
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Selected {totalItems} items(s) Quantity Price</strong><strong>$ {total(totalAmount)}</strong></li>
-                    {/* <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Order Subtotal </strong><strong>Rs 390.00</strong></li> */}
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Delivery Cost</strong><strong>$ {deliveryPrice(deliveryCharge)}</strong></li>
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Discount</strong><strong>$ -</strong></li>
                     <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Total</strong>
@@ -221,7 +211,7 @@ const deliveryPrice = (p) => {
           </div>
         </div>
       </div>
-                      <Footer/>
+      <Footer />
     </>
   )
 }

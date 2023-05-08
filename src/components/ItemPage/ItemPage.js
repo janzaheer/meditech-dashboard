@@ -6,12 +6,12 @@ import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_L
 import { FaRegEye } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import HashLoader from 'react-spinners/HashLoader'
+// import HashLoader from 'react-spinners/HashLoader'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-import InfiniteScroll from 'react-infinite-scroll-component';
+// import InfiniteScroll from 'react-infinite-scroll-component';
 import Form from 'react-bootstrap/Form';
 
 const ItemPage = () => {

@@ -1,9 +1,5 @@
 .footer {
   background-color: #198754;
-  /* position: sticky;
-  left: 0;
-  bottom: 0;
-  width: 100%; */
 }
 
 footer h1 {
@@ -15,27 +11,9 @@ footer h1 {
 
 footer .img {
   background-color: #0c2a4d;
-  /* padding: 15px 20px; */
   border-radius: 5px;
-  /* cursor: pointer; */
 }
 
-/* .img:hover{
-  background-color: #4a7eb952 !important;
-} */
-/* footer .img i {
-  font-size: 20px;
-  margin: 5px;
-} */
-/* footer .img span {
-  margin-top: 5px;
-} */
-/* footer p {
-  font-size: 14px;
-  font-weight: 300;
-  opacity: 0.5;
-  margin-bottom: 20px;
-} */
 footer h2 {
   margin-bottom: 20px;
 }

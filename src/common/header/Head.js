@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 const Head = () => {
   const user = useSelector(state => state.user);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-  // console.log('userData',user)
   const navigation = useNavigate()
   const dispatch = useDispatch();
   const handleLogout = () => {

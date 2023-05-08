@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, LOGIN_ENDPOINT } from "../utlis/apiUrls";
+import { BASE_URL, LOGIN_ENDPOINT,SIGNUP_ENDPOINT } from "../utlis/apiUrls";
 
 // const user = JSON.parse(localStorage.getItem('user'))
 
@@ -13,13 +13,12 @@ const initialState = {
 }
 
 export const signUpUser = createAsyncThunk('signupuser', async (body) => {
-    let SIGNUP_ENDPOINT = 'api/v1/auth/register/';
     let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT
     const res = await fetch(SignUpUrl, {
         method: "post",
         headers: {
-            'Content-Type': "application/json",
-            // Authorization: localStorage.getItem('token')
+            Accept: "application/json",
+            'Content-Type': "application/json"
         },
         body: JSON.stringify(body)
     })
@@ -104,6 +103,9 @@ const authSlice = createSlice({
             }
         }, [signUpUser.rejected]: (state, action) => {
             state.loading = true;
+            state.error = true
+            state.message = action.payload
+            state.user = null;
         },
     }
 })
