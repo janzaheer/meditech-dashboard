@@ -26,13 +26,6 @@ const Sdata = [
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
     cover: "./images/SlideCard/4.jpg",
     price: 3500
-  },
-  // {
-  //   id: 5,
-  //   title: "70% Off For Your First Shopping",
-  //   desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-  //   cover: "./images/SlideCard/la.jpg",
-  //   price: 4000
-  // },
+  }
 ]
 export default Sdata

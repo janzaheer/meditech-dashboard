@@ -18,18 +18,9 @@
     border-radius: .25rem
 }
 
-.table-responsive1 {
-    height: 33rem !important;
-    /* overflow-y: scroll !important; */
-}
-
 .single_product {
     width: 98%;
-    /* padding-top: 66px;
-    padding-bottom: 140px; */
     background-color: #e5e5e5;
-    /* margin-top: 0px; */
-    /* padding: 17px; */
     padding-left: 16px !important;
     padding-top: 16px !important;
     padding-bottom: 16px !important;
@@ -266,10 +257,10 @@ ul {
 .table-responsive2 {
     height: 17rem !important;
 }
-
 .table-responsive1 {
     height: 33rem !important;
 }
+
 
 @media screen and (max-width: 992px) {
      .image_list li img {

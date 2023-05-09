@@ -15,19 +15,13 @@ const Navbar = () => {
   const navigate = useNavigate()
   const handleSearchTerm = (e) => {
     e.preventDefault();
+    /* eslint eqeqeq: 0 */
     if (e.key == 'Enter') {
-
       setSearchTerm(e.target.value);
       navigate(`search/${e.target.value}`)
-      console.log('value',e.target.value)
       console.log('searchterm',searchTerm)
     }
-
-    // setSearchTerm('')
-
   }
-
-  // console.log('search', searchTerm)
 
   useEffect(() => {
     dispatch(getCartTotal());

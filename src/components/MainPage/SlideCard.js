@@ -4,7 +4,6 @@ import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-// import { Carousel } from 'react-responsive-carousel';
 
 const SlideCard = () => {
   const [sd, setSd] = useState(Sdata)
@@ -15,6 +14,8 @@ const SlideCard = () => {
     name();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+
 
   const settings = {
     dots: true,
@@ -28,18 +29,14 @@ const SlideCard = () => {
   }
   return (
     <>
-      <div className="">
+      <div className="mx-2">
         <Slider {...settings}>
           {sd.map((value) => {
             return (
-              <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark slide sli" data-bs-ride="carousel">
+              <div key={value?.id} id="carouselExampleDark" className="carousel carousel-dark sli" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active" data-bs-interval={10000}>
-                    <img src={value.cover} height={400}  className="d-block w-100 slideImage" alt="..." />
-                    {/* <div className="carousel-caption d-none d-md-block">
-                      <h5>{value.title}</h5>
-                      <p>{value.desc}.</p>
-                    </div> */}
+                    <img src={value.cover} height={400} className="d-block w-100 slideImage" alt="..." />
                   </div>
                 </div>
               </div>

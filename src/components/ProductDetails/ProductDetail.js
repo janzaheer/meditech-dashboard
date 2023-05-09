@@ -86,6 +86,7 @@ const ProductDetail = () => {
     const { images } = product;
 
     const price = (p) => {
+        /* eslint eqeqeq: 0 */
         if (p == 0) {
             return <h6 className='text-danger'> Please place a order for quotation, Once order is placed our support team will call you </h6>
         } else {
@@ -127,11 +128,8 @@ const ProductDetail = () => {
                             <div className="col-lg-6 order-3">
                                 <div className="product_description">
                                     <div className="product_name mt-5">{product?.title}</div>
-                                    {/* <div className="product-rating"><span className="badge badge-success"><i className="fa fa-star" /> 4.5 Star</span> <span className="rating-review">Ratings &amp; Count</span></div> */}
                                     <div>
-                                        {/* <span className="product_price">$ {product?.price}</span>  */}
                                         <span className="product_price"> {price(product?.price)}</span>
-                                        {/* <strike className="product_discount"> <span style={{ color: 'black' }}>Rs 2,000<span> </span></span></strike>  */}
                                     </div>
                                     <div>
                                         <div className="row">
