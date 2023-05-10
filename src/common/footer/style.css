@@ -2,34 +2,26 @@
   background-color: #198754;
 }
 
-footer h1 {
-  margin-bottom: 30px;
-  color: #e94560;
-  font-weight: 800;
-  font-style: italic;
-}
-
 footer .img {
   background-color: #0c2a4d;
   border-radius: 5px;
 }
 
-footer h2 {
-  margin-bottom: 20px;
-}
-
 footer li {
   margin-bottom: 10px;
-  opacity: 0.5;
+  /* opacity: 0.5; */
+}
+.click{
+  color: aliceblue;
+}
+.click:hover{
+  color: aliceblue;
+  text-decoration:underline;
 }
 
 @media (min-width: 768px) {
   .px-md-5 {
     padding-right: 0rem !important;
     padding-left: 0rem !important;
-  }
-
-  .btn-outline-secondary {
-    font-size: 9px !important;
   }
 }

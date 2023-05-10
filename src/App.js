@@ -26,6 +26,7 @@ import ProductDetailDashboard from "./adminPanel/prdoucts/ProductDetailDashboard
 import Order from "./adminPanel/order/Order";
 import PageNotFond from "./errorPage/PageNotFond";
 import ItemPage from "./components/ItemPage/ItemPage";
+import SellerLogin from "./sellerPanel/SellerLogin";
 
 function App() {
 
@@ -54,10 +55,8 @@ function App() {
           <Route exact path='/dashboard/orders' element={<ProtectedRoute />}>
           <Route path='/dashboard/orders' element={<Order />} ></Route>
           </Route>
-          {/* <Route path='/dashboard' element={<Dashboard />} ></Route>
-          <Route path='/dashboard/products' element={<Products />} ></Route>
-          <Route path="/dashboard/productDetail/:id" element={<ProductDetailDashboard />} ></Route>
-          <Route path='/dashboard/orders' element={<Order />} ></Route> */}
+          {/*seller Routes */}
+          <Route path='/sellerLogin' element={<SellerLogin />} ></Route>
 
           {/*Public Private Routes */}
           <Route exact path='/cart' element={<PrivateRoute />}>
