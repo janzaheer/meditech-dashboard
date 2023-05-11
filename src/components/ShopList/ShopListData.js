@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "./style.css"
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +16,8 @@ const ShopListData = () => {
     const [landingData, setLandingData] = useState({})
 
     const userToken = useSelector(state => state.user.token);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+    const navigate = useNavigate();
 
     useEffect(() => {
         ProductListingWithCategory()
@@ -62,9 +64,13 @@ const ShopListData = () => {
         }).catch(error => {
             console.log(error)
         })
+        if (isAuthenticated == false) {
+            navigate("/login")
+        }
     }
 
     const ProductListingWithCategory = async () => {
+        window.scrollTo(0, 0);
         let category_endpoint = BASE_URL + CATEGORY_ENDPOINT
         await axios.get(category_endpoint, {
           headers: headers

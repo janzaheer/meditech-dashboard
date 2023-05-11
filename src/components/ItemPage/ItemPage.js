@@ -3,15 +3,12 @@ import './style.css';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
 import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl } from '../../utlis/apiUrls';
-import { FaRegEye } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-// import HashLoader from 'react-spinners/HashLoader'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
-// import InfiniteScroll from 'react-infinite-scroll-component';
 import Form from 'react-bootstrap/Form';
 
 const ItemPage = () => {
@@ -24,11 +21,10 @@ const ItemPage = () => {
     const [cat, setCat] = useState('');
     const [itemFavourite, setItemFavourite] = useState({})
     const [categoriesData, setCategoriesData] = useState('')
-    // const [hasMore, setHasMore] = useState(true);
-    // const [numberCount, setNumberCount] = useState('');
-    // const [page, setPage] = useState(1)
 
     const userToken = useSelector(state => state.user.token);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+    const navigate = useNavigate();
 
     const queryParams = new URLSearchParams(window.location.search)
     let category_name = queryParams.get("category_name");
@@ -52,14 +48,9 @@ const ItemPage = () => {
     }
 
 
-    const productList = async (next_page_url) => {
+    const productList = async () => {
         let final = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category_name
-        // if (next_page_url) {
-        //     final = next_page_url;
-        // } else {
-        //     // setShow(false)
-
-        // }
+        window.scrollTo(0, 0);
         category_name = ''
         return await axios.get(final, { headers: headers })
             .then((res) => {
@@ -71,20 +62,6 @@ const ItemPage = () => {
             })
             .catch((err) => console.log(err))
     }
-
-    // const lazyLoading = () => {
-    //     let final = BASE_URL + END_POINT
-    //     console.log('final', final)
-    //     console.log('nextUrl', nextUrlPage)
-    //     if (nextUrlPage) {
-    //         final = nextUrlPage.replace(changeUrl(), BASE_URL);
-    //         productList(final)
-    //     }
-    //     console.log('number', numberCount)
-    //     if (products.length >= numberCount) {
-    //         setHasMore(false)
-    //     }
-    // }
 
     const handleFav = async (id) => {
         console.log('addd', addFav)
@@ -118,6 +95,9 @@ const ItemPage = () => {
         }).catch(error => {
             console.log(error)
         })
+        if (isAuthenticated == false) {
+            navigate("/login")
+        }
     }
 
     const categoryList = async (e) => {
@@ -126,7 +106,6 @@ const ItemPage = () => {
         if (val == 'all-categories') {
             val = ''
         }
-        // setQuery(val)
         let finalURL = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + val
 
         axios.get(finalURL, {
@@ -147,7 +126,6 @@ const ItemPage = () => {
             let res = await axios.get(FInal, {
                 headers: headers
             })
-            // console.log('catData',res.data.results)
             setCategoriesData(res.data.results)
         } catch (error) {
             console.log(error)
@@ -174,8 +152,6 @@ const ItemPage = () => {
 
     const handleNextPage = async (url) => {
         url = url.replace(changeUrl(), BASE_URL);
-        console.log(url)
-        console.log('--------------------11-----------------------')
         window.scrollTo(0, 0);
         return await axios.get(url, { headers: headers })
             .then((res) => {
@@ -224,34 +200,29 @@ const ItemPage = () => {
                                 </div>
                             </div>
                             <hr className="border border-success border-1 opacity-50"></hr>
-                            {/* <InfiniteScroll
-                                dataLength={products.length}
-                                next={lazyLoading}
-                                hasMore={hasMore}
-                                loader={<div ><HashLoader color='#198754' cssOverride={{ display: "block", margin: "0 auto" }} size={100} /></div>}
-                            > */}
                             <div className="row g-2">
                                 {products && products.length > 0 && products.map((product) => {
                                     return (
                                         <div key={product?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                                            <div className='border shadow-sm' >
-                                                <div className="product">
+                                            <div className='bg-white border rounded productShadow' >
+                                                <div className="">
                                                     <div className="text-center mb-1">
-                                                        <img src={product?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                        <NavLink to={`/productDetails/${product?.id}`} className="" >
+                                                            <img src={product?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
+                                                        </NavLink>
                                                     </div>
                                                     <div className="p-1">
                                                         <div className="about">
                                                             <h6 className="text-muted text-wrap">{product?.title.substring(0, 15)}</h6>
+                                                            
+                                                            <div className="px-2 d-flex justify-content-between align-items-center">
                                                             <span className=""> {price(product?.price)}</span>
-                                                        </div>
-                                                        <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                                            <div className="">
-                                                                <NavLink to={`/productDetails/${product?.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
-                                                            </div>
-                                                            <div style={{ width: "25px" }}>
-                                                                <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                                <div style={{ width: "20px" }}>
+                                                                    <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                                                </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,11 +231,10 @@ const ItemPage = () => {
                                 })
                                 }
                                 <div className="d-flex justify-content-center">
-                                    <button className='btn btn-success bt-sm me-2' disabled={prevUrlPage === null} onClick={()=>handleNextPage(prevUrlPage)} > &larr; Previous</button>
-                                    <button className='btn btn-success bt-sm' disabled={nextUrlPage === null} onClick={()=>handleNextPage(nextUrlPage)}>Next &rarr; </button>
+                                    <button className='btn btn-success bt-sm me-2' disabled={prevUrlPage === null} onClick={() => handleNextPage(prevUrlPage)} > &larr; Previous</button>
+                                    <button className='btn btn-success bt-sm' disabled={nextUrlPage === null} onClick={() => handleNextPage(nextUrlPage)}>Next &rarr; </button>
                                 </div>
                             </div>
-                            {/* </InfiniteScroll> */}
                         </div>
                     </div>
                 </div>

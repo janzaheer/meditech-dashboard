@@ -40,7 +40,8 @@ function App() {
           <Route path='/productDetails/:id' element={<ProductDetail />} ></Route>
           <Route path='/login' element={<Login />} ></Route>
           <Route path='/register' element={<Register />} ></Route>
-          <Route path="search/:searchTerm" element={<SearchLIst />}></Route>
+          {/* <Route path="search/:searchTerm" element={<SearchLIst />}></Route> */}
+          <Route path="search" element={<SearchLIst />}></Route>
 
           {/*Admin Protected Routes */}
           <Route exact path='/dashboard' element={<ProtectedRoute />}>

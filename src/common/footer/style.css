@@ -8,8 +8,11 @@ footer .img {
 }
 
 footer li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   /* opacity: 0.5; */
+}
+footer ul {
+  padding: 0 !important;
 }
 .click{
   color: aliceblue;
