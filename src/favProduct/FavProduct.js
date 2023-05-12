@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Header from '../common/header/Header';
 import Footer from '../common/footer/Footer';
+import ScrollToTop from 'react-scroll-to-top';
 
 const FavProduct = () => {
     const userToken = useSelector(state => state.user.token);
@@ -107,6 +108,7 @@ const FavProduct = () => {
                 </div>
             </div>
             <Footer />
+            <ScrollToTop smooth />
         </div>
     )
 }

@@ -10,6 +10,7 @@ import { BASE_URL, FAV_ENDPOINT,END_POINT } from '../../utlis/apiUrls';
 import Heart from "react-heart";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
+import ScrollToTop from 'react-scroll-to-top';
 
 const SearchLIst = () => {
 
@@ -121,6 +122,7 @@ const SearchLIst = () => {
         </main>
       </div>
       <Footer />
+      <ScrollToTop smooth />
     </>
   )
 }

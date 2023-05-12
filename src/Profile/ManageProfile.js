@@ -19,6 +19,7 @@ import moment from 'moment';
 import Header from '../common/header/Header';
 import Footer from '../common/footer/Footer';
 import { Button, Col, Form, Row, Modal, Badge } from 'react-bootstrap';
+import ScrollToTop from "react-scroll-to-top";
 
 const ManageProfile = () => {
     const user = useSelector(state => state.user);
@@ -302,7 +303,6 @@ const ManageProfile = () => {
                                             </tbody>
                                         </table>
                                     </Scrollbars>
-
                                 </div>
                                 {/* End */}
                             </div>
@@ -311,6 +311,7 @@ const ManageProfile = () => {
                 </div>
             </div>
             <Footer />
+            <ScrollToTop smooth />
         </div>
     )
 }

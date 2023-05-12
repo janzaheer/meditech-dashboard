@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
 import Form from 'react-bootstrap/Form';
+import ScrollToTop from "react-scroll-to-top";
 
 const ItemPage = () => {
 
@@ -238,6 +239,7 @@ const ItemPage = () => {
                         </div>
                     </div>
                 </div>
+                <ScrollToTop smooth />
             </div>
             <Footer />
         </>

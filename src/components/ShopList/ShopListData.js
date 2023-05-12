@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import "./style.css"
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
+import ScrollToTop from "react-scroll-to-top";
 
 const ShopListData = () => {
 
@@ -73,28 +74,28 @@ const ShopListData = () => {
         window.scrollTo(0, 0);
         let category_endpoint = BASE_URL + CATEGORY_ENDPOINT
         await axios.get(category_endpoint, {
-          headers: headers
+            headers: headers
         }).then(async (res) => {
-          let categories = res.data.results
-          setCategoriesData(categories)
-          let promises = categories.map(category => {
-            let items_endpoint = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category.name
-            return axios.get(items_endpoint, {
-              headers: headers
-            }).then((response) => {
-              return {
-                name: category.name,
-                items: response.data.results
-              }
+            let categories = res.data.results
+            setCategoriesData(categories)
+            let promises = categories.map(category => {
+                let items_endpoint = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category.name
+                return axios.get(items_endpoint, {
+                    headers: headers
+                }).then((response) => {
+                    return {
+                        name: category.name,
+                        items: response.data.results
+                    }
+                })
+            });
+            Promise.all(promises).then((results) => {
+                let data = {}
+                results.forEach(resultA => {
+                    data[resultA.name] = resultA.items
+                })
+                setLandingData(data)
             })
-          });
-          Promise.all(promises).then((results) => {
-            let data = {}
-            results.forEach(resultA => {
-              data[resultA.name] = resultA.items
-            })
-            setLandingData(data)
-          })
         })
     }
 
@@ -192,6 +193,7 @@ const ShopListData = () => {
                         })}
                     </div>
                 </div>
+                <ScrollToTop smooth />
             </div>
         </div>
     )

@@ -12,7 +12,7 @@ import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-// import date formate
+import ScrollToTop from 'react-scroll-to-top';
 import moment from 'moment';
 
 const ProductSuccess = () => {
@@ -188,7 +188,7 @@ const ProductSuccess = () => {
                                 {orderCancelButton(orderDataList.status, orderDataList?.id)}
                                 <span className="d-block mt-3 text-black-50 fs-15"><BsEnvelopeFill />  We will be sending a shipping confirmation email when the item is shipped!</span>
                                 <hr />
-                                <div className="d-flex justify-content-between align-items-center footer">
+                                <div className="d-flex justify-content-between align-items-center footer mx-5">
                                     <div className="thanks"><span className="d-block font-weight-bold">Thanks for shopping</span><span>Cosmedicos Team</span></div>
                                     <div className="d-flex flex-column justify-content-end align-items-end"><span className="d-block font-weight-bold">Need Help?</span><span>Call - 93333333333</span></div>
                                 </div>
@@ -201,6 +201,7 @@ const ProductSuccess = () => {
                 </div>
             </div>
             <Footer />
+            <ScrollToTop smooth />
         </div>
     )
 }

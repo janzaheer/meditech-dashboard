@@ -113,7 +113,7 @@ const Footer = () => {
               <div className='box'>
                 <h3 className="mb-3" >Make Money With Us</h3>
                 <ul className="">
-                  <li><Button variant="outline-light" size="lg" onClick={handleShow}>
+                  <li><Button variant="danger" size="lg" onClick={handleShow}>
                     Sell on Cosmedicos
                   </Button></li>
                 </ul>
