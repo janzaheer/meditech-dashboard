@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import "./style.css"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
+import ScrollToTop from "react-scroll-to-top";
 
 const ShopListData = () => {
 
@@ -16,6 +17,8 @@ const ShopListData = () => {
     const [landingData, setLandingData] = useState({})
 
     const userToken = useSelector(state => state.user.token);
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+    const navigate = useNavigate();
 
     useEffect(() => {
         ProductListingWithCategory()
@@ -62,7 +65,11 @@ const ShopListData = () => {
         }).catch(error => {
             console.log(error)
         })
+        if (isAuthenticated == false) {
+            navigate("/login")
+        }
     }
+
 
     const ProductListingWithCategory = async () => {
         let category_endpoint = BASE_URL + CATEGORY_ENDPOINT
@@ -186,6 +193,7 @@ const ShopListData = () => {
                         })}
                     </div>
                 </div>
+                <ScrollToTop smooth />
             </div>
         </div>
     )

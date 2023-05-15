@@ -1,46 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import './SearchList.css'
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchAsyncSearchProduct, getSearchProducts, getSearchProductsStatus, clearSearch } from '../../store/searchSlice';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
 import '../../components/ShopList/style.css'
-import { FaRegEye } from 'react-icons/fa'
 import Header from './Header';
 import Footer from '../footer/Footer';
 import axios from 'axios';
-import { BASE_URL, FAV_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, FAV_ENDPOINT,END_POINT } from '../../utlis/apiUrls';
 import Heart from "react-heart";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
+import ScrollToTop from 'react-scroll-to-top';
 
 const SearchLIst = () => {
 
-  const dispatch = useDispatch();
-  const { searchTerm } = useParams();
-  const searchProducts = useSelector(getSearchProducts)
-  const searchProductsStatus = useSelector(getSearchProductsStatus);
-  console.log('searchlist', searchProducts)
-  console.log('searchStatus', searchProductsStatus)
+  const queryParams = new URLSearchParams(window.location.search)
+  let search_name = queryParams.get("search");
+
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const navigate = useNavigate();
+
   const userToken = useSelector(state => state.user.token);
   const [itemFavourite, setItemFavourite] = useState({})
+   const [searchData, setSearchData] = useState('')
 
-  useEffect(() => {
-    dispatch(clearSearch());
-    dispatch(fetchAsyncSearchProduct(searchTerm))
+  useEffect(()=>{
+    searchFunction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm])
+  },[search_name])
 
-  if (searchProducts.length === 0) {
-    return (
-      <div className='container search' style={{
-        minHeight: "70vh"
-      }}>
-        <div className='fw-5 text-danger py-5'>
-          <h3>No Products found.</h3>
-        </div>
-      </div>
-    )
+
+  const searchFunction = async () =>{
+    let final = BASE_URL + END_POINT + `?search=${search_name}`
+    window.scrollTo(0, 0);
+     await axios.get(final)
+     .then((res)=>{
+      console.log('search',res.data.results)
+      setSearchData(res.data.results)
+     })
   }
 
   const handleFav = async (id) => {
@@ -73,12 +70,15 @@ const SearchLIst = () => {
     }).catch(error => {
       console.log(error)
     })
+    if (isAuthenticated == false) {
+      navigate("/login")
+    }
   }
 
   return (
     <>
       <Header />
-      <div className='container'>
+      <div className='container searchClass'>
         <ToastContainer />
         <main>
           <div className='search-content bg-whitesmoke'>
@@ -89,25 +89,24 @@ const SearchLIst = () => {
                 </div>
                 <br />
                 <div className="row g-2">
-                  {searchProducts.map((product) => {
+                  {searchData && searchData.map((product) => {
                     return (
                       <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-2">
-                        <div className='box rounded border shadow-sm' >
-                          <div className="product ">
+                        <div className='bg-white border rounded productShadow'>
+                          <div className="">
                             <div className="text-center mb-3">
-                              <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                              <NavLink to={`/${product.id}`} className="" >
+                                <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
+                              </NavLink>
                             </div>
                             <div className='p-1'>
                               <div className="about">
-                                <h6 className="text-muted text-wrap">{product.title.substring(0, 17)} ...</h6>
-                                <span className="">Rs {product.price}</span>
-                              </div>
-                              <div className="mt-1 px-2 d-flex justify-content-between align-items-center">
-                                <div className="">
-                                  <NavLink to={`/${product.id}`} className="btn btn-outline-success btn-sm" ><FaRegEye /></NavLink>
-                                </div>
-                                <div style={{ width: "25px" }}>
-                                  <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)} ...</h6>
+                                <div className="px-2 d-flex justify-content-between align-items-center">
+                                  <span className="">Rs {product.price}</span>
+                                  <div style={{ width: "20px" }}>
+                                    <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -123,6 +122,7 @@ const SearchLIst = () => {
         </main>
       </div>
       <Footer />
+      <ScrollToTop smooth />
     </>
   )
 }

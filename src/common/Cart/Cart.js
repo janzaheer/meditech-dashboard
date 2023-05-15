@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import ScrollToTop from "react-scroll-to-top";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -211,6 +212,7 @@ const Cart = () => {
         </div>
       </div>
       <Footer />
+      <ScrollToTop smooth />
     </>
   )
 }

@@ -19,17 +19,23 @@ footer h2 {
 }
 
 footer li {
-  margin-bottom: 10px;
-  opacity: 0.5;
+  margin-bottom: 8px;
+  /* opacity: 0.5; */
+}
+footer ul {
+  padding: 0 !important;
+}
+.click{
+  color: aliceblue;
+}
+.click:hover{
+  color: aliceblue;
+  text-decoration:underline;
 }
 
 @media (min-width: 768px) {
   .px-md-5 {
     padding-right: 0rem !important;
     padding-left: 0rem !important;
-  }
-
-  .btn-outline-secondary {
-    font-size: 9px !important;
   }
 }

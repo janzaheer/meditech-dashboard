@@ -14,6 +14,7 @@ import { ImLocation2 } from 'react-icons/im';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
 import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
+import ScrollToTop from 'react-scroll-to-top';
 
 const Checkout = () => {
 
@@ -360,6 +361,7 @@ const Checkout = () => {
                 </div>
             </div>
             <Footer />
+            <ScrollToTop smooth />
         </div>
     )
 }

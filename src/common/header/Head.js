@@ -15,7 +15,7 @@ const Head = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout())
-    navigation('/')
+    navigation("/")
   }
   return (
     <>

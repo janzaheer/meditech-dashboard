@@ -12,6 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Header from '../../common/header/Header'
 import Footer from '../../common/footer/Footer'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+import ScrollToTop from "react-scroll-to-top";
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -116,14 +119,15 @@ const ProductDetail = () => {
                             </div>
                             <div className="col-8 col-sm-8 col-lg-4 order-sm-2">
                                 <div className="image_selected">
-                                    <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100' />
+                                    {/* <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100' /> */}
+                                    <Zoom>
+                                    <img
+                                        alt="img"
+                                        src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url}
+                                        width="300"
+                                    />
+                                </Zoom>
                                 </div>
-                                {/* <Zoom
-                                        img="https://www.lifeofpix.com/wp-content/uploads/2018/06/20180120-P1201659-1600x1089.jpg"
-                                        zoomScale={3}
-                                        width={600}
-                                        height={600}
-                                    /> */}
                             </div>
                             <div className="col-lg-6 order-3">
                                 <div className="product_description">
@@ -197,6 +201,7 @@ const ProductDetail = () => {
                         </div>
                     </div>
                 </div>
+                <ScrollToTop smooth />
             </div>
             <Footer />
         </div>
