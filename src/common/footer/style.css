@@ -2,9 +2,20 @@
   background-color: #198754;
 }
 
+footer h1 {
+  margin-bottom: 30px;
+  color: #e94560;
+  font-weight: 800;
+  font-style: italic;
+}
+
 footer .img {
   background-color: #0c2a4d;
   border-radius: 5px;
+}
+
+footer h2 {
+  margin-bottom: 20px;
 }
 
 footer li {

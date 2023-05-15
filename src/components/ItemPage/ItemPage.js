@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
 import Heart from "react-heart";
+// import InfiniteScroll from 'react-infinite-scroll-component';
 import Form from 'react-bootstrap/Form';
 import ScrollToTop from "react-scroll-to-top";
 
