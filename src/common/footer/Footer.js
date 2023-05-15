@@ -136,9 +136,9 @@ const Footer = () => {
                 <h3 className="mb-3">Contact Us</h3>
                 <ul>
                   {/* <li><NavLink className='text-white' to='#'>Contact us</NavLink></li> */}
-                  <li><ImLocation2/> : Plot 5-A, Near HBL Bank, F-6 Markaz, Islamabad </li>
-                  <li><MdAttachEmail/> : cosmedicosofficial@gmail.com</li>
-                  <li><BsTelephonePlusFill/> : +92 317 8012324</li>
+                  <li><ImLocation2/> Plot 5-A, Near HBL Bank, F-6 Markaz, Islamabad </li>
+                  <li><MdAttachEmail/> cosmedicosofficial@gmail.com</li>
+                  <li><BsTelephonePlusFill/> +92 317 8012324</li>
                 </ul>
               </div>
             </div>
