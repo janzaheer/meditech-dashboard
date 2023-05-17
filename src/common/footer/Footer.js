@@ -1,12 +1,11 @@
 import React, { useState } from "react"
-import { NavLink } from "react-router-dom"
 import "./style.css"
 import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 import axios from "axios";
-import { BASE_URL,SELLER_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, SELLER_ENDPOINT } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { BsTelephonePlusFill} from 'react-icons/bs';
+import { BsTelephonePlusFill } from 'react-icons/bs';
 import { MdAttachEmail } from 'react-icons/md';
 import { ImLocation2 } from 'react-icons/im'
 
@@ -55,7 +54,9 @@ const Footer = () => {
       <ToastContainer />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Seller Login Here</Modal.Title>
+          <Modal.Title>
+              <h4 className="text-success">Seller Register Here</h4>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={addSeller} >
@@ -79,17 +80,14 @@ const Footer = () => {
                 <Form.Control type="text" name='company_name' placeholder="enter your company name" value={company_name} onChange={(e) => setCompany_name(e.target.value)} />
               </Form.Group>
             </Row>
-            <Button variant="success"
-              type="submit">
-              save Seller
-            </Button>
+            <div className="d-flex justify-content-end">
+              <Button variant="success"
+                type="submit">
+                Register Seller
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
       <footer className="px-5 py-5 text-white footer">
         <div className="container-fluid" style={{ display: "" }}>
@@ -136,9 +134,9 @@ const Footer = () => {
                 <h3 className="mb-3">Contact Us</h3>
                 <ul>
                   {/* <li><NavLink className='text-white' to='#'>Contact us</NavLink></li> */}
-                  <li><ImLocation2/> : Plot 5-A, Near HBL Bank, F-6 Markaz, Islamabad </li>
-                  <li><MdAttachEmail/> : cosmedicosofficial@gmail.com</li>
-                  <li><BsTelephonePlusFill/> : +92 317 8012324</li>
+                  <li><ImLocation2 /> Plot 5-A, Near HBL Bank, F-6 Markaz, Islamabad </li>
+                  <li><MdAttachEmail /> cosmedicosofficial@gmail.com</li>
+                  <li><BsTelephonePlusFill /> +92 317 8012324</li>
                 </ul>
               </div>
             </div>

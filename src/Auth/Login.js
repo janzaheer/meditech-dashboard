@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import Header from '../common/header/Header';
 import Footer from '../common/footer/Footer';
+// import FacebookLogin from 'react-facebook-login';
 
 const Login = () => {
     const [username, setUsername] = useState('')
@@ -22,7 +23,7 @@ const Login = () => {
         if (loginData.payload && loginData.payload.user) {
             setUsername('')
             setPassword('')
-             navigation('/')
+            navigation('/')
         } else {
             toast.error(`Invalid username or password`, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -38,6 +39,16 @@ const Login = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value)
     }
+    // const handleFacebookResponse = (response) => {
+    //     if (response.status !== 'unknown') {
+    //       // Successful login
+    //       console.log('Logged in with Facebook:', response);
+    //       // You can now send the access token to your backend for authentication
+    //     } else {
+    //       // Login failed
+    //       console.log('Facebook login failed');
+    //     }
+    //   };
 
     return (
         <div>
@@ -69,6 +80,12 @@ const Login = () => {
                                             <button className="btn btn-success w-50" type="submit">Login</button>
                                             <hr className="my-3" />
                                             <Link to='/register' className='btn btn-success w-100'>Register Now</Link>
+                                            {/* <FacebookLogin
+                                                appId="YOUR_FACEBOOK_APP_ID"
+                                                autoLoad={false}
+                                                fields="name,email,picture"
+                                                callback={handleFacebookResponse}
+                                            /> */}
                                         </form>
                                     </div>
                                 </div>
