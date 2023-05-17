@@ -55,7 +55,7 @@ const Footer = () => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-              <h4 className="text-success">Seller Register Here</h4>
+              <h4 className="text-success">Seller Register Here!</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
