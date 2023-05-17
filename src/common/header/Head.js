@@ -19,11 +19,11 @@ const Head = () => {
   }
   return (
     <>
-      <nav className="navbar navbar-dark navbar-expand p-0 bg-dark">
+      <nav className="navbar navbar-dark navbar-expand p-0 bg-success">
         <div className="container-fluid">
           <ul className="navbar-nav d-none d-md-flex mr-auto">
-            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-phone'></i> +92 317 801 2324</a> </li>
-            <li className="nav-item"><a className="nav-link" href="#" data-abc="true"><i className='fa fa-envelope'></i>  cosmedicosofficial@gmail.com</a></li>
+            <li className="nav-item"><a className="nav-link text-white" href="#" data-abc="true"><i className='fa fa-phone'></i> +92 317 801 2324</a> </li>
+            <li className="nav-item"><a className="nav-link text-white" href="#" data-abc="true"><i className='fa fa-envelope'></i>  cosmedicosofficial@gmail.com</a></li>
           </ul>
 
           <ul className="navbar-nav d-flex align-items-center">
@@ -45,7 +45,7 @@ const Head = () => {
               </li>
               : <li className="nav-item me-5">
                 <div className="me-5">
-                  <Link className="text-muted" to='/login'>Login Now</Link>
+                  <Link className="btn btn-danger btn-sm"to='/login'>Login Now</Link>
                 </div>
               </li>
             }

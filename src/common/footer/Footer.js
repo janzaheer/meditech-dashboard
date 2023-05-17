@@ -54,7 +54,7 @@ const Footer = () => {
       <ToastContainer />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Seller Login Here</Modal.Title>
+          <Modal.Title><h4 className="text-center text-success">Seller Register Here</h4></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={addSeller} >
@@ -80,14 +80,11 @@ const Footer = () => {
             </Row>
             <Button variant="success"
               type="submit">
-              save Seller
+              Register Seller
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
         </Modal.Footer>
       </Modal>
       <footer className="px-5 py-5 text-white footer">
