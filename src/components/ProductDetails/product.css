@@ -6,6 +6,27 @@
     margin-top: 50px !important;
 }
 
+.companyHead{
+    margin-right: 15rem !important;
+}
+
+.itemImage {
+    position:relative;
+    /* padding-top:20px; */
+    /* display:inline-block; */
+}
+.notify-badge{
+    position: absolute;
+    right:-1px;
+    top:3px;
+    background:red;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color:white;
+    padding:5px 10px;
+    font-size:20px;
+}
+
 .breadcrumb {
     display: -ms-flexbox;
     display: flex;
@@ -254,13 +275,13 @@ ul {
     max-width: 100%
 }
 
-.table-responsive2 {
-    height: 17rem !important;
-}
 .table-responsive1 {
     height: 33rem !important;
 }
 
+.table-responsivedesTag{
+    height: 15rem !important;
+}
 
 @media screen and (max-width: 992px) {
      .image_list li img {

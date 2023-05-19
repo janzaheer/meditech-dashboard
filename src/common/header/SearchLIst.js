@@ -75,6 +75,14 @@ const SearchLIst = () => {
     }
   }
 
+  const handleBadge = (seller) =>{
+    if (seller == null) {
+        return <span className="badge text-bg-success notify-badge">cosmedicos mall</span>
+    } else {
+        return ''
+    }
+}
+
   return (
     <>
       <Header />
@@ -94,8 +102,9 @@ const SearchLIst = () => {
                       <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-2">
                         <div className='bg-white border rounded productShadow'>
                           <div className="">
-                            <div className="text-center mb-3">
+                            <div className="text-center mb-3 itemImage">
                               <NavLink to={`/${product.id}`} className="" >
+                                {handleBadge(product.seller)}
                                 <img src={product.images[0].image_url} alt='' className="images-class w-100" width={180} height={180} />
                               </NavLink>
                             </div>

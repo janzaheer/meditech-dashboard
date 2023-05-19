@@ -97,6 +97,14 @@ const ProductDetail = () => {
         }
     }
 
+    const handleCompany = (seller) => {
+        if (seller == null) {
+            return 'cosmedicos mall'
+        } else {
+            return `${seller.company}`
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -121,12 +129,12 @@ const ProductDetail = () => {
                                 <div className="image_selected">
                                     {/* <img src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url} alt='img' className='w-100' /> */}
                                     <Zoom>
-                                    <img
-                                        alt="img"
-                                        src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url}
-                                        width="300"
-                                    />
-                                </Zoom>
+                                        <img
+                                            alt="img"
+                                            src={mainImage ? mainImage.image_url : product.images && product?.images[0]?.image_url}
+                                            width="300"
+                                        />
+                                    </Zoom>
                                 </div>
                             </div>
                             <div className="col-lg-6 order-3">
@@ -138,7 +146,7 @@ const ProductDetail = () => {
                                     <div>
                                         <div className="row">
                                             <div className="col-md-10">
-                                                <div className="p-1 my-2 table-responsive2">
+                                                <div className="p-1 my-2 table-responsivedesTag">
                                                     <Scrollbars>
                                                         <p> {product?.description}</p>
                                                     </Scrollbars>
@@ -146,7 +154,24 @@ const ProductDetail = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="qty-change flex">
+                                    {/* <div className='d-flex justify-content-between' >
+                                        <div className=''>
+                                            <div className="flex">
+                                                <button type="button" className='btn btn-outline-warning btn-sm fs-14' onClick={() => decreaseQty()}>
+                                                    -
+                                                </button>
+                                                <span className="qty-value flex flex-center mx-3">{qty}</span>
+                                                <button type="button" className='btn btn-outline-success btn-sm fs-14 text-light-blue' onClick={() => increaseQty()}>
+                                                    +
+                                                </button>
+
+                                            </div>
+                                            <button type="button" className="btn btn-success btn-sm mt-3 me-1" onClick={() => addToCartHandler(product)}>Add to Cart</button>
+
+                                        </div>
+                                       
+                                    </div> */}
+                                    <div className="flex">
                                         <button type="button" className='btn btn-outline-warning fs-14' onClick={() => decreaseQty()}>
                                             -
                                         </button>
@@ -156,16 +181,66 @@ const ProductDetail = () => {
                                         </button>
                                     </div>
                                     <div className="row">
-                                        <div className="col-xs-6 mt-4">
+                                        <div className="col-xs-6 mt-2">
                                             <button type="button" className="btn btn-success me-1" onClick={() => addToCartHandler(product)}>Add to Cart</button>
                                         </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div className='mt-3 row'>
+                            <div className='col-12 col-md-7'>
+                                <div className="card">
+                                    <div className="card-header">
+                                        Sold By
+                                    </div>
+                                    <div className="card-body">
+                                            <p className='text-success'>{handleCompany(product.seller)}.</p>
+                                            <div className="row text-muted text-center">
+                                                <div className='col-4'>
+                                                    <div className=''>
+                                                        <span className='fs-6'>
+                                                            Positive Seller Ratings
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <h5>
+                                                            91%
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                                <div className='col-4'>
+                                                    <div>
+                                                        <span className='fs-6'>
+                                                            Ship on Time
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <h5>
+                                                            90%
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                                <div className='col-4'>
+                                                    <div>
+                                                        <span className='fs-6'>
+                                                            Chat Response Rate
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <h5>
+                                                            80%
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="row row-underline">
                             <div className="col-md-6"> <span className=" deal-text">Specifications</span> </div>
-                            <div className="col-md-6"> </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
@@ -179,22 +254,16 @@ const ProductDetail = () => {
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Company Store :</span> </td>
-                                            <td className="col-md-8">
-                                                <ul>
-                                                    <li> {product?.store} </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr className="row mt-10">
-                                            <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
-                                            <td className="col-md-8">
-                                                <ul>
-                                                    <li>{product?.brand}</li>
-                                                </ul>
-                                            </td>
-                                        </tr>
+                                        {
+                                            product?.brand ? <tr className="row mt-10">
+                                                <td className="col-md-4"><span className="p_specification">Company Brand :</span> </td>
+                                                <td className="col-md-8">
+                                                    <ul>
+                                                        <li>{product?.brand}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr> : ''
+                                        }
                                     </tbody>
                                 </table>
                             </div>
