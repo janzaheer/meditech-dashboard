@@ -84,7 +84,7 @@ const FavProduct = () => {
             <Header />
             <div className='container fav'>
                 <ToastContainer />
-                <div className='row g-2'>
+                <div className='row g-2 mx-md-5'>
                     <h1 className='text-center text-success'>Favorite list</h1>
                     {products.map((product) => {
                         return (

@@ -164,7 +164,7 @@ const ShopListData = () => {
                                     <div className="container">
                                         <h2 className="text-success mt-2">{key}</h2>
                                         <hr className="border border-success border-1 opacity-50"></hr>
-                                        <div className="row g-2" >
+                                        <div className="row g-2 mx-md-5" >
                                             {landingData[key] && landingData[key].slice(0, 6).map((item) => {
                                                 return (
                                                     <div key={item?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
@@ -173,7 +173,6 @@ const ShopListData = () => {
                                                                 <div className="text-center mb-1 itemImage">
                                                                     <NavLink to={`/productDetails/${item?.id}`} className="" >
                                                                         {handleBadge(item.seller)}
-                                                                  {/* {item.store ?  <span className="badge text-bg-success notify-badge">cosmedicos mall</span> : '' }  */}
                                                                         <img src={item?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                                     </NavLink>
                                                                 </div>

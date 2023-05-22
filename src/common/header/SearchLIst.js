@@ -96,7 +96,7 @@ const SearchLIst = () => {
                   <h3 className='text-success'>Search results</h3>
                 </div>
                 <br />
-                <div className="row g-2">
+                <div className="row g-2 mx-md-5">
                   {searchData && searchData.map((product) => {
                     return (
                       <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-2">

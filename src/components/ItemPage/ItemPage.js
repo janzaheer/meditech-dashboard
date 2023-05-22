@@ -210,7 +210,7 @@ const ItemPage = () => {
                                 </div>
                             </div>
                             <hr className="border border-success border-1 opacity-50"></hr>
-                            <div className="row g-2">
+                            <div className="row g-2 mx-md-5">
                                 {products && products.length > 0 && products.map((product) => {
                                     return (
                                         <div key={product?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
