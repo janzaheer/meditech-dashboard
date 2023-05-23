@@ -13,7 +13,7 @@ const initialState = {
 }
 
 export const signUpUser = createAsyncThunk('signupuser', async (body) => {
-    let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT
+    let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT()
     const res = await fetch(SignUpUrl, {
         method: "post",
         headers: {
@@ -26,7 +26,7 @@ export const signUpUser = createAsyncThunk('signupuser', async (body) => {
 })
 
 export const signInUser = createAsyncThunk('signinuser', async ({ username, password },thunkAPI) => {
-    let LoginURL = BASE_URL + LOGIN_ENDPOINT
+    let LoginURL = BASE_URL + LOGIN_ENDPOINT()
     const res = await fetch(LoginURL, {
         method: "post",
         headers: {

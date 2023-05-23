@@ -17,12 +17,12 @@ const FavProduct = () => {
     const [itemFavourite, setItemFavourite] = useState({})
 
     useEffect(() => {
-
         handleFavList()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleFavList = async () => {
-        let FavURL = BASE_URL + FAV_ENDPOINT
+        let FavURL = BASE_URL + FAV_ENDPOINT()
         try {
             const res = await axios.get(FavURL, {
                 headers: {
@@ -40,7 +40,7 @@ const FavProduct = () => {
 
     const handleFav = async (id) => {
         console.log('click-id', id)
-        let AddFavURL = BASE_URL + FAV_ENDPOINT
+        let AddFavURL = BASE_URL + FAV_ENDPOINT()
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -71,7 +71,7 @@ const FavProduct = () => {
         })
     }
 
-    const handleBadge = (seller) =>{
+    const handleBadge = (seller) => {
         if (seller == null) {
             return <span className="badge text-bg-success notify-badge">cosmedicos mall</span>
         } else {
@@ -99,9 +99,9 @@ const FavProduct = () => {
                                         </div>
                                         <div className='p-1'>
                                             <div className="about">
-                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)}</h6>
+                                                <h6 className="text-muted text-wrap">{product.title.substring(0, 11)}</h6>
                                                 <div className="px-2 d-flex justify-content-between align-items-center">
-                                                <span className="">Rs {product.price}</span>
+                                                    <span className="">Rs {product.price}</span>
                                                     <div style={{ width: "20px" }}>
                                                         <Heart isActive={itemFavourite && product.id in itemFavourite ? itemFavourite[product.id] : product.is_favourite} onClick={() => handleFav(product.id)} />
                                                     </div>

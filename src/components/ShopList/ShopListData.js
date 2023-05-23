@@ -36,7 +36,7 @@ const ShopListData = () => {
     const handleFav = async (id) => {
         console.log('addd', addFav)
 
-        let AddFavURL = BASE_URL + FAV_ENDPOINT
+        let AddFavURL = BASE_URL + FAV_ENDPOINT()
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -78,16 +78,15 @@ const ShopListData = () => {
         }
     }
 
-
     const ProductListingWithCategory = async () => {
-        let category_endpoint = BASE_URL + CATEGORY_ENDPOINT
+        let category_endpoint = BASE_URL + CATEGORY_ENDPOINT()
         await axios.get(category_endpoint, {
           headers: headers
         }).then(async (res) => {
           let categories = res.data.results
           setCategoriesData(categories)
           let promises = categories.map(category => {
-            let items_endpoint = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category.name
+            let items_endpoint = BASE_URL + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category.name
             return axios.get(items_endpoint, {
               headers: headers
             }).then((response) => {
@@ -178,7 +177,7 @@ const ShopListData = () => {
                                                                 </div>
                                                                 <div className="p-1">
                                                                     <div className="about">
-                                                                        <h6 className="text-muted text-wrap">{item.title.substring(0, 15)}</h6>
+                                                                        <h6 className="text-muted text-wrap">{item.title.substring(0, 11)}</h6>
                                                                         <div className="d-flex justify-content-between align-items-center px-2">
                                                                             <span className=""> {price(item?.price)}</span>
                                                                             <div style={{ width: "20px" }}>

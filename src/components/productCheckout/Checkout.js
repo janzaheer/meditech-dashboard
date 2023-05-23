@@ -5,7 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartTotal, clearCart } from '../../store/cartSlice';
 import axios from 'axios';
-import { BASE_URL, ORDER_PLACED_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, ORDER_PLACED_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT,ORDER_ENDPOINT } from '../../utlis/apiUrls';
 import { MdAddCall, MdMarkEmailUnread, MdAddLocationAlt } from 'react-icons/md';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -61,7 +61,7 @@ const Checkout = () => {
     placeOrder['total_quantity'] = my_total_quantity
 
     const handlePlaceOrder = async () => {
-        let OrderURL = BASE_URL + ORDER_PLACED_ENDPOINT
+        let OrderURL = BASE_URL + ORDER_ENDPOINT() + ORDER_PLACED_ENDPOINT()
         console.log('newArray', placeOrder)
         try {
             const res = await fetch(OrderURL, {
@@ -86,7 +86,7 @@ const Checkout = () => {
     }
 
     const userList = async () => {
-        let Api = `${USER_LIST_ENDPOINT}${id}/`
+        let Api = `${USER_LIST_ENDPOINT()}${id}/`
         let userURL = BASE_URL + Api
         axios.get(userURL, {
             headers: {

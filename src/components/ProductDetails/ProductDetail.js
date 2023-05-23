@@ -29,7 +29,7 @@ const ProductDetail = () => {
             // eslint-disable-next-line         
             try {
                 axios({
-                    url: `${BASE_URL}${END_POINT}/${id}/`,
+                    url: `${BASE_URL}${END_POINT()}/${id}/`,
                     method: 'get',
                 })
                     .then((res) => {

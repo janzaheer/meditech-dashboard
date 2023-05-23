@@ -40,7 +40,7 @@ const ManageProfile = () => {
     }, [])
 
     const userList = async () => {
-        let Api = `${USER_LIST_ENDPOINT}${id}/`
+        let Api = `${USER_LIST_ENDPOINT()}${id}/`
         let AddFavURL = BASE_URL + Api
         axios.get(AddFavURL, {
             headers: {
@@ -115,7 +115,7 @@ const ManageProfile = () => {
     }
 
     const myOrderList = async () => {
-        let finalURL = BASE_URL + ORDER_ENDPOINT
+        let finalURL = BASE_URL + ORDER_ENDPOINT()
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",

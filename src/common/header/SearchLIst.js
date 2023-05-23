@@ -31,7 +31,7 @@ const SearchLIst = () => {
 
 
   const searchFunction = async () =>{
-    let final = BASE_URL + END_POINT + `?search=${search_name}`
+    let final = BASE_URL + END_POINT() + `?search=${search_name}`
     window.scrollTo(0, 0);
      await axios.get(final)
      .then((res)=>{
@@ -42,7 +42,7 @@ const SearchLIst = () => {
 
   const handleFav = async (id) => {
     console.log('click-id', id)
-    let AddFavURL = BASE_URL + FAV_ENDPOINT
+    let AddFavURL = BASE_URL + FAV_ENDPOINT()
     axios.post(AddFavURL, { item_id: id }, {
       headers: {
         'Content-Type': "application/json",
@@ -110,7 +110,7 @@ const SearchLIst = () => {
                             </div>
                             <div className='p-1'>
                               <div className="about">
-                                <h6 className="text-muted text-wrap">{product.title.substring(0, 15)} ...</h6>
+                                <h6 className="text-muted text-wrap">{product.title.substring(0, 11)}</h6>
                                 <div className="px-2 d-flex justify-content-between align-items-center">
                                   <span className="">Rs {product.price}</span>
                                   <div style={{ width: "20px" }}>

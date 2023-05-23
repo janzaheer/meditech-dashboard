@@ -29,7 +29,7 @@ const ProductSuccess = () => {
     }, [])
 
     const orderListData = async () => {
-        let Api = `${ORDER_ENDPOINT}/${id}/`
+        let Api = `${ORDER_ENDPOINT()}/${id}/`
         let finalURL = BASE_URL + Api
         axios.get(finalURL, {
             headers: {
@@ -46,7 +46,7 @@ const ProductSuccess = () => {
 
     const cancelOrder = async (id) => {
         console.log('order-cancel', id)
-        let final = BASE_URL + ORDER_CANCEL(id)
+        let final = BASE_URL + ORDER_ENDPOINT() + ORDER_CANCEL(id)
         try {
             let res = await axios.post(final, {}, {
                 headers: {
