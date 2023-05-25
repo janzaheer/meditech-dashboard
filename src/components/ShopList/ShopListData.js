@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import "./style.css"
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT ,API_VERSION } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
@@ -36,7 +36,7 @@ const ShopListData = () => {
     const handleFav = async (id) => {
         console.log('addd', addFav)
 
-        let AddFavURL = BASE_URL + FAV_ENDPOINT()
+        let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT()
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -79,14 +79,14 @@ const ShopListData = () => {
     }
 
     const ProductListingWithCategory = async () => {
-        let category_endpoint = BASE_URL + CATEGORY_ENDPOINT()
+        let category_endpoint = BASE_URL + API_VERSION() + CATEGORY_ENDPOINT()
         await axios.get(category_endpoint, {
           headers: headers
         }).then(async (res) => {
           let categories = res.data.results
           setCategoriesData(categories)
           let promises = categories.map(category => {
-            let items_endpoint = BASE_URL + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category.name
+            let items_endpoint = BASE_URL + API_VERSION() + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category.name
             return axios.get(items_endpoint, {
               headers: headers
             }).then((response) => {

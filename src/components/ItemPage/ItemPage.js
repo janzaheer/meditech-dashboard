@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './style.css';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, SORT_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT, changeUrl,API_VERSION } from '../../utlis/apiUrls';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,7 +50,7 @@ const ItemPage = () => {
     }
 
     const productList = async () => {
-        let final = BASE_URL + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category_name
+        let final = BASE_URL + API_VERSION() + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category_name
         window.scrollTo(0, 0);
         category_name = ''
         return await axios.get(final, { headers: headers })
@@ -67,7 +67,7 @@ const ItemPage = () => {
     const handleFav = async (id) => {
         console.log('addd', addFav)
 
-        let AddFavURL = BASE_URL + FAV_ENDPOINT()
+        let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT()
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -107,7 +107,7 @@ const ItemPage = () => {
         if (val == 'all-categories') {
             val = ''
         }
-        let finalURL = BASE_URL + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + val
+        let finalURL = BASE_URL + API_VERSION() + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + val
 
         axios.get(finalURL, {
             headers: headers
@@ -122,7 +122,7 @@ const ItemPage = () => {
     }
 
     const categoryData = async () => {
-        let FInal = BASE_URL + CATEGORY_ENDPOINT()
+        let FInal = BASE_URL + API_VERSION() + CATEGORY_ENDPOINT()
         try {
             let res = await axios.get(FInal, {
                 headers: headers
@@ -137,7 +137,7 @@ const ItemPage = () => {
         let val = e.target.value;
         setSortTerm(val)
         console.log('click-e', val)
-        const response = await fetch(`${BASE_URL}${END_POINT()}${SORT_ENDPOINT()}${val}`);
+        const response = await fetch(`${BASE_URL}${API_VERSION()}${END_POINT()}${SORT_ENDPOINT()}${val}`);
         const data = await response.json();
         setProducts(data.results)
         return data.results;

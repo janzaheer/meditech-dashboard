@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./style.css"
 import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 import axios from "axios";
-import { BASE_URL, SELLER_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, SELLER_ENDPOINT,API_VERSION } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsTelephonePlusFill } from 'react-icons/bs';
@@ -22,7 +22,7 @@ const Footer = () => {
 
   const addSeller = async (e) => {
     e.preventDefault();
-    let final = BASE_URL + SELLER_ENDPOINT
+    let final = BASE_URL + API_VERSION() + SELLER_ENDPOINT()
     await axios.post(final, {
       seller_name: seller_name,
       email: email,

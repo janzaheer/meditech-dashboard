@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BASE_URL, END_POINT } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT,API_VERSION } from '../../utlis/apiUrls';
 import './product.css';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -29,7 +29,7 @@ const ProductDetail = () => {
             // eslint-disable-next-line         
             try {
                 axios({
-                    url: `${BASE_URL}${END_POINT()}/${id}/`,
+                    url: `${BASE_URL}${API_VERSION()}${END_POINT()}/${id}/`,
                     method: 'get',
                 })
                     .then((res) => {

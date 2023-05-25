@@ -11,7 +11,7 @@ import { RiShoppingBag3Fill } from 'react-icons/ri'
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, ORDER_ENDPOINT, ADDRESS_REMOVE_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT, changeUrl } from '../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ADDRESS_REMOVE_ENDPOINT, ADDRESS_ADD_ENDPOINT, USER_LIST_ENDPOINT,API_VERSION } from '../utlis/apiUrls';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Scrollbars } from 'react-custom-scrollbars-2';
@@ -31,16 +31,25 @@ const ManageProfile = () => {
     const [orderDataList, setOrderDataList] = useState([])
     const [show, setShow] = useState(false);
 
+    console.log('==============================')
     const id = user.user.id
     console.log('user-id', id)
-
+    console.log('==============================')
+   
     useEffect(() => {
         userList()
         myOrderList()
+        const staff = user.user.is_staff
+        console.log('staff',staff)
+        console.log('==============================')
+        const seller = user.user.is_seller
+        console.log('seller',seller)
+        console.log('==============================')
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const userList = async () => {
-        let Api = `${USER_LIST_ENDPOINT()}${id}/`
+        let Api = `${API_VERSION()}${USER_LIST_ENDPOINT()}${id}/`
         let AddFavURL = BASE_URL + Api
         axios.get(AddFavURL, {
             headers: {
@@ -58,7 +67,7 @@ const ManageProfile = () => {
     const handleShowAdd = () => setShow(true);
     const addAddress = async (e) => {
         e.preventDefault();
-        let addAddressUrl = BASE_URL + ADDRESS_ADD_ENDPOINT
+        let addAddressUrl = BASE_URL + API_VERSION() + USER_LIST_ENDPOINT() + ADDRESS_ADD_ENDPOINT()
         try {
             let res = await axios.post(addAddressUrl, {
                 phone_number: phone_number,
@@ -92,7 +101,7 @@ const ManageProfile = () => {
 
     const handleDelete = async (AddressId) => {
         console.log('delete', AddressId)
-        let removeAddressUrl = BASE_URL + ADDRESS_REMOVE_ENDPOINT
+        let removeAddressUrl = BASE_URL + API_VERSION() + USER_LIST_ENDPOINT() + ADDRESS_REMOVE_ENDPOINT()
         try {
             let res = await axios.post(removeAddressUrl, {
                 address_id: AddressId,
@@ -115,7 +124,7 @@ const ManageProfile = () => {
     }
 
     const myOrderList = async () => {
-        let finalURL = BASE_URL + ORDER_ENDPOINT()
+        let finalURL = BASE_URL + API_VERSION() + ORDER_ENDPOINT()
         axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",

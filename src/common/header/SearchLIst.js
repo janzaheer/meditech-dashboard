@@ -6,7 +6,7 @@ import '../../components/ShopList/style.css'
 import Header from './Header';
 import Footer from '../footer/Footer';
 import axios from 'axios';
-import { BASE_URL, FAV_ENDPOINT,END_POINT } from '../../utlis/apiUrls';
+import { BASE_URL, FAV_ENDPOINT,END_POINT,API_VERSION } from '../../utlis/apiUrls';
 import Heart from "react-heart";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
@@ -31,7 +31,7 @@ const SearchLIst = () => {
 
 
   const searchFunction = async () =>{
-    let final = BASE_URL + END_POINT() + `?search=${search_name}`
+    let final = BASE_URL + API_VERSION() + END_POINT() + `?search=${search_name}`
     window.scrollTo(0, 0);
      await axios.get(final)
      .then((res)=>{
@@ -42,7 +42,7 @@ const SearchLIst = () => {
 
   const handleFav = async (id) => {
     console.log('click-id', id)
-    let AddFavURL = BASE_URL + FAV_ENDPOINT()
+    let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT()
     axios.post(AddFavURL, { item_id: id }, {
       headers: {
         'Content-Type': "application/json",
