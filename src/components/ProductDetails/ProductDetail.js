@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BASE_URL, END_POINT,API_VERSION } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, API_VERSION } from '../../utlis/apiUrls';
 import './product.css';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -92,15 +92,23 @@ const ProductDetail = () => {
         if (p == 0) {
             return <h6 className='text-danger'> Please place a order for quotation, Once order is placed our support team will call you </h6>
         } else {
-            return  <h6 className='text-success'>$ {p}</h6>
+            return <h6 className='text-success'>$ {p}</h6>
         }
     }
 
     const handleCompany = (seller) => {
         if (seller == null) {
-            return  <span> cosmedicos<img src='https://img.alicdn.com/imgextra/i1/O1CN01cLS4Rj1vgZ8xaij1e_!!6000000006202-2-tps-64-32.png' alt='' height={25} /></span> 
+            return <span> cosmedicos<img src='https://img.alicdn.com/imgextra/i1/O1CN01cLS4Rj1vgZ8xaij1e_!!6000000006202-2-tps-64-32.png' alt='' height={25} /></span>
         } else {
             return `${seller.company}`
+        }
+    }
+
+    const stockHandle = (available_quantity) => {
+        if (available_quantity == 0) {
+            return 'Out Of Stock'
+        } else {
+            return `Stock ${available_quantity}`
         }
     }
 
@@ -135,8 +143,9 @@ const ProductDetail = () => {
                         </div>
                         <div className="col-md-12 col-lg-7">
                             <div className="desc">
-                                <h3>{product.seller == null ? <img src='https://img.alicdn.com/imgextra/i1/O1CN01cLS4Rj1vgZ8xaij1e_!!6000000006202-2-tps-64-32.png' alt='' height={25} /> : '' } {product?.title}</h3>
+                                <h3>{product.seller == null ? <img src='https://img.alicdn.com/imgextra/i1/O1CN01cLS4Rj1vgZ8xaij1e_!!6000000006202-2-tps-64-32.png' alt='' height={25} /> : ''} {product?.title}</h3>
                                 <div>{price(product?.price)}</div>
+                                <div>{stockHandle(product?.available_quantity)}</div>
                                 <div className="p-1 my-2 table-responsivedesTag">
                                     <Scrollbars>
                                         <p> {product?.description}</p>

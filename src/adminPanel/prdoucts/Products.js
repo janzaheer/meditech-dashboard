@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Head from '../head/Head'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT,API_VERSION } from '../../utlis/apiUrls';
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -46,7 +46,11 @@ const Products = () => {
   const [selectImage4, setSelectImage4] = useState('')
   const [showAdd, setShowAdd] = useState(false);
   const [show, setShow] = useState(false);
+  const user = useSelector(state => state.user.user.id);
 
+
+  console.log('token',userToken)
+  console.log('user--------',user)
   useEffect(() => {
     productList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,22 +60,28 @@ const Products = () => {
     categoryData()
   }, [])
 
-  const productList = async () => {
-    let final = BASE_URL + END_POINT
-    return await axios.get(final, {
-      headers: {
-        'Content-Type': "application/json"
+  let headers = {}
+  if (userToken) {
+      headers = {
+          'Content-Type': "application/json",
+          Authorization: `Token ${userToken}`
       }
+  }
+  const productList = async () => {
+    let final = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/seller_items/`
+    return await axios.get(final, {
+      headers: headers
     })
       .then((res) => {
-        setProducts(res.data.results)
+        console.log(res.data)
+        setProducts(res.data)
       })
       .catch((err) => console.log(err))
   }
 
   const deleteProduct = async (id) => {
     console.log('delete-id', id)
-    let end = `${END_POINT}${id}/`
+    let end = `${API_VERSION()}${END_POINT}${id}/`
     let final = BASE_URL + end
     try {
       let res = await axios.delete(final, {
@@ -149,7 +159,7 @@ const Products = () => {
     console.log('------------------add-----------------')
     e.preventDefault();
     // let api = 'api/v1/items/create_item/'
-    let FInal = BASE_URL + END_POINT + ADD_PRODUCT_ENDPOINT
+    let FInal = BASE_URL + API_VERSION() + END_POINT() + ADD_PRODUCT_ENDPOINT
 
     let imageData = [selectImage]
     if (selectImage2) {
@@ -221,7 +231,7 @@ const Products = () => {
   }
 
   const categoryData = async () => {
-    let FInal = BASE_URL + CATEGORY_ENDPOINT
+    let FInal = BASE_URL + API_VERSION() + CATEGORY_ENDPOINT()
     try {
       let res = await axios.get(FInal, {
         headers: {
@@ -429,6 +439,9 @@ const Products = () => {
                           <div className="p-2 px-3 text-uppercase">Name</div>
                         </th>
                         <th scope="col" className="border-0 bg-light">
+                          <div className="p-2 px-3 text-uppercase">Stock Qty</div>
+                        </th>
+                        <th scope="col" className="border-0 bg-light">
                           <div className="p-2 px-3 text-uppercase">Placed On</div>
                         </th>
                         <th scope="col" className="border-0 bg-light">
@@ -451,7 +464,8 @@ const Products = () => {
                                 <img src={ite.images[0].image_url} alt='' width={30} className="img-fluid rounded shadow-sm" />
                               </div>
                             </th>
-                            <td className="border-0 text-muted align-middle">{ite?.title}</td>
+                            <td className="border-0 text-muted align-middle">{ite?.title.substring(0,20)}</td>
+                            <td className="border-0 text-muted align-middle">{ite?.available_quantity}</td>
                             <td className="border-0 text-muted align-middle">{moment(ite?.created_at).format("MM-DD-YYYY")}</td>
                             <td className="border-0 text-success align-middle">{ite?.category}</td>
                             <td className="border-0 text-muted align-middle">$ {ite?.price}</td>

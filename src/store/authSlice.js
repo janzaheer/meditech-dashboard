@@ -39,7 +39,7 @@ export const signInUser = createAsyncThunk('signinuser', async ({ username, pass
         }),
     })
     const data = await res.json()
-    console.log('user',data)
+    // console.log('user',data)
     return data
 
 })
@@ -72,8 +72,8 @@ const authSlice = createSlice({
         }, [signInUser.fulfilled]: (state, { payload: { message, token, user } }) => {
             state.loading = false;
             
-            console.log(user)
-            console.log('---------------------00-----------------')
+            // console.log(user)
+            // console.log('---------------------00-----------------')
 
             if (user) {
                 state.isAuthenticated = true;

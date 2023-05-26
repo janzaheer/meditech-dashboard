@@ -4,6 +4,8 @@ import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { HiOutlineUsers } from 'react-icons/hi'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie } from 'recharts';
+import 'react-medium-image-zoom/dist/styles.css';
+import ScrollToTop from "react-scroll-to-top";
 
 
 const List = () => {
@@ -71,13 +73,11 @@ const List = () => {
     return (
         <>
         <div className=''>
-
-
             <div className='container mt-5'>
                 <div className='row'>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Earnings</h6>
                                 </div>
@@ -86,16 +86,16 @@ const List = () => {
                                     <h6><AiOutlineDollarCircle /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">$ 93,438.78</h4>
-                                <p class="card-text">Monthly revenue.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">$ 93,438.78</h4>
+                                <p className="card-text">Monthly revenue.</p>
 
                             </div>
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Orders</h6>
                                 </div>
@@ -104,16 +104,16 @@ const List = () => {
                                     <h6><BsCart3 /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">42,339</h4>
-                                <p class="card-text">Monthly revenue.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">42,339</h4>
+                                <p className="card-text">Monthly revenue.</p>
 
                             </div>
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Customer</h6>
                                 </div>
@@ -122,9 +122,9 @@ const List = () => {
                                     <h6><HiOutlineUsers /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">39,354</h4>
-                                <p class="card-text">30+new in 2 days.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">39,354</h4>
+                                <p className="card-text">30+new in 2 days.</p>
                             </div>
                         </div>
                     </div>
@@ -218,6 +218,7 @@ const List = () => {
 
                 </div>
             </div>
+            <ScrollToTop smooth />
         </div>
         </>
     )

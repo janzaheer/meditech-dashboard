@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import logo from '../../logo/logo.png';
+import logo from '../../logo/logo_new.png';
 import { SlLogout } from 'react-icons/sl';
 import { AiOutlineHome } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
@@ -54,13 +54,13 @@ const Head = () => {
             </ul>
             <div className="dropdown me-5">
               <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Cosmedicos Admin
+                Cosmedicos {user?.user?.username}
               </button>
               <ul className="dropdown-menu text-small shadow me-5">
                 <li><a className="dropdown-item" href="#"><FaUserTie /> {user?.user?.first_name} {user?.user?.last_name}</a></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" to='/'><AiOutlineHome /> Home</Link></li>
-                <li><Link className="dropdown-item" to='/manageProfile'><CgProfile /> Profile</Link></li>
+                <li><Link className="dropdown-item" to='#'><AiOutlineHome /> Home</Link></li>
+                <li><Link className="dropdown-item" to='#'><CgProfile /> Profile</Link></li>
                 <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item" href="#" onClick={handleLogout}><SlLogout /> Sign Out</a></li>
               </ul>
