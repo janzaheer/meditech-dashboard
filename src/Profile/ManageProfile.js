@@ -39,12 +39,6 @@ const ManageProfile = () => {
     useEffect(() => {
         userList()
         myOrderList()
-        const staff = user.user.is_staff
-        console.log('staff',staff)
-        console.log('==============================')
-        const seller = user.user.is_seller
-        console.log('seller',seller)
-        console.log('==============================')
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -125,7 +119,7 @@ const ManageProfile = () => {
 
     const myOrderList = async () => {
         let finalURL = BASE_URL + API_VERSION() + ORDER_ENDPOINT()
-        axios.get(finalURL, {
+       await axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`

@@ -1,14 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsCart3 } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { HiOutlineUsers } from 'react-icons/hi'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { PieChart, Pie } from 'recharts';
 import 'react-medium-image-zoom/dist/styles.css';
 import ScrollToTop from "react-scroll-to-top";
 
 
+
 const List = () => {
+     useEffect(()=>{
+        getDummy()
+     },[])
+   
+
+      const getDummy = async () => {
+        // const options = {
+        //     method: 'GET',
+        //     url: 'https://weatherapi-com.p.rapidapi.com/current.json',
+        //     params: {q: '53.1,-0.13'},
+        //     headers: {
+        //       'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+        //       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+        //     }
+        //   };
+        // try {
+        //     const response = await axios.request(options);
+        //     console.log(response.data);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        // await axios.get(`https://weatherapi-com.p.rapidapi.com/current.json`,{
+        //     headers : {
+        //         'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+        //               'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+        //     }
+        // })
+        // console.log(response.data);
+      }
+      
+     
     const data = [
         {
             name: 'Jan',

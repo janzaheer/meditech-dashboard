@@ -5,7 +5,7 @@ export const BASE_URL = process.env.NODE_ENV == 'development' ? `http://ec2-43-2
 // export const ADDRESS_REMOVE_ENDPOINT = 'api/v1/user/remove_address/';
 // export const ADDRESS_ADD_ENDPOINT = `api/v1/user/add_address/`;
 // export const USER_LIST_ENDPOINT = 'api/v1/user/';
-export const ADD_PRODUCT_ENDPOINT = `create_item/`;
+// export const ADD_PRODUCT_ENDPOINT = `create_item/`;
 // export const SELLER_ENDPOINT = 'api/v1/seller/request/'
 
 export const API_VERSION = () => {
@@ -66,6 +66,14 @@ export const ADDRESS_REMOVE_ENDPOINT = () => {
 
 export const SELLER_ENDPOINT = () => {
     return `seller/request/`
+}
+
+export const SELLER_ITEMS_ENDPOINT = () => {
+    return `seller_items/`;
+}
+
+export const ADD_PRODUCT_ENDPOINT = () => {
+    return `create_item/`;
 }
 
 export const changeUrl = () => {

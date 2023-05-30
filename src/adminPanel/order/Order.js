@@ -11,7 +11,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL,API_VERSION } from '../../utlis/apiUrls';
 import Head from '../head/Head';
 import './order.css'
-import { NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Badge from 'react-bootstrap/Badge';
@@ -28,7 +28,7 @@ const Order = () => {
 
     const myOrderList = async () => {
         let finalURL = BASE_URL + API_VERSION() + ORDER_ENDPOINT()
-        axios.get(finalURL, {
+       await axios.get(finalURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`

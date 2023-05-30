@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Head from '../head/Head'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT,API_VERSION } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT,API_VERSION, SELLER_ITEMS_ENDPOINT } from '../../utlis/apiUrls';
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -32,7 +32,7 @@ const config = {
 const Products = () => {
 
   const [products, setProducts] = useState([])
-  const userToken = useSelector(state => state.user.token);
+  
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -46,11 +46,15 @@ const Products = () => {
   const [selectImage4, setSelectImage4] = useState('')
   const [showAdd, setShowAdd] = useState(false);
   const [show, setShow] = useState(false);
-  const user = useSelector(state => state.user.user.id);
+  // const user = useSelector(state => state.user.user.id);
+  const userToken = useSelector(state => state.user.token);
+  // Edit Model functions
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // Add Product model functions
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
 
-
-  console.log('token',userToken)
-  console.log('user--------',user)
   useEffect(() => {
     productList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,6 +62,7 @@ const Products = () => {
 
   useEffect(() => {
     categoryData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let headers = {}
@@ -68,7 +73,8 @@ const Products = () => {
       }
   }
   const productList = async () => {
-    let final = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/seller_items/`
+    // let final = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/seller_items/`
+    let final = BASE_URL + API_VERSION() + END_POINT() + SELLER_ITEMS_ENDPOINT()
     return await axios.get(final, {
       headers: headers
     })
@@ -100,7 +106,6 @@ const Products = () => {
       console.log('delete error', error)
     }
   }
-
 
   // 1st image function
   const uploadImage = async (e) => {
@@ -159,7 +164,7 @@ const Products = () => {
     console.log('------------------add-----------------')
     e.preventDefault();
     // let api = 'api/v1/items/create_item/'
-    let FInal = BASE_URL + API_VERSION() + END_POINT() + ADD_PRODUCT_ENDPOINT
+    let FInal = BASE_URL + API_VERSION() + END_POINT() + ADD_PRODUCT_ENDPOINT()
 
     let imageData = [selectImage]
     if (selectImage2) {
@@ -244,14 +249,6 @@ const Products = () => {
       console.log(error)
     }
   }
-
-  // Edit Model functions
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  // Add Product model functions
-  const handleCloseAdd = () => setShowAdd(false);
-  const handleShowAdd = () => setShowAdd(true);
 
   return (
     <div>
@@ -475,7 +472,7 @@ const Products = () => {
                               </a>
                               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 {/* <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li> */}
-                                <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li>
+                                {/* <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li> */}
                                 <li><a className="dropdown-item text-danger" onClick={() => deleteProduct(ite?.id)} href="#">Delete <FaTrash /></a></li>
                                 <li><Link className="dropdown-item text-success" to={`/dashboard/productDetail/${ite.id}`}>View <FaEye /></Link></li>
                               </ul>
@@ -486,7 +483,6 @@ const Products = () => {
                     </tbody>
                   </table>
                 </Scrollbars>
-
               </div>
               {/* End */}
             </div>
@@ -496,5 +492,4 @@ const Products = () => {
     </div>
   )
 }
-
 export default Products
