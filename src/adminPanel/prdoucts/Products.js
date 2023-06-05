@@ -24,8 +24,8 @@ const config = {
   bucketName: 'meditech-products',
   // dirName: 'media', /* optional */
   region: 'ap-northeast-1',
-  accessKeyId: 'AKIA2GGOXYXVLH3IFC6Z',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIA2GGOXYXVJBADABN5',
+  secretAccessKey: 'bvsMtgOK6qMVwsHo7kWl3sPxMdehAWJAJY5uWrxa',
   // s3Url: 'https:/your-custom-s3-url.com/', /* optional */
 }
 
@@ -46,6 +46,8 @@ const Products = () => {
   const [selectImage4, setSelectImage4] = useState('')
   const [showAdd, setShowAdd] = useState(false);
   const [show, setShow] = useState(false);
+  const [stock_quantity, setStock_quantity] = useState ('');
+  // const [field_error, setField_error] = useState ([])
   // const user = useSelector(state => state.user.user.id);
   const userToken = useSelector(state => state.user.token);
   // Edit Model functions
@@ -185,6 +187,7 @@ const Products = () => {
       price: price,
       brand: brand,
       store: store,
+      stock_quantity: stock_quantity,
       specification: null  // str
     }, {
       headers: {
@@ -212,6 +215,8 @@ const Products = () => {
       setShowAdd(true)
       if (resp.response) {
         console.log(resp.response);
+        // console.log(resp.response.data);
+        // setField_error(resp.response.data)
         toast.error('please required these fields', {
           position: toast.POSITION.TOP_RIGHT,
           theme: "colored",
@@ -276,7 +281,8 @@ const Products = () => {
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridUploadImage1">
                   <Form.Label>Upload Image 1st</Form.Label>
-                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" required />
+                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" />
+                  {/* {field_error.images ? <span>{field_error?.images[0]}</span> : '' } */}
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridUploadImage2">
@@ -322,6 +328,12 @@ const Products = () => {
                   <Form.Label>Store</Form.Label>
                   <Form.Control type="text" name='Store' placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
                 </Form.Group>
+              </Row>
+              <Row className='mb-3'>
+                    <Form.Group as={Col} controlId="formGridStock_quantity">
+                      <Form.Label>Quantity</Form.Label>
+                      <Form.Control type="number" name='stock_quantity' placeholder="Stock_quantity 5" value={stock_quantity} onChange={(e) => setStock_quantity(e.target.value)} />
+                    </Form.Group>
               </Row>
 
               <Button variant="success"
