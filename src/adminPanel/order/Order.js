@@ -8,7 +8,7 @@ import { GiReceiveMoney, GiBottomRight3DArrow } from 'react-icons/gi';
 import { FcProcess } from 'react-icons/fc'
 import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL,API_VERSION } from '../../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL,API_VERSION, USER_LIST_ENDPOINT } from '../../utlis/apiUrls';
 import Head from '../head/Head';
 import './order.css'
 import {  NavLink } from 'react-router-dom';
@@ -18,29 +18,47 @@ import Badge from 'react-bootstrap/Badge';
 
 const Order = () => {
     const [orderDataList, setOrderDataList] = useState([])
+    const [userData, setUserData] = useState({})
     const userToken = useSelector(state => state.user.token);
     const user = useSelector(state => state.user)
-
+    const id = user.user.id
     useEffect(() => {
+        userList()
         myOrderList()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const myOrderList = async () => {
-        let finalURL = BASE_URL + API_VERSION() + ORDER_ENDPOINT()
-       await axios.get(finalURL, {
+    const userList = async () => {
+        let Api = `${API_VERSION()}${USER_LIST_ENDPOINT()}${id}/`
+        let AddFavURL = BASE_URL + Api
+       await axios.get(AddFavURL, {
             headers: {
                 'Content-Type': "application/json",
                 Authorization: `Token ${userToken}`
             }
         }).then((res) => {
-            console.log('orderListData-here', res.data)
-            setOrderDataList(res.data.results)
-            console.log('----------------------123-----------------123--------------')
-
+             setUserData(res.data)
+            console.log('00000000000000000000000000000000')
+            console.log(res.data)
+            console.log('11111111111111111111111111111111')
         }).catch(error => {
             console.log(error)
         })
+    }
+      
+    const myOrderList = async () => {
+        let finalURL = BASE_URL + API_VERSION() + ORDER_ENDPOINT()
+        await axios.get(finalURL, {
+             headers: {
+                 'Content-Type': "application/json",
+                 Authorization: `Token ${userToken}`
+             }
+         }).then((res) => {
+             console.log('sellerorderList',res.data)
+             setOrderDataList(res.data.results)
+         }).catch(error => {
+             console.log(error)
+         })
     }
 
     const handleBadge = (state) => {
@@ -136,7 +154,7 @@ const Order = () => {
                                             {orderDataList && orderDataList?.map((item) => {
                                                 return (
                                                     <tr key={item?.id}>
-                                                        <td className="border-0 text-muted align-middle">{user?.user?.first_name} {user?.user?.last_name}</td>
+                                                        <td className="border-0 text-muted align-middle">{userData?.first_name} {userData?.last_name}</td>
                                                         <td className="border-0 text-muted align-middle">{item?.order_number}</td>
                                                         <td className="border-0 text-muted align-middle">{moment(item?.created_at).format("MM-DD-YYYY")}</td>
                                                         <td className="border-0 text-muted align-middle">{item?.total_quantity}</td>

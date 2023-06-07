@@ -95,7 +95,7 @@ const Footer = () => {
             <div className="col mb-3">
               <div className='box'>
                 <h1 className="mb-3">Cosmedicos</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus.</p>
+                <p>Welcome to Cosmedicos, your trusted source for high-end medical products. Discover top-quality instruments, machines, and surgical equipment from reputable sellers. Elevate your medical practice with Cosmedicos.</p>
                 <div className='d-flex justify-content-start'>
                   <div>
                     <button className="btn btn-outline-light btn-sm me-1" ><i className='fa-brands fa-google-play'></i> Google Play</button>
