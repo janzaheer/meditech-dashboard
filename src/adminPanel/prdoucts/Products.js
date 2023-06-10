@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaEye, FaTrash } from 'react-icons/fa';
-import { MdEdit } from 'react-icons/md';
+// import { MdEdit } from 'react-icons/md';
 import { IoAddCircle } from 'react-icons/io5';
 import moment from 'moment';
 import axios from "axios";
@@ -19,9 +19,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
-
+  const BN = process.env.NODE_ENV == 'development' ? `meditech-products` : `cosemedicos-prod`;
 const config = {
-  bucketName: 'meditech-products',
+  // bucketName: 'meditech-products',
+   bucketName:  BN,
   // dirName: 'media', /* optional */
   region: 'ap-northeast-1',
   accessKeyId: 'AKIA2GGOXYXVJBADABN5',
@@ -56,6 +57,8 @@ const Products = () => {
   // Add Product model functions
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
+
+
 
   useEffect(() => {
     productList()
