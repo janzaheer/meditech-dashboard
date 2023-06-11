@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import "./style.css"
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, CATEGORY_ITEMS_LIST_ENDPOINT, FAV_ENDPOINT ,API_VERSION } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify'
 import axios from "axios";
@@ -36,7 +36,7 @@ const ShopListData = () => {
     const handleFav = async (id) => {
         console.log('addd', addFav)
 
-        let AddFavURL = BASE_URL + FAV_ENDPOINT
+        let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT()
         axios.post(AddFavURL, { item_id: id }, {
             headers: {
                 'Content-Type': "application/json",
@@ -69,17 +69,24 @@ const ShopListData = () => {
             navigate("/login")
         }
     }
-
+   
+    const handleBadge = (seller) =>{
+        if (seller == null) {
+            return <span className="badge text-bg-success notify-badge">cosmedicos mall</span>
+        } else {
+            return ''
+        }
+    }
 
     const ProductListingWithCategory = async () => {
-        let category_endpoint = BASE_URL + CATEGORY_ENDPOINT
+        let category_endpoint = BASE_URL + API_VERSION() + CATEGORY_ENDPOINT()
         await axios.get(category_endpoint, {
           headers: headers
         }).then(async (res) => {
           let categories = res.data.results
           setCategoriesData(categories)
           let promises = categories.map(category => {
-            let items_endpoint = BASE_URL + END_POINT + CATEGORY_ITEMS_LIST_ENDPOINT + category.name
+            let items_endpoint = BASE_URL + API_VERSION() + END_POINT() + CATEGORY_ITEMS_LIST_ENDPOINT() + category.name
             return axios.get(items_endpoint, {
               headers: headers
             }).then((response) => {
@@ -156,20 +163,21 @@ const ShopListData = () => {
                                     <div className="container">
                                         <h2 className="text-success mt-2">{key}</h2>
                                         <hr className="border border-success border-1 opacity-50"></hr>
-                                        <div className="row g-2" >
+                                        <div className="row g-2 mx-md-5" >
                                             {landingData[key] && landingData[key].slice(0, 6).map((item) => {
                                                 return (
                                                     <div key={item?.id} className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                                                         <div className='bg-white border rounded productShadow' >
                                                             <div className="">
-                                                                <div className="text-center mb-1">
+                                                                <div className="text-center mb-1 itemImage">
                                                                     <NavLink to={`/productDetails/${item?.id}`} className="" >
+                                                                        {handleBadge(item.seller)}
                                                                         <img src={item?.images[0]?.image_url} alt='' className="images-class w-100" width={180} height={180} />
                                                                     </NavLink>
                                                                 </div>
                                                                 <div className="p-1">
                                                                     <div className="about">
-                                                                        <h6 className="text-muted text-wrap">{item.title.substring(0, 15)}</h6>
+                                                                        <h6 className="text-muted text-wrap">{item.title.substring(0, 11)}</h6>
                                                                         <div className="d-flex justify-content-between align-items-center px-2">
                                                                             <span className=""> {price(item?.price)}</span>
                                                                             <div style={{ width: "20px" }}>

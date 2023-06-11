@@ -2,20 +2,23 @@
     content: ">"
 }
 
-.super_container {
-    margin-top: 50px !important;
+.companyHead{
+    margin-right: 15rem !important;
 }
 
-.breadcrumb {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding: .1rem 0rem !important;
-    margin-bottom: 0rem;
-    list-style: none;
-    background-color: #ffffff;
-    border-radius: .25rem
+.itemImage {
+    position:relative;
+}
+
+.notify-badge{
+    position: absolute;
+    right:-1px;
+    top:3px;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color:white;
+    padding:5px 10px;
+    font-size:20px;
 }
 
 .single_product {
@@ -26,97 +29,6 @@
     padding-bottom: 16px !important;
 }
 
-.product_name {
-    font-size: 20px;
-    font-weight: 400;
-    margin-top: 0px
-}
-
-.badge {
-    display: inline-block;
-    padding: 0.50em .4em;
-    font-size: 75%;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25rem
-}
-
-.product-rating {
-    margin-top: 10px
-}
-
-.product_price {
-    display: inline-block;
-    font-size: 30px;
-    font-weight: 500;
-    margin-top: 9px;
-    clear: left
-}
-
-.product_saved {
-    display: inline-block;
-    font-size: 15px;
-    font-weight: 200;
-    color: #999999;
-    clear: left
-}
-
-.product_options {
-    margin-bottom: 10px
-}
-
-.product_description {
-    padding-left: 0px
-}
-
-.image_selected {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: calc(100% + 15px);
-    height: 525px;
-    -webkit-transform: translateX(-15px);
-    -moz-transform: translateX(-15px);
-    -ms-transform: translateX(-15px);
-    -o-transform: translateX(-15px);
-    transform: translateX(-15px);
-    border: solid 1px #e8e8e8;
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    /* padding: 15px */
-}
-
-.image_list li {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 165px;
-    border: solid 1px #e8e8e8;
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1) !important;
-    margin-bottom: 15px;
-    cursor: pointer;
-    padding: 15px;
-    -webkit-transition: all 200ms ease;
-    -moz-transition: all 200ms ease;
-    -ms-transition: all 200ms ease;
-    -o-transition: all 200ms ease;
-    transition: all 200ms ease;
-    overflow: hidden
-}
-
 .fs-10 {
     font-size: 10px
 }
@@ -124,37 +36,10 @@
 .row-underline {
     content: "";
     display: block;
-    border-bottom: 2px solid #3798db;
+    border-bottom: 2px solid seagreen !important;
     margin: 0px 0px;
     margin-bottom: 20px;
     margin-top: 15px
-}
-
-.deal-text {
-    margin-left: -10px;
-    font-size: 25px;
-    margin-bottom: 10px;
-    color: #198754 !important;
-    font-weight: 700;
-}
-
-.padding-0 {
-    padding-left: 0;
-    padding-right: 0
-}
-
-.padding-2 {
-    margin-right: 2px;
-    margin-left: 2px
-}
-
-.p_specification {
-    font-weight: 500;
-    margin-left: 22px
-}
-
-.mt-10 {
-    margin-top: 10px
 }
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900');
@@ -175,123 +60,36 @@ body {
     color: #000000
 }
 
-div {
-    display: block;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
-}
-
-ul {
-    list-style: none;
-    margin-bottom: 0px
-}
 
 .single_product {
     padding-top: 16px;
     padding-bottom: 140px
 }
 
-.image_list li {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 165px;
-    border: solid 1px #e8e8e8;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
+.detail-height {
+    margin-top: 50px;
+}
+
+.desc {
+    margin-top: 30px;
+}
+
+.img {
+    margin-top: 20px;
+}
+.imageHover:hover{
     cursor: pointer;
-    padding: 15px;
-    -webkit-transition: all 200ms ease;
-    -moz-transition: all 200ms ease;
-    -ms-transition: all 200ms ease;
-    -o-transition: all 200ms ease;
-    transition: all 200ms ease;
-    overflow: hidden
+}
+.img-thumbnail:hover{
+    background-color:thistle;
 }
 
-.image_list li:last-child {
-    margin-bottom: 0
+.table-responsivedesTag{
+    height: 10rem !important;
 }
-
-.image_list li:hover {
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3)
+.detailPageHeight{
+    min-height: 100vh !important;
 }
-
-.image_list li img {
-    max-width: 100%
-}
-
-.image_selected {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: calc(100% + 15px);
-    height: 525px;
-    -webkit-transform: translateX(-15px);
-    -moz-transform: translateX(-15px);
-    -ms-transform: translateX(-15px);
-    -o-transform: translateX(-15px);
-    transform: translateX(-15px);
-    border: solid 1px #e8e8e8;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    padding: 15px
-}
-
-.image_selected img {
-    max-width: 100%
-}
-
-.table-responsive2 {
-    height: 17rem !important;
-}
-.table-responsive1 {
-    height: 33rem !important;
-}
-
-
-@media screen and (max-width: 992px) {
-     .image_list li img {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .image_list li {
-        width: 52%;
-    }
-    .imagesul ul {
-        width: 334px;
-    }
-
-    .image_list li img {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-
-@media screen and (max-width: 375px) {
-    .image_selected {
-        height: 300px !important;
-    }
-}
-
-@media screen and (min-width: 321px) {
-    .table-responsive1 {
-        height: 10rem !important;
-    }
+.fontWeight{
+    font-size: 10px !important;
 }

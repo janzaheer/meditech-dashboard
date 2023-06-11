@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Head from '../head/Head'
-import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT } from '../../utlis/apiUrls';
+import { BASE_URL, END_POINT, CATEGORY_ENDPOINT, ADD_PRODUCT_ENDPOINT,API_VERSION, SELLER_ITEMS_ENDPOINT } from '../../utlis/apiUrls';
 import { useSelector } from 'react-redux';
 import { RiShoppingBag3Fill } from 'react-icons/ri';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaEye, FaTrash } from 'react-icons/fa';
-import { MdEdit } from 'react-icons/md';
+// import { MdEdit } from 'react-icons/md';
 import { IoAddCircle } from 'react-icons/io5';
 import moment from 'moment';
 import axios from "axios";
@@ -19,20 +19,21 @@ import { ToastContainer, toast } from 'react-toastify';
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
-
+  const BN = process.env.NODE_ENV == 'development' ? `meditech-products` : `cosemedicos-prod`;
 const config = {
-  bucketName: 'meditech-products',
+  // bucketName: 'meditech-products',
+   bucketName:  BN,
   // dirName: 'media', /* optional */
   region: 'ap-northeast-1',
-  accessKeyId: 'AKIA2GGOXYXVLH3IFC6Z',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIA2GGOXYXVJBADABN5',
+  secretAccessKey: 'bvsMtgOK6qMVwsHo7kWl3sPxMdehAWJAJY5uWrxa',
   // s3Url: 'https:/your-custom-s3-url.com/', /* optional */
 }
 
 const Products = () => {
 
   const [products, setProducts] = useState([])
-  const userToken = useSelector(state => state.user.token);
+  
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -46,6 +47,18 @@ const Products = () => {
   const [selectImage4, setSelectImage4] = useState('')
   const [showAdd, setShowAdd] = useState(false);
   const [show, setShow] = useState(false);
+  const [stock_quantity, setStock_quantity] = useState ('');
+  // const [field_error, setField_error] = useState ([])
+  // const user = useSelector(state => state.user.user.id);
+  const userToken = useSelector(state => state.user.token);
+  // Edit Model functions
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // Add Product model functions
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+
+
 
   useEffect(() => {
     productList()
@@ -54,24 +67,32 @@ const Products = () => {
 
   useEffect(() => {
     categoryData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const productList = async () => {
-    let final = BASE_URL + END_POINT
-    return await axios.get(final, {
-      headers: {
-        'Content-Type': "application/json"
+  let headers = {}
+  if (userToken) {
+      headers = {
+          'Content-Type': "application/json",
+          Authorization: `Token ${userToken}`
       }
+  }
+  const productList = async () => {
+    // let final = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/seller_items/`
+    let final = BASE_URL + API_VERSION() + END_POINT() + SELLER_ITEMS_ENDPOINT()
+    return await axios.get(final, {
+      headers: headers
     })
       .then((res) => {
-        setProducts(res.data.results)
+        console.log(res.data)
+        setProducts(res.data)
       })
       .catch((err) => console.log(err))
   }
 
   const deleteProduct = async (id) => {
     console.log('delete-id', id)
-    let end = `${END_POINT}${id}/`
+    let end = `${API_VERSION()}${END_POINT}${id}/`
     let final = BASE_URL + end
     try {
       let res = await axios.delete(final, {
@@ -90,7 +111,6 @@ const Products = () => {
       console.log('delete error', error)
     }
   }
-
 
   // 1st image function
   const uploadImage = async (e) => {
@@ -149,7 +169,7 @@ const Products = () => {
     console.log('------------------add-----------------')
     e.preventDefault();
     // let api = 'api/v1/items/create_item/'
-    let FInal = BASE_URL + END_POINT + ADD_PRODUCT_ENDPOINT
+    let FInal = BASE_URL + API_VERSION() + END_POINT() + ADD_PRODUCT_ENDPOINT()
 
     let imageData = [selectImage]
     if (selectImage2) {
@@ -170,6 +190,7 @@ const Products = () => {
       price: price,
       brand: brand,
       store: store,
+      stock_quantity: stock_quantity,
       specification: null  // str
     }, {
       headers: {
@@ -197,6 +218,8 @@ const Products = () => {
       setShowAdd(true)
       if (resp.response) {
         console.log(resp.response);
+        // console.log(resp.response.data);
+        // setField_error(resp.response.data)
         toast.error('please required these fields', {
           position: toast.POSITION.TOP_RIGHT,
           theme: "colored",
@@ -221,7 +244,7 @@ const Products = () => {
   }
 
   const categoryData = async () => {
-    let FInal = BASE_URL + CATEGORY_ENDPOINT
+    let FInal = BASE_URL + API_VERSION() + CATEGORY_ENDPOINT()
     try {
       let res = await axios.get(FInal, {
         headers: {
@@ -234,14 +257,6 @@ const Products = () => {
       console.log(error)
     }
   }
-
-  // Edit Model functions
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  // Add Product model functions
-  const handleCloseAdd = () => setShowAdd(false);
-  const handleShowAdd = () => setShowAdd(true);
 
   return (
     <div>
@@ -269,7 +284,8 @@ const Products = () => {
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridUploadImage1">
                   <Form.Label>Upload Image 1st</Form.Label>
-                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" required />
+                  <Form.Control type='file' onChange={uploadImage} placeholder="Please upload your image here" />
+                  {/* {field_error.images ? <span>{field_error?.images[0]}</span> : '' } */}
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridUploadImage2">
@@ -315,6 +331,12 @@ const Products = () => {
                   <Form.Label>Store</Form.Label>
                   <Form.Control type="text" name='Store' placeholder="Store" value={store} onChange={(e) => setStore(e.target.value)} />
                 </Form.Group>
+              </Row>
+              <Row className='mb-3'>
+                    <Form.Group as={Col} controlId="formGridStock_quantity">
+                      <Form.Label>Quantity</Form.Label>
+                      <Form.Control type="number" name='stock_quantity' placeholder="Stock_quantity 5" value={stock_quantity} onChange={(e) => setStock_quantity(e.target.value)} />
+                    </Form.Group>
               </Row>
 
               <Button variant="success"
@@ -429,6 +451,9 @@ const Products = () => {
                           <div className="p-2 px-3 text-uppercase">Name</div>
                         </th>
                         <th scope="col" className="border-0 bg-light">
+                          <div className="p-2 px-3 text-uppercase">Stock Qty</div>
+                        </th>
+                        <th scope="col" className="border-0 bg-light">
                           <div className="p-2 px-3 text-uppercase">Placed On</div>
                         </th>
                         <th scope="col" className="border-0 bg-light">
@@ -451,7 +476,8 @@ const Products = () => {
                                 <img src={ite.images[0].image_url} alt='' width={30} className="img-fluid rounded shadow-sm" />
                               </div>
                             </th>
-                            <td className="border-0 text-muted align-middle">{ite?.title}</td>
+                            <td className="border-0 text-muted align-middle">{ite?.title.substring(0,20)}</td>
+                            <td className="border-0 text-muted align-middle">{ite?.available_quantity}</td>
                             <td className="border-0 text-muted align-middle">{moment(ite?.created_at).format("MM-DD-YYYY")}</td>
                             <td className="border-0 text-success align-middle">{ite?.category}</td>
                             <td className="border-0 text-muted align-middle">$ {ite?.price}</td>
@@ -461,7 +487,7 @@ const Products = () => {
                               </a>
                               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 {/* <li><a className="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#viewModal" href="#">Edit <MdEdit /></a></li> */}
-                                <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li>
+                                {/* <li><a className="dropdown-item text-success" onClick={handleShow} href="#">Edit <MdEdit /></a></li> */}
                                 <li><a className="dropdown-item text-danger" onClick={() => deleteProduct(ite?.id)} href="#">Delete <FaTrash /></a></li>
                                 <li><Link className="dropdown-item text-success" to={`/dashboard/productDetail/${ite.id}`}>View <FaEye /></Link></li>
                               </ul>
@@ -472,7 +498,6 @@ const Products = () => {
                     </tbody>
                   </table>
                 </Scrollbars>
-
               </div>
               {/* End */}
             </div>
@@ -482,5 +507,4 @@ const Products = () => {
     </div>
   )
 }
-
 export default Products

@@ -35,7 +35,7 @@ const Head = () => {
                   </button>
                   <ul className="dropdown-menu dropdown-menu-light">
                     <li><Link to='/manageProfile' className="dropdown-item"><BsEmojiSmile /> Manage My Account</Link></li>
-                    {user.user.is_staff == true ? <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
+                    {user.user.is_seller == true ? <li><Link className="dropdown-item" to='/dashboard'><BsBox /> Admin</Link></li> : ''}
                     <li><Link to='/favorite' className="dropdown-item"><MdOutlineFavoriteBorder /> My favorites</Link>
                     </li>
                     <li><hr className="dropdown-divider" /></li>

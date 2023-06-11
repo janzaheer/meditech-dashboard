@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, LOGIN_ENDPOINT,SIGNUP_ENDPOINT } from "../utlis/apiUrls";
+import { BASE_URL, LOGIN_ENDPOINT,SIGNUP_ENDPOINT,API_VERSION } from "../utlis/apiUrls";
 
 // const user = JSON.parse(localStorage.getItem('user'))
 
@@ -13,7 +13,7 @@ const initialState = {
 }
 
 export const signUpUser = createAsyncThunk('signupuser', async (body) => {
-    let SignUpUrl = BASE_URL + SIGNUP_ENDPOINT
+    let SignUpUrl = BASE_URL + API_VERSION() +SIGNUP_ENDPOINT()
     const res = await fetch(SignUpUrl, {
         method: "post",
         headers: {
@@ -26,7 +26,7 @@ export const signUpUser = createAsyncThunk('signupuser', async (body) => {
 })
 
 export const signInUser = createAsyncThunk('signinuser', async ({ username, password },thunkAPI) => {
-    let LoginURL = BASE_URL + LOGIN_ENDPOINT
+    let LoginURL = BASE_URL + API_VERSION() + LOGIN_ENDPOINT()
     const res = await fetch(LoginURL, {
         method: "post",
         headers: {
@@ -39,7 +39,7 @@ export const signInUser = createAsyncThunk('signinuser', async ({ username, pass
         }),
     })
     const data = await res.json()
-    console.log('user',data)
+    // console.log('user',data)
     return data
 
 })
@@ -72,8 +72,8 @@ const authSlice = createSlice({
         }, [signInUser.fulfilled]: (state, { payload: { message, token, user } }) => {
             state.loading = false;
             
-            console.log(user)
-            console.log('---------------------00-----------------')
+            // console.log(user)
+            // console.log('---------------------00-----------------')
 
             if (user) {
                 state.isAuthenticated = true;

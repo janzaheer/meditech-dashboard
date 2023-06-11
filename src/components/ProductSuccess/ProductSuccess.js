@@ -6,7 +6,7 @@ import logo from '../../logo/logo_new.png';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL } from '../../utlis/apiUrls';
+import { BASE_URL, ORDER_ENDPOINT, ORDER_CANCEL,API_VERSION } from '../../utlis/apiUrls';
 import Barcode from 'react-barcode';
 import Header from '../../common/header/Header';
 import Footer from '../../common/footer/Footer';
@@ -29,7 +29,7 @@ const ProductSuccess = () => {
     }, [])
 
     const orderListData = async () => {
-        let Api = `${ORDER_ENDPOINT}/${id}/`
+        let Api = `${API_VERSION()}${ORDER_ENDPOINT()}/${id}/`
         let finalURL = BASE_URL + Api
         axios.get(finalURL, {
             headers: {
@@ -46,7 +46,7 @@ const ProductSuccess = () => {
 
     const cancelOrder = async (id) => {
         console.log('order-cancel', id)
-        let final = BASE_URL + ORDER_CANCEL(id)
+        let final = BASE_URL + API_VERSION() + ORDER_ENDPOINT() + ORDER_CANCEL(id)
         try {
             let res = await axios.post(final, {}, {
                 headers: {

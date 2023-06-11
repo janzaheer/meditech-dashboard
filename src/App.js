@@ -43,7 +43,7 @@ function App() {
           {/* <Route path="search/:searchTerm" element={<SearchLIst />}></Route> */}
           <Route path="search" element={<SearchLIst />}></Route>
 
-          {/*Admin Protected Routes */}
+          {/*Admin Seller Protected Routes */}
           <Route exact path='/dashboard' element={<ProtectedRoute />}>
           <Route path='/dashboard' element={<Dashboard />} ></Route>
           </Route>

@@ -1,12 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsCart3 } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { HiOutlineUsers } from 'react-icons/hi'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { PieChart, Pie } from 'recharts';
+import 'react-medium-image-zoom/dist/styles.css';
+import ScrollToTop from "react-scroll-to-top";
+
 
 
 const List = () => {
+     useEffect(()=>{
+        getDummy()
+     },[])
+   
+
+      const getDummy = async () => {
+        // const options = {
+        //     method: 'GET',
+        //     url: 'https://weatherapi-com.p.rapidapi.com/current.json',
+        //     params: {q: '53.1,-0.13'},
+        //     headers: {
+        //       'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+        //       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+        //     }
+        //   };
+        // try {
+        //     const response = await axios.request(options);
+        //     console.log(response.data);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        // await axios.get(`https://weatherapi-com.p.rapidapi.com/current.json`,{
+        //     headers : {
+        //         'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+        //               'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+        //     }
+        // })
+        // console.log(response.data);
+      }
+      
+     
     const data = [
         {
             name: 'Jan',
@@ -71,13 +106,11 @@ const List = () => {
     return (
         <>
         <div className=''>
-
-
             <div className='container mt-5'>
                 <div className='row'>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Earnings</h6>
                                 </div>
@@ -86,16 +119,16 @@ const List = () => {
                                     <h6><AiOutlineDollarCircle /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">$ 93,438.78</h4>
-                                <p class="card-text">Monthly revenue.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">$ 93,438.78</h4>
+                                <p className="card-text">Monthly revenue.</p>
 
                             </div>
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Orders</h6>
                                 </div>
@@ -104,16 +137,16 @@ const List = () => {
                                     <h6><BsCart3 /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">42,339</h4>
-                                <p class="card-text">Monthly revenue.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">42,339</h4>
+                                <p className="card-text">Monthly revenue.</p>
 
                             </div>
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card shadow">
-                            <div class="card-header d-flex justify-content-between">
+                        <div className="card shadow">
+                            <div className="card-header d-flex justify-content-between">
                                 <div className='mt-2'>
                                     <h6>Customer</h6>
                                 </div>
@@ -122,9 +155,9 @@ const List = () => {
                                     <h6><HiOutlineUsers /></h6>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">39,354</h4>
-                                <p class="card-text">30+new in 2 days.</p>
+                            <div className="card-body">
+                                <h4 className="card-title">39,354</h4>
+                                <p className="card-text">30+new in 2 days.</p>
                             </div>
                         </div>
                     </div>
@@ -218,6 +251,7 @@ const List = () => {
 
                 </div>
             </div>
+            <ScrollToTop smooth />
         </div>
         </>
     )

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./style.css"
 import { Button, Col, Form, Row, Modal } from 'react-bootstrap';
 import axios from "axios";
-import { BASE_URL, SELLER_ENDPOINT } from "../../utlis/apiUrls";
+import { BASE_URL, SELLER_ENDPOINT,API_VERSION } from "../../utlis/apiUrls";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsTelephonePlusFill } from 'react-icons/bs';
@@ -22,7 +22,7 @@ const Footer = () => {
 
   const addSeller = async (e) => {
     e.preventDefault();
-    let final = BASE_URL + SELLER_ENDPOINT
+    let final = BASE_URL + API_VERSION() + SELLER_ENDPOINT()
     await axios.post(final, {
       seller_name: seller_name,
       email: email,
@@ -55,7 +55,7 @@ const Footer = () => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-              <h4 className="text-success">Seller Register Here</h4>
+              <h4 className="text-success">Seller Request Here!</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -83,7 +83,7 @@ const Footer = () => {
             <div className="d-flex justify-content-end">
               <Button variant="success"
                 type="submit">
-                Register Seller
+                Request Seller
               </Button>
             </div>
           </Form>
@@ -95,7 +95,7 @@ const Footer = () => {
             <div className="col mb-3">
               <div className='box'>
                 <h1 className="mb-3">Cosmedicos</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus.</p>
+                <p>Welcome to Cosmedicos, your trusted source for high-end medical products. Discover top-quality instruments, machines, and surgical equipment from reputable sellers. Elevate your medical practice with Cosmedicos.</p>
                 <div className='d-flex justify-content-start'>
                   <div>
                     <button className="btn btn-outline-light btn-sm me-1" ><i className='fa-brands fa-google-play'></i> Google Play</button>

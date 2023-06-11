@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import logo from '../logo/logo_new.png'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,14 +16,26 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const dispatch = useDispatch();
     const navigation = useNavigate();
+    const user = useSelector(state => state.user);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const loginData = await dispatch(signInUser({ username, password }))
+
+        const loginData = await dispatch(signInUser({ username, password }));
         if (loginData.payload && loginData.payload.user) {
-            setUsername('')
-            setPassword('')
-            navigation('/')
+            setUsername('');
+            setPassword('');
+            if (loginData.payload.user.is_seller) {
+                // Redirect to the seller dashboard or any other seller-specific page
+                // Example: history.push('/seller/dashboard');
+                navigation('/dashboard')
+                console.log('seller')
+              } else {
+                // Redirect to the regular user dashboard or any other regular user page
+                // Example: history.push('/user/dashboard');
+                navigation('/')
+                console.log('regular user')
+              }
         } else {
             toast.error(`Invalid username or password`, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -39,16 +51,6 @@ const Login = () => {
     const handlePassword = (e) => {
         setPassword(e.target.value)
     }
-    // const handleFacebookResponse = (response) => {
-    //     if (response.status !== 'unknown') {
-    //       // Successful login
-    //       console.log('Logged in with Facebook:', response);
-    //       // You can now send the access token to your backend for authentication
-    //     } else {
-    //       // Login failed
-    //       console.log('Facebook login failed');
-    //     }
-    //   };
 
     return (
         <div>
@@ -61,8 +63,9 @@ const Login = () => {
                             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                                 <div className="card shadow-2-strong shadow" style={{ borderRadius: '1rem' }}>
                                     <div className="card-body p-5 text-center" >
-                                        <form onSubmit={handleLogin} autoComplete="off" >
+                                        <form onSubmit={handleLogin} autoComplete="on" >
                                             <div className="mb-5 mt-2">
+                                                {user.user?.is_seller == true ? 'seller' : user.user?.is_seller == false ? 'user' : ''}
                                                 <img className="mb-1" src={logo} alt='' width={110} />
                                                 <h3>Welcome to Cosmedicos! Please login.</h3>
                                             </div>
@@ -80,12 +83,6 @@ const Login = () => {
                                             <button className="btn btn-success w-50" type="submit">Login</button>
                                             <hr className="my-3" />
                                             <Link to='/register' className='btn btn-success w-100'>Register Now</Link>
-                                            {/* <FacebookLogin
-                                                appId="YOUR_FACEBOOK_APP_ID"
-                                                autoLoad={false}
-                                                fields="name,email,picture"
-                                                callback={handleFacebookResponse}
-                                            /> */}
                                         </form>
                                     </div>
                                 </div>
